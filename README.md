@@ -1,2 +1,7 @@
-# digitalSpreadSheet
-A library in pure PHP to read and rwrite Excel and library office file
+# PhenyxSpreadsheet
+
+
+
+digitalSpreadsheet is a library written in pure PHP and offers a set of classes that
+allow you to read and write various spreadsheet file formats such as Excel and LibreOffice Calc.
+
