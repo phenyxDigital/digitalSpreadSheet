@@ -4,8 +4,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Reader\Xls;
 
 use phenyxDigitale\digitalSpreadSheet\Style\Conditional;
 
-class ConditionalFormatting
-{
+class ConditionalFormatting {
+
     /**
      * @var array<int, string>
      */
@@ -29,8 +29,8 @@ class ConditionalFormatting
         0x08 => Conditional::OPERATOR_LESSTHANOREQUAL,
     ];
 
-    public static function type(int $type): ?string
-    {
+    public static function type(int $type):  ? string {
+
         if (isset(self::$types[$type])) {
             return self::$types[$type];
         }
@@ -38,12 +38,13 @@ class ConditionalFormatting
         return null;
     }
 
-    public static function operator(int $operator): ?string
-    {
+    public static function operator(int $operator) :  ? string {
+
         if (isset(self::$operators[$operator])) {
             return self::$operators[$operator];
         }
 
         return null;
     }
+
 }

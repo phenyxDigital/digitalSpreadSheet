@@ -2,8 +2,8 @@
 
 namespace phenyxDigitale\digitalSpreadSheet\Shared\Escher\DgContainer;
 
-class SpgrContainer
-{
+class SpgrContainer {
+
     /**
      * Parent Shape Group Container.
      *
@@ -21,16 +21,16 @@ class SpgrContainer
     /**
      * Set parent Shape Group Container.
      */
-    public function setParent(?self $parent): void
-    {
+    public function setParent( ? self $parent) : void{
+
         $this->parent = $parent;
     }
 
     /**
      * Get the parent Shape Group Container if any.
      */
-    public function getParent(): ?self
-    {
+    public function getParent():  ? self {
+
         return $this->parent;
     }
 
@@ -39,8 +39,8 @@ class SpgrContainer
      *
      * @param mixed $child
      */
-    public function addChild($child): void
-    {
+    public function addChild($child) : void{
+
         $this->children[] = $child;
         $child->setParent($this);
     }
@@ -50,6 +50,7 @@ class SpgrContainer
      */
     public function getChildren(): array
     {
+
         return $this->children;
     }
 
@@ -58,18 +59,21 @@ class SpgrContainer
      *
      * @return SpgrContainer\SpContainer[]
      */
-    public function getAllSpContainers()
-    {
+    public function getAllSpContainers() {
+
         $allSpContainers = [];
 
         foreach ($this->children as $child) {
+
             if ($child instanceof self) {
                 $allSpContainers = array_merge($allSpContainers, $child->getAllSpContainers());
             } else {
                 $allSpContainers[] = $child;
             }
+
         }
 
         return $allSpContainers;
     }
+
 }

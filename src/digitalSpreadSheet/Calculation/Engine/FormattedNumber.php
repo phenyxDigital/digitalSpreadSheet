@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Calculation\Engine;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Calculation;
 use phenyxDigitale\digitalSpreadSheet\Shared\StringHelper;
 
-class FormattedNumber
-{
+class FormattedNumber {
+
     /**    Constants                */
     /**    Regular Expressions        */
     private const STRING_REGEXP_FRACTION = '~^\s*(-?)((\d*)\s+)?(\d+\/\d+)\s*$~';
@@ -29,12 +29,14 @@ class FormattedNumber
      *
      * @param string $operand string value to test
      */
-    public static function convertToNumberIfFormatted(string &$operand): bool
-    {
+    public static function convertToNumberIfFormatted(string &$operand): bool {
+
         foreach (self::STRING_CONVERSION_LIST as $conversionMethod) {
+
             if ($conversionMethod($operand) === true) {
                 return true;
             }
+
         }
 
         return false;
@@ -46,8 +48,8 @@ class FormattedNumber
      *
      * @param string $operand string value to test
      */
-    public static function convertToNumberIfNumeric(string &$operand): bool
-    {
+    public static function convertToNumberIfNumeric(string &$operand): bool{
+
         $thousandsSeparator = preg_quote(StringHelper::getThousandsSeparator());
         $value = preg_replace(['/(\d)' . $thousandsSeparator . '(\d)/u', '/([+-])\s+(\d)/u'], ['$1$2', '$1$2'], trim($operand));
         $decimalSeparator = preg_quote(StringHelper::getDecimalSeparator());
@@ -68,8 +70,8 @@ class FormattedNumber
      *
      * @param string $operand string value to test
      */
-    public static function convertToNumberIfFraction(string &$operand): bool
-    {
+    public static function convertToNumberIfFraction(string &$operand) : bool {
+
         if (preg_match(self::STRING_REGEXP_FRACTION, $operand, $match)) {
             $sign = ($match[1] === '-') ? '-' : '+';
             $wholePart = ($match[3] === '') ? '' : ($sign . $match[3]);
@@ -88,14 +90,15 @@ class FormattedNumber
      *
      * @param string $operand string value to test
      */
-    public static function convertToNumberIfPercent(string &$operand): bool
-    {
+    public static function convertToNumberIfPercent(string &$operand) : bool{
+
         $thousandsSeparator = preg_quote(StringHelper::getThousandsSeparator());
         $value = preg_replace('/(\d)' . $thousandsSeparator . '(\d)/u', '$1$2', trim($operand));
         $decimalSeparator = preg_quote(StringHelper::getDecimalSeparator());
         $value = preg_replace(['/(\d)' . $decimalSeparator . '(\d)/u', '/([+-])\s+(\d)/u'], ['$1.$2', '$1$2'], $value ?? '');
 
         $match = [];
+
         if ($value !== null && preg_match(self::STRING_REGEXP_PERCENT, $value, $match, PREG_UNMATCHED_AS_NULL)) {
             //Calculate the percentage
             $sign = ($match['PrefixedSign'] ?? $match['PrefixedSign2'] ?? $match['PostfixedSign']) ?? '';
@@ -113,13 +116,14 @@ class FormattedNumber
      *
      * @param string $operand string value to test
      */
-    public static function convertToNumberIfCurrency(string &$operand): bool
-    {
+    public static function convertToNumberIfCurrency(string &$operand) : bool{
+
         $currencyRegexp = self::currencyMatcherRegexp();
         $thousandsSeparator = preg_quote(StringHelper::getThousandsSeparator());
         $value = preg_replace('/(\d)' . $thousandsSeparator . '(\d)/u', '$1$2', $operand);
 
         $match = [];
+
         if ($value !== null && preg_match($currencyRegexp, $value, $match, PREG_UNMATCHED_AS_NULL)) {
             //Determine the sign
             $sign = ($match['PrefixedSign'] ?? $match['PrefixedSign2'] ?? $match['PostfixedSign']) ?? '';
@@ -132,11 +136,12 @@ class FormattedNumber
         return false;
     }
 
-    public static function currencyMatcherRegexp(): string
-    {
+    public static function currencyMatcherRegexp() : string{
+
         $currencyCodes = sprintf(self::CURRENCY_CONVERSION_LIST, preg_quote(StringHelper::getCurrencyCode()));
         $decimalSeparator = preg_quote(StringHelper::getDecimalSeparator());
 
         return '~^(?:(?: *(?<PrefixedSign>[-+])? *(?<PrefixedCurrency>[' . $currencyCodes . ']) *(?<PrefixedSign2>[-+])? *(?<PrefixedValue>[0-9]+[' . $decimalSeparator . ']?[0-9*]*(?:E[-+]?[0-9]*)?) *)|(?: *(?<PostfixedSign>[-+])? *(?<PostfixedValue>[0-9]+' . $decimalSeparator . '?[0-9]*(?:E[-+]?[0-9]*)?) *(?<PostfixedCurrency>[' . $currencyCodes . ']) *))$~ui';
     }
+
 }

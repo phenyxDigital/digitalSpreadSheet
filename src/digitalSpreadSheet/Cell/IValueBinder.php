@@ -2,8 +2,7 @@
 
 namespace phenyxDigitale\digitalSpreadSheet\Cell;
 
-interface IValueBinder
-{
+interface IValueBinder {
     /**
      * Bind value to a cell.
      *

@@ -9,8 +9,8 @@ use phenyxDigitale\digitalSpreadSheet\Cell\Cell;
 use phenyxDigitale\digitalSpreadSheet\Cell\Coordinate;
 use phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet;
 
-class Offset
-{
+class Offset {
+
     /**
      * OFFSET.
      *
@@ -41,8 +41,8 @@ class Offset
      *
      * @return array|int|string An array containing a cell or range of cells, or a string on error
      */
-    public static function OFFSET($cellAddress = null, $rows = 0, $columns = 0, $height = null, $width = null, ?Cell $cell = null)
-    {
+    public static function OFFSET($cellAddress = null, $rows = 0, $columns = 0, $height = null, $width = null,  ? Cell $cell = null) {
+
         $rows = Functions::flattenSingleValue($rows);
         $columns = Functions::flattenSingleValue($columns);
         $height = Functions::flattenSingleValue($height);
@@ -59,9 +59,11 @@ class Offset
         [$cellAddress, $worksheet] = self::extractWorksheet($cellAddress, $cell);
 
         $startCell = $endCell = $cellAddress;
+
         if (strpos($cellAddress, ':')) {
             [$startCell, $endCell] = explode(':', $cellAddress);
         }
+
         [$startCellColumn, $startCellRow] = Coordinate::coordinateFromString($startCell);
         [$endCellColumn, $endCellRow] = Coordinate::coordinateFromString($endCell);
 
@@ -81,9 +83,11 @@ class Offset
         if (($endCellRow <= 0) || ($endCellColumn < 0)) {
             return ExcelError::REF();
         }
+
         $endCellColumn = Coordinate::stringFromColumnIndex($endCellColumn + 1);
 
         $cellAddress = "{$startCellColumn}{$startCellRow}";
+
         if (($startCellColumn != $endCellColumn) || ($startCellRow != $endCellRow)) {
             $cellAddress .= ":{$endCellColumn}{$endCellRow}";
         }
@@ -92,31 +96,33 @@ class Offset
     }
 
     /** @return mixed */
-    private static function extractRequiredCells(?Worksheet $worksheet, string $cellAddress)
-    {
+    private static function extractRequiredCells( ? Worksheet $worksheet, string $cellAddress) {
+
         return Calculation::getInstance($worksheet !== null ? $worksheet->getParent() : null)
             ->extractCellRange($cellAddress, $worksheet, false);
     }
 
-    private static function extractWorksheet(?string $cellAddress, Cell $cell): array
+    private static function extractWorksheet( ? string $cellAddress, Cell $cell) : array
     {
+
         $cellAddress = self::assessCellAddress($cellAddress ?? '', $cell);
 
         $sheetName = '';
+
         if (strpos($cellAddress, '!') !== false) {
             [$sheetName, $cellAddress] = Worksheet::extractSheetTitle($cellAddress, true);
             $sheetName = trim($sheetName, "'");
         }
 
         $worksheet = ($sheetName !== '')
-            ? $cell->getWorksheet()->getParentOrThrow()->getSheetByName($sheetName)
-            : $cell->getWorksheet();
+        ? $cell->getWorksheet()->getParentOrThrow()->getSheetByName($sheetName)
+        : $cell->getWorksheet();
 
         return [$cellAddress, $worksheet];
     }
 
-    private static function assessCellAddress(string $cellAddress, Cell $cell): string
-    {
+    private static function assessCellAddress(string $cellAddress, Cell $cell) : string {
+
         if (preg_match('/^' . Calculation::CALCULATION_REGEXP_DEFINEDNAME . '$/mui', $cellAddress) !== false) {
             $cellAddress = Functions::expandDefinedName($cellAddress, $cell);
         }
@@ -128,9 +134,10 @@ class Offset
      * @param mixed $width
      * @param mixed $columns
      */
-    private static function adjustEndCellColumnForWidth(string $endCellColumn, $width, int $startCellColumn, $columns): int
-    {
+    private static function adjustEndCellColumnForWidth(string $endCellColumn, $width, int $startCellColumn, $columns) : int{
+
         $endCellColumn = Coordinate::columnIndexFromString($endCellColumn) - 1;
+
         if (($width !== null) && (!is_object($width))) {
             $endCellColumn = $startCellColumn + (int) $width - 1;
         } else {
@@ -145,8 +152,8 @@ class Offset
      * @param mixed $rows
      * @param mixed $endCellRow
      */
-    private static function adustEndCellRowForHeight($height, int $startCellRow, $rows, $endCellRow): int
-    {
+    private static function adustEndCellRowForHeight($height, int $startCellRow, $rows, $endCellRow) : int {
+
         if (($height !== null) && (!is_object($height))) {
             $endCellRow = $startCellRow + (int) $height - 1;
         } else {
@@ -155,4 +162,5 @@ class Offset
 
         return $endCellRow;
     }
+
 }

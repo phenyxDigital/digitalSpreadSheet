@@ -16,8 +16,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Statistical\Variances;
 /**
  * @deprecated 1.18.0
  */
-class Statistical
-{
+class Statistical {
+
     const LOG_GAMMA_X_MAX_VALUE = 2.55e305;
     const EPS = 2.22e-16;
     const MAX_VALUE = 1.2e308;
@@ -40,8 +40,8 @@ class Statistical
      *
      * @return float|string
      */
-    public static function AVEDEV(...$args)
-    {
+    public static function AVEDEV(...$args) {
+
         return Averages::averageDeviations(...$args);
     }
 
@@ -61,8 +61,8 @@ class Statistical
      *
      * @return float|string
      */
-    public static function AVERAGE(...$args)
-    {
+    public static function AVERAGE(...$args) {
+
         return Averages::average(...$args);
     }
 
@@ -82,8 +82,8 @@ class Statistical
      *
      * @return float|string
      */
-    public static function AVERAGEA(...$args)
-    {
+    public static function AVERAGEA(...$args) {
+
         return Averages::averageA(...$args);
     }
 
@@ -105,8 +105,8 @@ class Statistical
      *
      * @return null|float|string
      */
-    public static function AVERAGEIF($range, $condition, $averageRange = [])
-    {
+    public static function AVERAGEIF($range, $condition, $averageRange = []) {
+
         return Conditional::AVERAGEIF($range, $condition, $averageRange);
     }
 
@@ -127,8 +127,8 @@ class Statistical
      *
      * @return array|float|string
      */
-    public static function BETADIST($value, $alpha, $beta, $rMin = 0, $rMax = 1)
-    {
+    public static function BETADIST($value, $alpha, $beta, $rMin = 0, $rMax = 1) {
+
         return Statistical\Distributions\Beta::distribution($value, $alpha, $beta, $rMin, $rMax);
     }
 
@@ -149,8 +149,8 @@ class Statistical
      *
      * @return array|float|string
      */
-    public static function BETAINV($probability, $alpha, $beta, $rMin = 0, $rMax = 1)
-    {
+    public static function BETAINV($probability, $alpha, $beta, $rMin = 0, $rMax = 1) {
+
         return Statistical\Distributions\Beta::inverse($probability, $alpha, $beta, $rMin, $rMax);
     }
 
@@ -174,8 +174,8 @@ class Statistical
      *
      * @return array|float|string
      */
-    public static function BINOMDIST($value, $trials, $probability, $cumulative)
-    {
+    public static function BINOMDIST($value, $trials, $probability, $cumulative) {
+
         return Statistical\Distributions\Binomial::distribution($value, $trials, $probability, $cumulative);
     }
 
@@ -193,8 +193,8 @@ class Statistical
      *
      * @return array|float|string
      */
-    public static function CHIDIST($value, $degrees)
-    {
+    public static function CHIDIST($value, $degrees) {
+
         return Statistical\Distributions\ChiSquared::distributionRightTail($value, $degrees);
     }
 
@@ -212,8 +212,8 @@ class Statistical
      *
      * @return array|float|string
      */
-    public static function CHIINV($probability, $degrees)
-    {
+    public static function CHIINV($probability, $degrees) {
+
         return Statistical\Distributions\ChiSquared::inverseRightTail($probability, $degrees);
     }
 
@@ -232,8 +232,8 @@ class Statistical
      *
      * @return array|float|string
      */
-    public static function CONFIDENCE($alpha, $stdDev, $size)
-    {
+    public static function CONFIDENCE($alpha, $stdDev, $size) {
+
         return Confidence::CONFIDENCE($alpha, $stdDev, $size);
     }
 
@@ -251,8 +251,8 @@ class Statistical
      *
      * @return float|string
      */
-    public static function CORREL($yValues, $xValues = null)
-    {
+    public static function CORREL($yValues, $xValues = null) {
+
         return Trends::CORREL($xValues, $yValues);
     }
 
@@ -272,8 +272,8 @@ class Statistical
      *
      * @return int
      */
-    public static function COUNT(...$args)
-    {
+    public static function COUNT(...$args) {
+
         return Counts::COUNT(...$args);
     }
 
@@ -293,8 +293,8 @@ class Statistical
      *
      * @return int
      */
-    public static function COUNTA(...$args)
-    {
+    public static function COUNTA(...$args) {
+
         return Counts::COUNTA(...$args);
     }
 
@@ -314,8 +314,8 @@ class Statistical
      *
      * @return int
      */
-    public static function COUNTBLANK($range)
-    {
+    public static function COUNTBLANK($range) {
+
         return Counts::COUNTBLANK($range);
     }
 
@@ -336,8 +336,8 @@ class Statistical
      *
      * @return int|string
      */
-    public static function COUNTIF($range, $condition)
-    {
+    public static function COUNTIF($range, $condition) {
+
         return Conditional::COUNTIF($range, $condition);
     }
 
@@ -357,8 +357,8 @@ class Statistical
      *
      * @return int|string
      */
-    public static function COUNTIFS(...$args)
-    {
+    public static function COUNTIFS(...$args) {
+
         return Conditional::COUNTIFS(...$args);
     }
 
@@ -376,8 +376,8 @@ class Statistical
      *
      * @return float|string
      */
-    public static function COVAR($yValues, $xValues)
-    {
+    public static function COVAR($yValues, $xValues) {
+
         return Trends::COVAR($yValues, $xValues);
     }
 
@@ -399,8 +399,8 @@ class Statistical
      *
      * @return array|int|string
      */
-    public static function CRITBINOM($trials, $probability, $alpha)
-    {
+    public static function CRITBINOM($trials, $probability, $alpha) {
+
         return Statistical\Distributions\Binomial::inverse($trials, $probability, $alpha);
     }
 
@@ -420,8 +420,8 @@ class Statistical
      *
      * @return float|string
      */
-    public static function DEVSQ(...$args)
-    {
+    public static function DEVSQ(...$args) {
+
         return Statistical\Deviations::sumSquares(...$args);
     }
 
@@ -442,8 +442,8 @@ class Statistical
      *
      * @return array|float|string
      */
-    public static function EXPONDIST($value, $lambda, $cumulative)
-    {
+    public static function EXPONDIST($value, $lambda, $cumulative) {
+
         return Statistical\Distributions\Exponential::distribution($value, $lambda, $cumulative);
     }
 
@@ -467,8 +467,8 @@ class Statistical
      *
      * @return array|float|string
      */
-    public static function FDIST2($value, $u, $v, $cumulative)
-    {
+    public static function FDIST2($value, $u, $v, $cumulative) {
+
         return Statistical\Distributions\F::distribution($value, $u, $v, $cumulative);
     }
 
@@ -487,8 +487,8 @@ class Statistical
      *
      * @return array|float|string
      */
-    public static function FISHER($value)
-    {
+    public static function FISHER($value) {
+
         return Statistical\Distributions\Fisher::distribution($value);
     }
 
@@ -507,8 +507,8 @@ class Statistical
      *
      * @return array|float|string
      */
-    public static function FISHERINV($value)
-    {
+    public static function FISHERINV($value) {
+
         return Statistical\Distributions\Fisher::inverse($value);
     }
 
@@ -527,8 +527,8 @@ class Statistical
      *
      * @return array|bool|float|string
      */
-    public static function FORECAST($xValue, $yValues, $xValues)
-    {
+    public static function FORECAST($xValue, $yValues, $xValues) {
+
         return Trends::FORECAST($xValue, $yValues, $xValues);
     }
 
@@ -545,8 +545,8 @@ class Statistical
      *
      * @return array|float|string The result, or a string containing an error
      */
-    public static function GAMMAFunction($value)
-    {
+    public static function GAMMAFunction($value) {
+
         return Statistical\Distributions\Gamma::gamma($value);
     }
 
@@ -566,8 +566,8 @@ class Statistical
      *
      * @return array|float|string
      */
-    public static function GAMMADIST($value, $a, $b, $cumulative)
-    {
+    public static function GAMMADIST($value, $a, $b, $cumulative) {
+
         return Statistical\Distributions\Gamma::distribution($value, $a, $b, $cumulative);
     }
 
@@ -586,8 +586,8 @@ class Statistical
      *
      * @return array|float|string
      */
-    public static function GAMMAINV($probability, $alpha, $beta)
-    {
+    public static function GAMMAINV($probability, $alpha, $beta) {
+
         return Statistical\Distributions\Gamma::inverse($probability, $alpha, $beta);
     }
 
@@ -604,8 +604,8 @@ class Statistical
      *
      * @return array|float|string
      */
-    public static function GAMMALN($value)
-    {
+    public static function GAMMALN($value) {
+
         return Statistical\Distributions\Gamma::ln($value);
     }
 
@@ -623,8 +623,8 @@ class Statistical
      *
      * @return array|float|string The result, or a string containing an error
      */
-    public static function GAUSS($value)
-    {
+    public static function GAUSS($value) {
+
         return Statistical\Distributions\StandardNormal::gauss($value);
     }
 
@@ -646,8 +646,8 @@ class Statistical
      *
      * @return float|string
      */
-    public static function GEOMEAN(...$args)
-    {
+    public static function GEOMEAN(...$args) {
+
         return Statistical\Averages\Mean::geometric(...$args);
     }
 
@@ -667,8 +667,8 @@ class Statistical
      *
      * @return float[]
      */
-    public static function GROWTH($yValues, $xValues = [], $newValues = [], $const = true)
-    {
+    public static function GROWTH($yValues, $xValues = [], $newValues = [], $const = true) {
+
         return Trends::GROWTH($yValues, $xValues, $newValues, $const);
     }
 
@@ -689,8 +689,8 @@ class Statistical
      *
      * @return float|string
      */
-    public static function HARMEAN(...$args)
-    {
+    public static function HARMEAN(...$args) {
+
         return Statistical\Averages\Mean::harmonic(...$args);
     }
 
@@ -711,8 +711,8 @@ class Statistical
      *
      * @return array|float|string
      */
-    public static function HYPGEOMDIST($sampleSuccesses, $sampleNumber, $populationSuccesses, $populationNumber)
-    {
+    public static function HYPGEOMDIST($sampleSuccesses, $sampleNumber, $populationSuccesses, $populationNumber) {
+
         return Statistical\Distributions\HyperGeometric::distribution(
             $sampleSuccesses,
             $sampleNumber,
@@ -735,8 +735,8 @@ class Statistical
      *
      * @return float|string
      */
-    public static function INTERCEPT($yValues, $xValues)
-    {
+    public static function INTERCEPT($yValues, $xValues) {
+
         return Trends::INTERCEPT($yValues, $xValues);
     }
 
@@ -756,8 +756,8 @@ class Statistical
      *
      * @return float|string
      */
-    public static function KURT(...$args)
-    {
+    public static function KURT(...$args) {
+
         return Statistical\Deviations::kurtosis(...$args);
     }
 
@@ -778,8 +778,8 @@ class Statistical
      *
      * @return float|string The result, or a string containing an error
      */
-    public static function LARGE(...$args)
-    {
+    public static function LARGE(...$args) {
+
         return Statistical\Size::large(...$args);
     }
 
@@ -800,8 +800,8 @@ class Statistical
      *
      * @return array|int|string The result, or a string containing an error
      */
-    public static function LINEST($yValues, $xValues = null, $const = true, $stats = false)
-    {
+    public static function LINEST($yValues, $xValues = null, $const = true, $stats = false) {
+
         return Trends::LINEST($yValues, $xValues, $const, $stats);
     }
 
@@ -822,8 +822,8 @@ class Statistical
      *
      * @return array|int|string The result, or a string containing an error
      */
-    public static function LOGEST($yValues, $xValues = null, $const = true, $stats = false)
-    {
+    public static function LOGEST($yValues, $xValues = null, $const = true, $stats = false) {
+
         return Trends::LOGEST($yValues, $xValues, $const, $stats);
     }
 
@@ -846,8 +846,8 @@ class Statistical
      *            accuracy if I can get my head round the mathematics
      *            (as described at) http://home.online.no/~pjacklam/notes/invnorm/
      */
-    public static function LOGINV($probability, $mean, $stdDev)
-    {
+    public static function LOGINV($probability, $mean, $stdDev) {
+
         return Statistical\Distributions\LogNormal::inverse($probability, $mean, $stdDev);
     }
 
@@ -867,8 +867,8 @@ class Statistical
      *
      * @return array|float|string The result, or a string containing an error
      */
-    public static function LOGNORMDIST($value, $mean, $stdDev)
-    {
+    public static function LOGNORMDIST($value, $mean, $stdDev) {
+
         return Statistical\Distributions\LogNormal::cumulative($value, $mean, $stdDev);
     }
 
@@ -889,8 +889,8 @@ class Statistical
      *
      * @return array|float|string The result, or a string containing an error
      */
-    public static function LOGNORMDIST2($value, $mean, $stdDev, $cumulative = false)
-    {
+    public static function LOGNORMDIST2($value, $mean, $stdDev, $cumulative = false) {
+
         return Statistical\Distributions\LogNormal::distribution($value, $mean, $stdDev, $cumulative);
     }
 
@@ -911,8 +911,8 @@ class Statistical
      *
      * @return float
      */
-    public static function MAX(...$args)
-    {
+    public static function MAX(...$args) {
+
         return Maximum::max(...$args);
     }
 
@@ -932,8 +932,8 @@ class Statistical
      *
      * @return float
      */
-    public static function MAXA(...$args)
-    {
+    public static function MAXA(...$args) {
+
         return Maximum::maxA(...$args);
     }
 
@@ -953,8 +953,8 @@ class Statistical
      *
      * @return null|float|string
      */
-    public static function MAXIFS(...$args)
-    {
+    public static function MAXIFS(...$args) {
+
         return Conditional::MAXIFS(...$args);
     }
 
@@ -974,8 +974,8 @@ class Statistical
      *
      * @return float|string The result, or a string containing an error
      */
-    public static function MEDIAN(...$args)
-    {
+    public static function MEDIAN(...$args) {
+
         return Statistical\Averages::median(...$args);
     }
 
@@ -996,8 +996,8 @@ class Statistical
      *
      * @return float
      */
-    public static function MIN(...$args)
-    {
+    public static function MIN(...$args) {
+
         return Minimum::min(...$args);
     }
 
@@ -1017,8 +1017,8 @@ class Statistical
      *
      * @return float
      */
-    public static function MINA(...$args)
-    {
+    public static function MINA(...$args) {
+
         return Minimum::minA(...$args);
     }
 
@@ -1038,8 +1038,8 @@ class Statistical
      *
      * @return null|float|string
      */
-    public static function MINIFS(...$args)
-    {
+    public static function MINIFS(...$args) {
+
         return Conditional::MINIFS(...$args);
     }
 
@@ -1059,8 +1059,8 @@ class Statistical
      *
      * @return float|string The result, or a string containing an error
      */
-    public static function MODE(...$args)
-    {
+    public static function MODE(...$args) {
+
         return Statistical\Averages::mode(...$args);
     }
 
@@ -1083,8 +1083,8 @@ class Statistical
      *
      * @return array|float|string The result, or a string containing an error
      */
-    public static function NEGBINOMDIST($failures, $successes, $probability)
-    {
+    public static function NEGBINOMDIST($failures, $successes, $probability) {
+
         return Statistical\Distributions\Binomial::negative($failures, $successes, $probability);
     }
 
@@ -1106,8 +1106,8 @@ class Statistical
      *
      * @return array|float|string The result, or a string containing an error
      */
-    public static function NORMDIST($value, $mean, $stdDev, $cumulative)
-    {
+    public static function NORMDIST($value, $mean, $stdDev, $cumulative) {
+
         return Statistical\Distributions\Normal::distribution($value, $mean, $stdDev, $cumulative);
     }
 
@@ -1126,8 +1126,8 @@ class Statistical
      *
      * @return array|float|string The result, or a string containing an error
      */
-    public static function NORMINV($probability, $mean, $stdDev)
-    {
+    public static function NORMINV($probability, $mean, $stdDev) {
+
         return Statistical\Distributions\Normal::inverse($probability, $mean, $stdDev);
     }
 
@@ -1146,8 +1146,8 @@ class Statistical
      *
      * @return array|float|string The result, or a string containing an error
      */
-    public static function NORMSDIST($value)
-    {
+    public static function NORMSDIST($value) {
+
         return Statistical\Distributions\StandardNormal::cumulative($value);
     }
 
@@ -1167,8 +1167,8 @@ class Statistical
      *
      * @return array|float|string The result, or a string containing an error
      */
-    public static function NORMSDIST2($value, $cumulative)
-    {
+    public static function NORMSDIST2($value, $cumulative) {
+
         return Statistical\Distributions\StandardNormal::distribution($value, $cumulative);
     }
 
@@ -1185,8 +1185,8 @@ class Statistical
      *
      * @return array|float|string The result, or a string containing an error
      */
-    public static function NORMSINV($value)
-    {
+    public static function NORMSINV($value) {
+
         return Statistical\Distributions\StandardNormal::inverse($value);
     }
 
@@ -1206,8 +1206,8 @@ class Statistical
      *
      * @return float|string The result, or a string containing an error
      */
-    public static function PERCENTILE(...$args)
-    {
+    public static function PERCENTILE(...$args) {
+
         return Statistical\Percentiles::PERCENTILE(...$args);
     }
 
@@ -1229,8 +1229,8 @@ class Statistical
      *
      * @return float|string (string if result is an error)
      */
-    public static function PERCENTRANK($valueSet, $value, $significance = 3)
-    {
+    public static function PERCENTRANK($valueSet, $value, $significance = 3) {
+
         return Statistical\Percentiles::PERCENTRANK($valueSet, $value, $significance);
     }
 
@@ -1252,8 +1252,8 @@ class Statistical
      *
      * @return array|float|int|string Number of permutations, or a string containing an error
      */
-    public static function PERMUT($numObjs, $numInSet)
-    {
+    public static function PERMUT($numObjs, $numInSet) {
+
         return Permutations::PERMUT($numObjs, $numInSet);
     }
 
@@ -1274,8 +1274,8 @@ class Statistical
      *
      * @return array|float|string The result, or a string containing an error
      */
-    public static function POISSON($value, $mean, $cumulative)
-    {
+    public static function POISSON($value, $mean, $cumulative) {
+
         return Statistical\Distributions\Poisson::distribution($value, $mean, $cumulative);
     }
 
@@ -1295,8 +1295,8 @@ class Statistical
      *
      * @return float|string The result, or a string containing an error
      */
-    public static function QUARTILE(...$args)
-    {
+    public static function QUARTILE(...$args) {
+
         return Statistical\Percentiles::QUARTILE(...$args);
     }
 
@@ -1315,8 +1315,8 @@ class Statistical
      *
      * @return float|string The result, or a string containing an error
      */
-    public static function RANK($value, $valueSet, $order = 0)
-    {
+    public static function RANK($value, $valueSet, $order = 0) {
+
         return Statistical\Percentiles::RANK($value, $valueSet, $order);
     }
 
@@ -1334,8 +1334,8 @@ class Statistical
      *
      * @return float|string The result, or a string containing an error
      */
-    public static function RSQ($yValues, $xValues)
-    {
+    public static function RSQ($yValues, $xValues) {
+
         return Trends::RSQ($yValues, $xValues);
     }
 
@@ -1355,8 +1355,8 @@ class Statistical
      *
      * @return float|string The result, or a string containing an error
      */
-    public static function SKEW(...$args)
-    {
+    public static function SKEW(...$args) {
+
         return Statistical\Deviations::skew(...$args);
     }
 
@@ -1374,8 +1374,8 @@ class Statistical
      *
      * @return float|string The result, or a string containing an error
      */
-    public static function SLOPE($yValues, $xValues)
-    {
+    public static function SLOPE($yValues, $xValues) {
+
         return Trends::SLOPE($yValues, $xValues);
     }
 
@@ -1396,8 +1396,8 @@ class Statistical
      *
      * @return float|string The result, or a string containing an error
      */
-    public static function SMALL(...$args)
-    {
+    public static function SMALL(...$args) {
+
         return Statistical\Size::small(...$args);
     }
 
@@ -1416,8 +1416,8 @@ class Statistical
      *
      * @return array|float|string Standardized value, or a string containing an error
      */
-    public static function STANDARDIZE($value, $mean, $stdDev)
-    {
+    public static function STANDARDIZE($value, $mean, $stdDev) {
+
         return Statistical\Standardize::execute($value, $mean, $stdDev);
     }
 
@@ -1438,8 +1438,8 @@ class Statistical
      *
      * @return float|string The result, or a string containing an error
      */
-    public static function STDEV(...$args)
-    {
+    public static function STDEV(...$args) {
+
         return StandardDeviations::STDEV(...$args);
     }
 
@@ -1459,8 +1459,8 @@ class Statistical
      *
      * @return float|string
      */
-    public static function STDEVA(...$args)
-    {
+    public static function STDEVA(...$args) {
+
         return StandardDeviations::STDEVA(...$args);
     }
 
@@ -1480,8 +1480,8 @@ class Statistical
      *
      * @return float|string
      */
-    public static function STDEVP(...$args)
-    {
+    public static function STDEVP(...$args) {
+
         return StandardDeviations::STDEVP(...$args);
     }
 
@@ -1501,8 +1501,8 @@ class Statistical
      *
      * @return float|string
      */
-    public static function STDEVPA(...$args)
-    {
+    public static function STDEVPA(...$args) {
+
         return StandardDeviations::STDEVPA(...$args);
     }
 
@@ -1520,8 +1520,8 @@ class Statistical
      *
      * @return float|string
      */
-    public static function STEYX($yValues, $xValues)
-    {
+    public static function STEYX($yValues, $xValues) {
+
         return Trends::STEYX($yValues, $xValues);
     }
 
@@ -1540,8 +1540,8 @@ class Statistical
      *
      * @return array|float|string The result, or a string containing an error
      */
-    public static function TDIST($value, $degrees, $tails)
-    {
+    public static function TDIST($value, $degrees, $tails) {
+
         return Statistical\Distributions\StudentT::distribution($value, $degrees, $tails);
     }
 
@@ -1559,8 +1559,8 @@ class Statistical
      *
      * @return array|float|string The result, or a string containing an error
      */
-    public static function TINV($probability, $degrees)
-    {
+    public static function TINV($probability, $degrees) {
+
         return Statistical\Distributions\StudentT::inverse($probability, $degrees);
     }
 
@@ -1580,8 +1580,8 @@ class Statistical
      *
      * @return float[]
      */
-    public static function TREND($yValues, $xValues = [], $newValues = [], $const = true)
-    {
+    public static function TREND($yValues, $xValues = [], $newValues = [], $const = true) {
+
         return Trends::TREND($yValues, $xValues, $newValues, $const);
     }
 
@@ -1603,8 +1603,8 @@ class Statistical
      *
      * @return float|string
      */
-    public static function TRIMMEAN(...$args)
-    {
+    public static function TRIMMEAN(...$args) {
+
         return Statistical\Averages\Mean::trim(...$args);
     }
 
@@ -1624,9 +1624,9 @@ class Statistical
      *
      * @return float|string (string if result is an error)
      */
-    public static function VARFunc(...$args)
-    {
-        return Variances::VAR(...$args);
+    public static function VARFunc(...$args) {
+
+        return Variances::VAR (...$args);
     }
 
     /**
@@ -1645,8 +1645,8 @@ class Statistical
      *
      * @return float|string (string if result is an error)
      */
-    public static function VARA(...$args)
-    {
+    public static function VARA(...$args) {
+
         return Variances::VARA(...$args);
     }
 
@@ -1666,8 +1666,8 @@ class Statistical
      *
      * @return float|string (string if result is an error)
      */
-    public static function VARP(...$args)
-    {
+    public static function VARP(...$args) {
+
         return Variances::VARP(...$args);
     }
 
@@ -1687,8 +1687,8 @@ class Statistical
      *
      * @return float|string (string if result is an error)
      */
-    public static function VARPA(...$args)
-    {
+    public static function VARPA(...$args) {
+
         return Variances::VARPA(...$args);
     }
 
@@ -1709,8 +1709,8 @@ class Statistical
      *
      * @return array|float|string (string if result is an error)
      */
-    public static function WEIBULL($value, $alpha, $beta, $cumulative)
-    {
+    public static function WEIBULL($value, $alpha, $beta, $cumulative) {
+
         return Statistical\Distributions\Weibull::distribution($value, $alpha, $beta, $cumulative);
     }
 
@@ -1732,8 +1732,8 @@ class Statistical
      *
      * @return array|float|string (string if result is an error)
      */
-    public static function ZTEST($dataSet, $m0, $sigma = null)
-    {
+    public static function ZTEST($dataSet, $m0, $sigma = null) {
+
         return Statistical\Distributions\StandardNormal::zTest($dataSet, $m0, $sigma);
     }
 }

@@ -7,17 +7,18 @@ use phenyxDigitale\digitalSpreadSheet\Comment;
 use phenyxDigitale\digitalSpreadSheet\Reader\Xlsx\Namespaces;
 use phenyxDigitale\digitalSpreadSheet\Shared\XMLWriter;
 
-class Comments extends WriterPart
-{
+class Comments extends WriterPart {
+
     /**
      * Write comments to XML format.
      *
      * @return string XML Output
      */
-    public function writeComments(\phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet $worksheet)
-    {
+    public function writeComments(\phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet $worksheet) {
+
         // Create XML writer
         $objWriter = null;
+
         if ($this->getParentWriter()->getUseDiskCaching()) {
             $objWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
@@ -33,10 +34,13 @@ class Comments extends WriterPart
         // Authors cache
         $authors = [];
         $authorId = 0;
+
         foreach ($comments as $comment) {
+
             if (!isset($authors[$comment->getAuthor()])) {
                 $authors[$comment->getAuthor()] = $authorId++;
             }
+
         }
 
         // comments
@@ -45,16 +49,20 @@ class Comments extends WriterPart
 
         // Loop through authors
         $objWriter->startElement('authors');
+
         foreach ($authors as $author => $index) {
             $objWriter->writeElement('author', $author);
         }
+
         $objWriter->endElement();
 
         // Loop through comments
         $objWriter->startElement('commentList');
+
         foreach ($comments as $key => $value) {
             $this->writeComment($objWriter, $key, $value, $authors);
         }
+
         $objWriter->endElement();
 
         $objWriter->endElement();
@@ -70,8 +78,8 @@ class Comments extends WriterPart
      * @param Comment $comment Comment
      * @param array $authors Array of authors
      */
-    private function writeComment(XMLWriter $objWriter, $cellReference, Comment $comment, array $authors): void
-    {
+    private function writeComment(XMLWriter $objWriter, $cellReference, Comment $comment, array $authors): void{
+
         // comment
         $objWriter->startElement('comment');
         $objWriter->writeAttribute('ref', $cellReference);
@@ -90,10 +98,11 @@ class Comments extends WriterPart
      *
      * @return string XML Output
      */
-    public function writeVMLComments(\phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet $worksheet)
-    {
+    public function writeVMLComments(\phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet $worksheet) {
+
         // Create XML writer
         $objWriter = null;
+
         if ($this->getParentWriter()->getUseDiskCaching()) {
             $objWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
@@ -145,6 +154,7 @@ class Comments extends WriterPart
         $objWriter->endElement();
 
         // Loop through comments
+
         foreach ($comments as $key => $value) {
             $this->writeVMLComment($objWriter, $key, $value);
         }
@@ -161,8 +171,8 @@ class Comments extends WriterPart
      * @param string $cellReference Cell reference, eg: 'A1'
      * @param Comment $comment Comment
      */
-    private function writeVMLComment(XMLWriter $objWriter, $cellReference, Comment $comment): void
-    {
+    private function writeVMLComment(XMLWriter $objWriter, $cellReference, Comment $comment): void {
+
         // Metadata
         [$column, $row] = Coordinate::indexesFromString($cellReference);
         $id = 1024 + $column + $row;
@@ -179,12 +189,14 @@ class Comments extends WriterPart
         // v:fill
         $objWriter->startElement('v:fill');
         $objWriter->writeAttribute('color2', '#' . $comment->getFillColor()->getRGB());
+
         if ($comment->hasBackgroundImage()) {
             $bgImage = $comment->getBackgroundImage();
             $objWriter->writeAttribute('o:relid', 'rId' . $bgImage->getImageIndex());
             $objWriter->writeAttribute('o:title', $bgImage->getName());
             $objWriter->writeAttribute('type', 'frame');
         }
+
         $objWriter->endElement();
 
         // v:shadow
@@ -233,4 +245,5 @@ class Comments extends WriterPart
 
         $objWriter->endElement();
     }
+
 }

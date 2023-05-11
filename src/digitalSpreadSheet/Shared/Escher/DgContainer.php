@@ -4,8 +4,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Shared\Escher;
 
 use phenyxDigitale\digitalSpreadSheet\Exception as SpreadsheetException;
 
-class DgContainer
-{
+class DgContainer {
+
     /**
      * Drawing index, 1-based.
      *
@@ -23,33 +23,33 @@ class DgContainer
     /** @var ?DgContainer\SpgrContainer */
     private $spgrContainer;
 
-    public function getDgId(): ?int
-    {
+    public function getDgId():  ? int {
+
         return $this->dgId;
     }
 
-    public function setDgId(int $value): void
-    {
+    public function setDgId(int $value) : void{
+
         $this->dgId = $value;
     }
 
-    public function getLastSpId(): ?int
-    {
+    public function getLastSpId():  ? int {
+
         return $this->lastSpId;
     }
 
-    public function setLastSpId(int $value): void
-    {
+    public function setLastSpId(int $value) : void{
+
         $this->lastSpId = $value;
     }
 
-    public function getSpgrContainer(): ?DgContainer\SpgrContainer
-    {
+    public function getSpgrContainer():  ? DgContainer\SpgrContainer {
+
         return $this->spgrContainer;
     }
 
-    public function getSpgrContainerOrThrow(): DgContainer\SpgrContainer
-    {
+    public function getSpgrContainerOrThrow() : DgContainer\SpgrContainer {
+
         if ($this->spgrContainer !== null) {
             return $this->spgrContainer;
         }
@@ -58,8 +58,9 @@ class DgContainer
     }
 
     /** @param DgContainer\SpgrContainer $spgrContainer */
-    public function setSpgrContainer($spgrContainer): DgContainer\SpgrContainer
-    {
+    public function setSpgrContainer($spgrContainer): DgContainer\SpgrContainer {
+
         return $this->spgrContainer = $spgrContainer;
     }
+
 }

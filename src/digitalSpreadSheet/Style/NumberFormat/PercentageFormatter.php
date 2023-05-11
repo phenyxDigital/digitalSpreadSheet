@@ -4,11 +4,11 @@ namespace phenyxDigitale\digitalSpreadSheet\Style\NumberFormat;
 
 use phenyxDigitale\digitalSpreadSheet\Style\NumberFormat;
 
-class PercentageFormatter extends BaseFormatter
-{
+class PercentageFormatter extends BaseFormatter {
+
     /** @param float|int $value */
-    public static function format($value, string $format): string
-    {
+    public static function format($value, string $format): string {
+
         if ($format === NumberFormat::FORMAT_PERCENTAGE) {
             return round((100 * $value), 0) . '%';
         }
@@ -24,13 +24,16 @@ class PercentageFormatter extends BaseFormatter
         $decimalPartSize = 0;
         $placeHolders = '';
         // Number of decimals
+
         if (preg_match('/\.([?0]+)/u', $format, $matches)) {
             $decimalPartSize = strlen($matches[1]);
             $vMinDecimalCount = strlen(rtrim($matches[1], '?'));
             $decimalPartSize = min(max($vMinDecimalCount, $vDecimalCount), $decimalPartSize);
             $placeHolders = str_repeat(' ', strlen($matches[1]) - $decimalPartSize);
         }
+
         // Number of digits to display before the decimal
+
         if (preg_match('/([#0,]+)\.?/u', $format, $matches)) {
             $firstZero = preg_replace('/^[#,]*/', '', $matches[1]) ?? '';
             $wholePartSize = max($wholePartSize, strlen($firstZero));
@@ -45,4 +48,5 @@ class PercentageFormatter extends BaseFormatter
 
         return sprintf($mask, round($valueFloat, $decimalPartSize));
     }
+
 }

@@ -8,20 +8,20 @@ use phenyxDigitale\digitalSpreadSheet\Cell\Cell;
 use phenyxDigitale\digitalSpreadSheet\Cell\Coordinate;
 use phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet;
 
-class RowColumnInformation
-{
+class RowColumnInformation {
+
     /**
      * Test if cellAddress is null or whitespace string.
      *
      * @param null|array|string $cellAddress A reference to a range of cells
      */
-    private static function cellAddressNullOrWhitespace($cellAddress): bool
-    {
+    private static function cellAddressNullOrWhitespace($cellAddress): bool {
+
         return $cellAddress === null || (!is_array($cellAddress) && trim($cellAddress) === '');
     }
 
-    private static function cellColumn(?Cell $cell): int
-    {
+    private static function cellColumn( ? Cell $cell) : int {
+
         return ($cell !== null) ? (int) Coordinate::columnIndexFromString($cell->getColumn()) : 1;
     }
 
@@ -42,13 +42,14 @@ class RowColumnInformation
      *
      * @return int|int[]
      */
-    public static function COLUMN($cellAddress = null, ?Cell $cell = null)
-    {
+    public static function COLUMN($cellAddress = null,  ? Cell $cell = null) {
+
         if (self::cellAddressNullOrWhitespace($cellAddress)) {
             return self::cellColumn($cell);
         }
 
         if (is_array($cellAddress)) {
+
             foreach ($cellAddress as $columnKey => $value) {
                 $columnKey = (string) preg_replace('/[^a-z]/i', '', $columnKey);
 
@@ -59,11 +60,14 @@ class RowColumnInformation
         }
 
         $cellAddress = $cellAddress ?? '';
+
         if ($cell != null) {
             [,, $sheetName] = Helpers::extractWorksheet($cellAddress, $cell);
             [,, $cellAddress] = Helpers::extractCellAddresses($cellAddress, true, $cell->getWorksheet(), $sheetName);
         }
+
         [, $cellAddress] = Worksheet::extractSheetTitle($cellAddress, true);
+
         if (strpos($cellAddress, ':') !== false) {
             [$startAddress, $endAddress] = explode(':', $cellAddress);
             $startAddress = (string) preg_replace('/[^a-z]/i', '', $startAddress);
@@ -93,11 +97,12 @@ class RowColumnInformation
      *
      * @return int|string The number of columns in cellAddress, or a string if arguments are invalid
      */
-    public static function COLUMNS($cellAddress = null)
-    {
+    public static function COLUMNS($cellAddress = null) {
+
         if (self::cellAddressNullOrWhitespace($cellAddress)) {
             return 1;
         }
+
         if (!is_array($cellAddress)) {
             return ExcelError::VALUE();
         }
@@ -113,8 +118,8 @@ class RowColumnInformation
         return $columns;
     }
 
-    private static function cellRow(?Cell $cell): int
-    {
+    private static function cellRow( ? Cell $cell) : int {
+
         return ($cell !== null) ? $cell->getRow() : 1;
     }
 
@@ -135,28 +140,34 @@ class RowColumnInformation
      *
      * @return int|mixed[]|string
      */
-    public static function ROW($cellAddress = null, ?Cell $cell = null)
-    {
+    public static function ROW($cellAddress = null,  ? Cell $cell = null) {
+
         if (self::cellAddressNullOrWhitespace($cellAddress)) {
             return self::cellRow($cell);
         }
 
         if (is_array($cellAddress)) {
+
             foreach ($cellAddress as $rowKey => $rowValue) {
+
                 foreach ($rowValue as $columnKey => $cellValue) {
                     return (int) preg_replace('/\D/', '', $rowKey);
                 }
+
             }
 
             return self::cellRow($cell);
         }
 
         $cellAddress = $cellAddress ?? '';
+
         if ($cell !== null) {
             [,, $sheetName] = Helpers::extractWorksheet($cellAddress, $cell);
             [,, $cellAddress] = Helpers::extractCellAddresses($cellAddress, true, $cell->getWorksheet(), $sheetName);
         }
+
         [, $cellAddress] = Worksheet::extractSheetTitle($cellAddress, true);
+
         if (strpos($cellAddress, ':') !== false) {
             [$startAddress, $endAddress] = explode(':', $cellAddress);
             $startAddress = (string) preg_replace('/\D/', '', $startAddress);
@@ -164,11 +175,13 @@ class RowColumnInformation
 
             return array_map(
                 function ($value) {
+
                     return [$value];
                 },
                 range($startAddress, $endAddress)
             );
         }
+
         [$cellAddress] = explode(':', $cellAddress);
 
         return (int) preg_replace('/\D/', '', $cellAddress);
@@ -187,11 +200,12 @@ class RowColumnInformation
      *
      * @return int|string The number of rows in cellAddress, or a string if arguments are invalid
      */
-    public static function ROWS($cellAddress = null)
-    {
+    public static function ROWS($cellAddress = null) {
+
         if (self::cellAddressNullOrWhitespace($cellAddress)) {
             return 1;
         }
+
         if (!is_array($cellAddress)) {
             return ExcelError::VALUE();
         }
@@ -206,4 +220,5 @@ class RowColumnInformation
 
         return $rows;
     }
+
 }

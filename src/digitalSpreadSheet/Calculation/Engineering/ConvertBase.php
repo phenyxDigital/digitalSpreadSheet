@@ -7,37 +7,42 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Functions;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-abstract class ConvertBase
-{
+abstract class ConvertBase {
+
     use ArrayEnabled;
 
     /** @param mixed $value */
-    protected static function validateValue($value): string
-    {
+    protected static function validateValue($value): string {
+
         if (is_bool($value)) {
+
             if (Functions::getCompatibilityMode() !== Functions::COMPATIBILITY_OPENOFFICE) {
                 throw new Exception(ExcelError::VALUE());
             }
+
             $value = (int) $value;
         }
 
         if (is_numeric($value)) {
+
             if (Functions::getCompatibilityMode() == Functions::COMPATIBILITY_GNUMERIC) {
                 $value = floor((float) $value);
             }
+
         }
 
         return strtoupper((string) $value);
     }
 
     /** @param mixed $places */
-    protected static function validatePlaces($places = null): ?int
-    {
+    protected static function validatePlaces($places = null):  ? int {
+
         if ($places === null) {
             return $places;
         }
 
         if (is_numeric($places)) {
+
             if ($places < 0 || $places > 10) {
                 throw new Exception(ExcelError::NAN());
             }
@@ -56,9 +61,10 @@ abstract class ConvertBase
      *
      * @return string The padded "number"
      */
-    protected static function nbrConversionFormat(string $value, ?int $places): string
-    {
+    protected static function nbrConversionFormat(string $value,  ? int $places) : string {
+
         if ($places !== null) {
+
             if (strlen($value) <= $places) {
                 return substr(str_pad($value, $places, '0', STR_PAD_LEFT), -10);
             }
@@ -68,4 +74,5 @@ abstract class ConvertBase
 
         return substr($value, -10);
     }
+
 }

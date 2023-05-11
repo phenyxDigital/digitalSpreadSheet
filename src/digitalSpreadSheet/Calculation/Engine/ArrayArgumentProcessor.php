@@ -4,8 +4,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Calculation\Engine;
 
 use phenyxDigitale\digitalSpreadSheet\Calculation\Functions;
 
-class ArrayArgumentProcessor
-{
+class ArrayArgumentProcessor {
+
     /**
      * @var ArrayArgumentHelper
      */
@@ -18,7 +18,8 @@ class ArrayArgumentProcessor
         ArrayArgumentHelper $arrayArgumentHelper,
         callable $method,
         ...$arguments
-    ): array {
+    ): array{
+
         self::$arrayArgumentHelper = $arrayArgumentHelper;
 
         if (self::$arrayArgumentHelper->hasArrayArgument() === false) {
@@ -40,7 +41,9 @@ class ArrayArgumentProcessor
         }
 
         $matrixPair = self::$arrayArgumentHelper->getMatrixPair();
+
         if ($matrixPair !== []) {
+
             if (
                 (self::$arrayArgumentHelper->isVector($matrixPair[0]) === true &&
                     self::$arrayArgumentHelper->isVector($matrixPair[1]) === false) ||
@@ -50,6 +53,7 @@ class ArrayArgumentProcessor
                 // Logic for a matrix and a vector (row or column)
                 return self::evaluateVectorMatrixPair($method, $matrixPair, ...$arguments);
             }
+
             // Logic for matrix/matrix, column vector/column vector or row vector/row vector
             return self::evaluateMatrixPair($method, $matrixPair, ...$arguments);
         }
@@ -64,6 +68,7 @@ class ArrayArgumentProcessor
      */
     private static function evaluateVectorMatrixPair(callable $method, array $matrixIndexes, ...$arguments): array
     {
+
         $matrix2 = array_pop($matrixIndexes);
         /** @var array $matrixValues2 */
         $matrixValues2 = $arguments[$matrix2];
@@ -77,12 +82,15 @@ class ArrayArgumentProcessor
         if ($rows === 1) {
             $rows = max(array_map([self::$arrayArgumentHelper, 'rowCount'], [$matrix1, $matrix2]));
         }
+
         if ($columns === 1) {
             $columns = max(array_map([self::$arrayArgumentHelper, 'columnCount'], [$matrix1, $matrix2]));
         }
 
         $result = [];
+
         for ($rowIndex = 0; $rowIndex < $rows; ++$rowIndex) {
+
             for ($columnIndex = 0; $columnIndex < $columns; ++$columnIndex) {
                 $rowIndex1 = self::$arrayArgumentHelper->isRowVector($matrix1) ? 0 : $rowIndex;
                 $columnIndex1 = self::$arrayArgumentHelper->isColumnVector($matrix1) ? 0 : $columnIndex;
@@ -95,6 +103,7 @@ class ArrayArgumentProcessor
 
                 $result[$rowIndex][$columnIndex] = $method(...$arguments);
             }
+
         }
 
         return $result;
@@ -105,6 +114,7 @@ class ArrayArgumentProcessor
      */
     private static function evaluateMatrixPair(callable $method, array $matrixIndexes, ...$arguments): array
     {
+
         $matrix2 = array_pop($matrixIndexes);
         /** @var array $matrixValues2 */
         $matrixValues2 = $arguments[$matrix2];
@@ -113,8 +123,11 @@ class ArrayArgumentProcessor
         $matrixValues1 = $arguments[$matrix1];
 
         $result = [];
+
         foreach ($matrixValues1 as $rowIndex => $row) {
+
             foreach ($row as $columnIndex => $value1) {
+
                 if (isset($matrixValues2[$rowIndex][$columnIndex]) === false) {
                     continue;
                 }
@@ -125,6 +138,7 @@ class ArrayArgumentProcessor
 
                 $result[$rowIndex][$columnIndex] = $method(...$arguments);
             }
+
         }
 
         return $result;
@@ -135,18 +149,22 @@ class ArrayArgumentProcessor
      */
     private static function evaluateVectorPair(callable $method, int $rowIndex, int $columnIndex, ...$arguments): array
     {
+
         $rowVector = Functions::flattenArray($arguments[$rowIndex]);
         $columnVector = Functions::flattenArray($arguments[$columnIndex]);
 
         $result = [];
+
         foreach ($columnVector as $column) {
             $rowResults = [];
+
             foreach ($rowVector as $row) {
                 $arguments[$rowIndex] = $row;
                 $arguments[$columnIndex] = $column;
 
                 $rowResults[] = $method(...$arguments);
             }
+
             $result[] = $rowResults;
         }
 
@@ -160,11 +178,13 @@ class ArrayArgumentProcessor
      */
     private static function evaluateNthArgumentAsArray(callable $method, int $nthArgument, ...$arguments): array
     {
+
         $values = array_slice($arguments, $nthArgument - 1, 1);
         /** @var array $values */
         $values = array_pop($values);
 
         $result = [];
+
         foreach ($values as $value) {
             $arguments[$nthArgument - 1] = $value;
             $result[] = $method(...$arguments);
@@ -172,4 +192,5 @@ class ArrayArgumentProcessor
 
         return $result;
     }
+
 }

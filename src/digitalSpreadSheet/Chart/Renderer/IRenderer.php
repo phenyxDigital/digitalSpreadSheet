@@ -4,8 +4,7 @@ namespace phenyxDigitale\digitalSpreadSheet\Chart\Renderer;
 
 use phenyxDigitale\digitalSpreadSheet\Chart\Chart;
 
-interface IRenderer
-{
+interface IRenderer {
     /**
      * IRenderer constructor.
      */

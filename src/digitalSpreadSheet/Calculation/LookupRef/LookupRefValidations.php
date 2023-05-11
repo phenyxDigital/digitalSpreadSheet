@@ -6,14 +6,15 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ErrorValue;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class LookupRefValidations
-{
+class LookupRefValidations {
+
     /**
      * @param mixed $value
      */
-    public static function validateInt($value): int
-    {
+    public static function validateInt($value): int {
+
         if (!is_numeric($value)) {
+
             if (ErrorValue::isError($value)) {
                 throw new Exception($value);
             }
@@ -27,8 +28,8 @@ class LookupRefValidations
     /**
      * @param mixed $value
      */
-    public static function validatePositiveInt($value, bool $allowZero = true): int
-    {
+    public static function validatePositiveInt($value, bool $allowZero = true): int{
+
         $value = self::validateInt($value);
 
         if (($allowZero === false && $value <= 0) || $value < 0) {
@@ -37,4 +38,5 @@ class LookupRefValidations
 
         return $value;
     }
+
 }

@@ -4,8 +4,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Style;
 
 use phenyxDigitale\digitalSpreadSheet\Exception as PhenyxXlsException;
 
-class Borders extends Supervisor
-{
+class Borders extends Supervisor {
+
     // Diagonal directions
     const DIAGONAL_NONE = 0;
     const DIAGONAL_UP = 1;
@@ -96,8 +96,8 @@ class Borders extends Supervisor
      *                                    Leave this value at default unless you understand exactly what
      *                                        its ramifications are
      */
-    public function __construct($isSupervisor = false)
-    {
+    public function __construct($isSupervisor = false) {
+
         // Supervisor?
         parent::__construct($isSupervisor);
 
@@ -110,6 +110,7 @@ class Borders extends Supervisor
         $this->diagonalDirection = self::DIAGONAL_NONE;
 
         // Specially for supervisor
+
         if ($isSupervisor) {
             // Initialize pseudo-borders
             $this->allBorders = new Border(true);
@@ -130,6 +131,7 @@ class Borders extends Supervisor
             $this->vertical->bindParent($this, 'vertical');
             $this->horizontal->bindParent($this, 'horizontal');
         }
+
     }
 
     /**
@@ -138,8 +140,8 @@ class Borders extends Supervisor
      *
      * @return Borders
      */
-    public function getSharedComponent()
-    {
+    public function getSharedComponent() {
+
         /** @var Style */
         $parent = $this->parent;
 
@@ -153,8 +155,8 @@ class Borders extends Supervisor
      *
      * @return array
      */
-    public function getStyleArray($array)
-    {
+    public function getStyleArray($array) {
+
         return ['borders' => $array];
     }
 
@@ -197,35 +199,43 @@ class Borders extends Supervisor
      *
      * @return $this
      */
-    public function applyFromArray(array $styleArray)
-    {
+    public function applyFromArray(array $styleArray) {
+
         if ($this->isSupervisor) {
             $this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($this->getStyleArray($styleArray));
         } else {
+
             if (isset($styleArray['left'])) {
                 $this->getLeft()->applyFromArray($styleArray['left']);
             }
+
             if (isset($styleArray['right'])) {
                 $this->getRight()->applyFromArray($styleArray['right']);
             }
+
             if (isset($styleArray['top'])) {
                 $this->getTop()->applyFromArray($styleArray['top']);
             }
+
             if (isset($styleArray['bottom'])) {
                 $this->getBottom()->applyFromArray($styleArray['bottom']);
             }
+
             if (isset($styleArray['diagonal'])) {
                 $this->getDiagonal()->applyFromArray($styleArray['diagonal']);
             }
+
             if (isset($styleArray['diagonalDirection'])) {
                 $this->setDiagonalDirection($styleArray['diagonalDirection']);
             }
+
             if (isset($styleArray['allBorders'])) {
                 $this->getLeft()->applyFromArray($styleArray['allBorders']);
                 $this->getRight()->applyFromArray($styleArray['allBorders']);
                 $this->getTop()->applyFromArray($styleArray['allBorders']);
                 $this->getBottom()->applyFromArray($styleArray['allBorders']);
             }
+
         }
 
         return $this;
@@ -236,8 +246,8 @@ class Borders extends Supervisor
      *
      * @return Border
      */
-    public function getLeft()
-    {
+    public function getLeft() {
+
         return $this->left;
     }
 
@@ -246,8 +256,8 @@ class Borders extends Supervisor
      *
      * @return Border
      */
-    public function getRight()
-    {
+    public function getRight() {
+
         return $this->right;
     }
 
@@ -256,8 +266,8 @@ class Borders extends Supervisor
      *
      * @return Border
      */
-    public function getTop()
-    {
+    public function getTop() {
+
         return $this->top;
     }
 
@@ -266,8 +276,8 @@ class Borders extends Supervisor
      *
      * @return Border
      */
-    public function getBottom()
-    {
+    public function getBottom() {
+
         return $this->bottom;
     }
 
@@ -276,8 +286,8 @@ class Borders extends Supervisor
      *
      * @return Border
      */
-    public function getDiagonal()
-    {
+    public function getDiagonal() {
+
         return $this->diagonal;
     }
 
@@ -286,8 +296,8 @@ class Borders extends Supervisor
      *
      * @return Border
      */
-    public function getAllBorders()
-    {
+    public function getAllBorders() {
+
         if (!$this->isSupervisor) {
             throw new PhenyxXlsException('Can only get pseudo-border for supervisor.');
         }
@@ -300,8 +310,8 @@ class Borders extends Supervisor
      *
      * @return Border
      */
-    public function getOutline()
-    {
+    public function getOutline() {
+
         if (!$this->isSupervisor) {
             throw new PhenyxXlsException('Can only get pseudo-border for supervisor.');
         }
@@ -314,8 +324,8 @@ class Borders extends Supervisor
      *
      * @return Border
      */
-    public function getInside()
-    {
+    public function getInside() {
+
         if (!$this->isSupervisor) {
             throw new PhenyxXlsException('Can only get pseudo-border for supervisor.');
         }
@@ -328,8 +338,8 @@ class Borders extends Supervisor
      *
      * @return Border
      */
-    public function getVertical()
-    {
+    public function getVertical() {
+
         if (!$this->isSupervisor) {
             throw new PhenyxXlsException('Can only get pseudo-border for supervisor.');
         }
@@ -342,8 +352,8 @@ class Borders extends Supervisor
      *
      * @return Border
      */
-    public function getHorizontal()
-    {
+    public function getHorizontal() {
+
         if (!$this->isSupervisor) {
             throw new PhenyxXlsException('Can only get pseudo-border for supervisor.');
         }
@@ -356,8 +366,8 @@ class Borders extends Supervisor
      *
      * @return int
      */
-    public function getDiagonalDirection()
-    {
+    public function getDiagonalDirection() {
+
         if ($this->isSupervisor) {
             return $this->getSharedComponent()->getDiagonalDirection();
         }
@@ -372,11 +382,12 @@ class Borders extends Supervisor
      *
      * @return $this
      */
-    public function setDiagonalDirection($direction)
-    {
+    public function setDiagonalDirection($direction) {
+
         if ($direction == '') {
             $direction = self::DIAGONAL_NONE;
         }
+
         if ($this->isSupervisor) {
             $styleArray = $this->getStyleArray(['diagonalDirection' => $direction]);
             $this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
@@ -392,8 +403,8 @@ class Borders extends Supervisor
      *
      * @return string Hash code
      */
-    public function getHashCode()
-    {
+    public function getHashCode() {
+
         if ($this->isSupervisor) {
             return $this->getSharedComponent()->getHashcode();
         }
@@ -411,6 +422,7 @@ class Borders extends Supervisor
 
     protected function exportArray1(): array
     {
+
         $exportedArray = [];
         $this->exportArray2($exportedArray, 'bottom', $this->getBottom());
         $this->exportArray2($exportedArray, 'diagonal', $this->getDiagonal());
@@ -421,4 +433,5 @@ class Borders extends Supervisor
 
         return $exportedArray;
     }
+
 }

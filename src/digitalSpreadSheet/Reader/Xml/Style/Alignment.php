@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Reader\Xml\Style;
 use phenyxDigitale\digitalSpreadSheet\Style\Alignment as AlignmentStyles;
 use SimpleXMLElement;
 
-class Alignment extends StyleBase
-{
+class Alignment extends StyleBase {
+
     protected const VERTICAL_ALIGNMENT_STYLES = [
         AlignmentStyles::VERTICAL_BOTTOM,
         AlignmentStyles::VERTICAL_TOP,
@@ -25,34 +25,40 @@ class Alignment extends StyleBase
 
     public function parseStyle(SimpleXMLElement $styleAttributes): array
     {
+
         $style = [];
 
         foreach ($styleAttributes as $styleAttributeKey => $styleAttributeValue) {
             $styleAttributeValue = (string) $styleAttributeValue;
+
             switch ($styleAttributeKey) {
-                case 'Vertical':
-                    if (self::identifyFixedStyleValue(self::VERTICAL_ALIGNMENT_STYLES, $styleAttributeValue)) {
-                        $style['alignment']['vertical'] = $styleAttributeValue;
-                    }
+            case 'Vertical':
 
-                    break;
-                case 'Horizontal':
-                    if (self::identifyFixedStyleValue(self::HORIZONTAL_ALIGNMENT_STYLES, $styleAttributeValue)) {
-                        $style['alignment']['horizontal'] = $styleAttributeValue;
-                    }
+                if (self::identifyFixedStyleValue(self::VERTICAL_ALIGNMENT_STYLES, $styleAttributeValue)) {
+                    $style['alignment']['vertical'] = $styleAttributeValue;
+                }
 
-                    break;
-                case 'WrapText':
-                    $style['alignment']['wrapText'] = true;
+                break;
+            case 'Horizontal':
 
-                    break;
-                case 'Rotate':
-                    $style['alignment']['textRotation'] = $styleAttributeValue;
+                if (self::identifyFixedStyleValue(self::HORIZONTAL_ALIGNMENT_STYLES, $styleAttributeValue)) {
+                    $style['alignment']['horizontal'] = $styleAttributeValue;
+                }
 
-                    break;
+                break;
+            case 'WrapText':
+                $style['alignment']['wrapText'] = true;
+
+                break;
+            case 'Rotate':
+                $style['alignment']['textRotation'] = $styleAttributeValue;
+
+                break;
             }
+
         }
 
         return $style;
     }
+
 }

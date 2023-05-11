@@ -10,8 +10,8 @@ use phenyxDigitale\digitalSpreadSheet\Cell\Coordinate;
 use phenyxDigitale\digitalSpreadSheet\NamedRange;
 use phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet;
 
-class Value
-{
+class Value {
+
     use ArrayEnabled;
 
     /**
@@ -24,8 +24,8 @@ class Value
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function isBlank($value = null)
-    {
+    public static function isBlank($value = null) {
+
         if (is_array($value)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $value);
         }
@@ -40,19 +40,23 @@ class Value
      *
      * @return bool
      */
-    public static function isRef($value, ?Cell $cell = null)
-    {
+    public static function isRef($value,  ? Cell $cell = null) {
+
         if ($cell === null || $value === $cell->getCoordinate()) {
             return false;
         }
 
         $cellValue = Functions::trimTrailingRange($value);
+
         if (preg_match('/^' . Calculation::CALCULATION_REGEXP_CELLREF . '$/ui', $cellValue) === 1) {
             [$worksheet, $cellValue] = Worksheet::extractSheetTitle($cellValue, true);
+
             if (!empty($worksheet) && $cell->getWorksheet()->getParentOrThrow()->getSheetByName($worksheet) === null) {
                 return false;
             }
+
             [$column, $row] = Coordinate::indexesFromString($cellValue);
+
             if ($column > 16384 || $row > 1048576) {
                 return false;
             }
@@ -75,15 +79,15 @@ class Value
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function isEven($value = null)
-    {
+    public static function isEven($value = null) {
+
         if (is_array($value)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $value);
         }
 
         if ($value === null) {
             return ExcelError::NAME();
-        } elseif ((is_bool($value)) || ((is_string($value)) && (!is_numeric($value)))) {
+        } else if ((is_bool($value)) || ((is_string($value)) && (!is_numeric($value)))) {
             return ExcelError::VALUE();
         }
 
@@ -100,15 +104,15 @@ class Value
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function isOdd($value = null)
-    {
+    public static function isOdd($value = null) {
+
         if (is_array($value)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $value);
         }
 
         if ($value === null) {
             return ExcelError::NAME();
-        } elseif ((is_bool($value)) || ((is_string($value)) && (!is_numeric($value)))) {
+        } else if ((is_bool($value)) || ((is_string($value)) && (!is_numeric($value)))) {
             return ExcelError::VALUE();
         }
 
@@ -125,8 +129,8 @@ class Value
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function isNumber($value = null)
-    {
+    public static function isNumber($value = null) {
+
         if (is_array($value)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $value);
         }
@@ -148,8 +152,8 @@ class Value
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function isLogical($value = null)
-    {
+    public static function isLogical($value = null) {
+
         if (is_array($value)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $value);
         }
@@ -167,8 +171,8 @@ class Value
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function isText($value = null)
-    {
+    public static function isText($value = null) {
+
         if (is_array($value)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $value);
         }
@@ -186,8 +190,8 @@ class Value
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function isNonText($value = null)
-    {
+    public static function isNonText($value = null) {
+
         if (is_array($value)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $value);
         }
@@ -203,8 +207,8 @@ class Value
      *
      * @return array|bool|string
      */
-    public static function isFormula($cellReference = '', ?Cell $cell = null)
-    {
+    public static function isFormula($cellReference = '',  ? Cell $cell = null) {
+
         if ($cell === null) {
             return ExcelError::REF();
         }
@@ -214,9 +218,11 @@ class Value
         if (strpos($cellReference, '!') !== false) {
             $cellReference = Functions::trimSheetFromCellReference($cellReference);
             $cellReferences = Coordinate::extractAllCellReferencesInRange($cellReference);
+
             if (count($cellReferences) > 1) {
                 return self::evaluateArrayArgumentsSubset([self::class, __FUNCTION__], 1, $cellReferences, $cell);
             }
+
         }
 
         $fullCellReference = Functions::trimTrailingRange($fullCellReference);
@@ -227,8 +233,8 @@ class Value
         $worksheetName = str_replace("''", "'", trim($matches[2], "'"));
 
         $worksheet = (!empty($worksheetName))
-            ? $cell->getWorksheet()->getParentOrThrow()->getSheetByName($worksheetName)
-            : $cell->getWorksheet();
+        ? $cell->getWorksheet()->getParentOrThrow()->getSheetByName($worksheetName)
+        : $cell->getWorksheet();
 
         return ($worksheet !== null) ? $worksheet->getCell($fullCellReference)->isFormula() : ExcelError::REF();
     }
@@ -249,26 +255,27 @@ class Value
      *        An error value      The error value
      *        Anything else       0
      */
-    public static function asNumber($value = null)
-    {
+    public static function asNumber($value = null) {
+
         while (is_array($value)) {
             $value = array_shift($value);
         }
 
         switch (gettype($value)) {
-            case 'double':
-            case 'float':
-            case 'integer':
-                return $value;
-            case 'boolean':
-                return (int) $value;
-            case 'string':
-                //    Errors
-                if ((strlen($value) > 0) && ($value[0] == '#')) {
-                    return $value;
-                }
+        case 'double' :
+        case 'float' :
+        case 'integer':
+            return $value;
+        case 'boolean':
+            return (int) $value;
+        case 'string':
+            //    Errors
 
-                break;
+            if ((strlen($value) > 0) && ($value[0] == '#')) {
+                return $value;
+            }
+
+            break;
         }
 
         return 0;
@@ -289,33 +296,38 @@ class Value
      *        An error value      16
      *        Array or Matrix     64
      */
-    public static function type($value = null)
-    {
+    public static function type($value = null) {
+
         $value = Functions::flattenArrayIndexed($value);
+
         if (is_array($value) && (count($value) > 1)) {
             end($value);
             $a = key($value);
             //    Range of cells is an error
+
             if (Functions::isCellValue($a)) {
                 return 16;
-            //    Test for Matrix
-            } elseif (Functions::isMatrixValue($a)) {
+                //    Test for Matrix
+            } else if (Functions::isMatrixValue($a)) {
                 return 64;
             }
-        } elseif (empty($value)) {
+
+        } else if (empty($value)) {
             //    Empty Cell
             return 1;
         }
 
         $value = Functions::flattenSingleValue($value);
+
         if (($value === null) || (is_float($value)) || (is_int($value))) {
             return 1;
-        } elseif (is_bool($value)) {
+        } else if (is_bool($value)) {
             return 4;
-        } elseif (is_array($value)) {
+        } else if (is_array($value)) {
             return 64;
-        } elseif (is_string($value)) {
+        } else if (is_string($value)) {
             //    Errors
+
             if ((strlen($value) > 0) && ($value[0] == '#')) {
                 return 16;
             }
@@ -325,4 +337,5 @@ class Value
 
         return 0;
     }
+
 }

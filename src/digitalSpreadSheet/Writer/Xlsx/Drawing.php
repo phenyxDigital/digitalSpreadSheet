@@ -11,8 +11,8 @@ use phenyxDigitale\digitalSpreadSheet\Worksheet\BaseDrawing;
 use phenyxDigitale\digitalSpreadSheet\Worksheet\HeaderFooterDrawing;
 use phenyxDigitale\digitalSpreadSheet\Writer\Exception as WriterException;
 
-class Drawing extends WriterPart
-{
+class Drawing extends WriterPart {
+
     /**
      * Write drawings to XML format.
      *
@@ -20,10 +20,11 @@ class Drawing extends WriterPart
      *
      * @return string XML Output
      */
-    public function writeDrawings(\phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet $worksheet, $includeCharts = false)
-    {
+    public function writeDrawings(\phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet $worksheet, $includeCharts = false) {
+
         // Create XML writer
         $objWriter = null;
+
         if ($this->getParentWriter()->getUseDiskCaching()) {
             $objWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
@@ -41,6 +42,7 @@ class Drawing extends WriterPart
         // Loop through images and write drawings
         $i = 1;
         $iterator = $worksheet->getDrawingCollection()->getIterator();
+
         while ($iterator->valid()) {
             /** @var BaseDrawing $pDrawing */
             $pDrawing = $iterator->current();
@@ -56,22 +58,31 @@ class Drawing extends WriterPart
         if ($includeCharts) {
             $chartCount = $worksheet->getChartCount();
             // Loop through charts and write the chart position
+
             if ($chartCount > 0) {
+
                 for ($c = 0; $c < $chartCount; ++$c) {
                     $chart = $worksheet->getChartByIndex((string) $c);
+
                     if ($chart !== false) {
                         $this->writeChart($objWriter, $chart, $c + $i);
                     }
+
                 }
+
             }
+
         }
 
         // unparsed AlternateContent
         $unparsedLoadedData = $worksheet->getParentOrThrow()->getUnparsedLoadedData();
+
         if (isset($unparsedLoadedData['sheets'][$worksheet->getCodeName()]['drawingAlternateContents'])) {
+
             foreach ($unparsedLoadedData['sheets'][$worksheet->getCodeName()]['drawingAlternateContents'] as $drawingAlternateContent) {
                 $objWriter->writeRaw($drawingAlternateContent);
             }
+
         }
 
         $objWriter->endElement();
@@ -85,13 +96,14 @@ class Drawing extends WriterPart
      *
      * @param int $relationId
      */
-    public function writeChart(XMLWriter $objWriter, \phenyxDigitale\digitalSpreadSheet\Chart\Chart $chart, $relationId = -1): void
-    {
+    public function writeChart(XMLWriter $objWriter, \phenyxDigitale\digitalSpreadSheet\Chart\Chart $chart, $relationId = -1): void{
+
         $tl = $chart->getTopLeftPosition();
         $tlColRow = Coordinate::indexesFromString($tl['cell']);
         $br = $chart->getBottomRightPosition();
 
         $isTwoCellAnchor = $br['cell'] !== '';
+
         if ($isTwoCellAnchor) {
             $brColRow = Coordinate::indexesFromString($br['cell']);
 
@@ -109,7 +121,7 @@ class Drawing extends WriterPart
             $objWriter->writeElement('xdr:row', (string) ($brColRow[1] - 1));
             $objWriter->writeElement('xdr:rowOff', self::stringEmu($br['yOffset']));
             $objWriter->endElement();
-        } elseif ($chart->getOneCellAnchor()) {
+        } else if ($chart->getOneCellAnchor()) {
             $objWriter->startElement('xdr:oneCellAnchor');
 
             $objWriter->startElement('xdr:from');
@@ -182,16 +194,19 @@ class Drawing extends WriterPart
      * @param int $relationId
      * @param null|int $hlinkClickId
      */
-    public function writeDrawing(XMLWriter $objWriter, BaseDrawing $drawing, $relationId = -1, $hlinkClickId = null): void
-    {
+    public function writeDrawing(XMLWriter $objWriter, BaseDrawing $drawing, $relationId = -1, $hlinkClickId = null): void {
+
         if ($relationId >= 0) {
             $isTwoCellAnchor = $drawing->getCoordinates2() !== '';
+
             if ($isTwoCellAnchor) {
                 // xdr:twoCellAnchor
                 $objWriter->startElement('xdr:twoCellAnchor');
+
                 if ($drawing->validEditAs()) {
                     $objWriter->writeAttribute('editAs', $drawing->getEditAs());
                 }
+
                 // Image location
                 $aCoordinates = Coordinate::indexesFromString($drawing->getCoordinates());
                 $aCoordinates2 = Coordinate::indexesFromString($drawing->getCoordinates2());
@@ -283,12 +298,14 @@ class Drawing extends WriterPart
             // a:xfrm
             $objWriter->startElement('a:xfrm');
             $objWriter->writeAttribute('rot', (string) SharedDrawing::degreesToAngle($drawing->getRotation()));
+
             if ($isTwoCellAnchor) {
                 $objWriter->startElement('a:ext');
                 $objWriter->writeAttribute('cx', self::stringEmu($drawing->getWidth()));
                 $objWriter->writeAttribute('cy', self::stringEmu($drawing->getHeight()));
                 $objWriter->endElement();
             }
+
             $objWriter->endElement();
 
             // a:prstGeom
@@ -327,6 +344,7 @@ class Drawing extends WriterPart
 
                 $objWriter->endElement();
             }
+
             $objWriter->endElement();
 
             $objWriter->endElement();
@@ -338,6 +356,7 @@ class Drawing extends WriterPart
         } else {
             throw new WriterException('Invalid parameters passed.');
         }
+
     }
 
     /**
@@ -345,10 +364,11 @@ class Drawing extends WriterPart
      *
      * @return string XML Output
      */
-    public function writeVMLHeaderFooterImages(\phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet $worksheet)
-    {
+    public function writeVMLHeaderFooterImages(\phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet $worksheet) {
+
         // Create XML writer
         $objWriter = null;
+
         if ($this->getParentWriter()->getUseDiskCaching()) {
             $objWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
@@ -475,6 +495,7 @@ class Drawing extends WriterPart
         $objWriter->endElement();
 
         // Loop through images
+
         foreach ($images as $key => $value) {
             $this->writeVMLHeaderFooterImage($objWriter, $key, $value);
         }
@@ -490,8 +511,8 @@ class Drawing extends WriterPart
      *
      * @param string $reference Reference
      */
-    private function writeVMLHeaderFooterImage(XMLWriter $objWriter, $reference, HeaderFooterDrawing $image): void
-    {
+    private function writeVMLHeaderFooterImage(XMLWriter $objWriter, $reference, HeaderFooterDrawing $image): void{
+
         // Calculate object id
         preg_match('{(\d+)}', md5($reference), $m);
         $id = 1500 + ((int) substr($m[1], 0, 2) * 1);
@@ -529,21 +550,24 @@ class Drawing extends WriterPart
      *
      * @return BaseDrawing[] All drawings in PhenyxXls
      */
-    public function allDrawings(Spreadsheet $spreadsheet)
-    {
+    public function allDrawings(Spreadsheet $spreadsheet) {
+
         // Get an array of all drawings
         $aDrawings = [];
 
         // Loop through PhenyxXls
         $sheetCount = $spreadsheet->getSheetCount();
+
         for ($i = 0; $i < $sheetCount; ++$i) {
             // Loop through images and add to array
             $iterator = $spreadsheet->getSheet($i)->getDrawingCollection()->getIterator();
+
             while ($iterator->valid()) {
                 $aDrawings[] = $iterator->current();
 
                 $iterator->next();
             }
+
         }
 
         return $aDrawings;
@@ -552,8 +576,8 @@ class Drawing extends WriterPart
     /**
      * @param null|int $hlinkClickId
      */
-    private function writeHyperLinkDrawing(XMLWriter $objWriter, $hlinkClickId): void
-    {
+    private function writeHyperLinkDrawing(XMLWriter $objWriter, $hlinkClickId): void {
+
         if ($hlinkClickId === null) {
             return;
         }
@@ -564,8 +588,9 @@ class Drawing extends WriterPart
         $objWriter->endElement();
     }
 
-    private static function stringEmu(int $pixelValue): string
-    {
+    private static function stringEmu(int $pixelValue): string {
+
         return (string) SharedDrawing::pixelsToEMU($pixelValue);
     }
+
 }

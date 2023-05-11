@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Writer;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Calculation;
 use phenyxDigitale\digitalSpreadSheet\Spreadsheet;
 
-class Csv extends BaseWriter
-{
+class Csv extends BaseWriter {
+
     /**
      * PhenyxXls object.
      *
@@ -74,8 +74,8 @@ class Csv extends BaseWriter
     /**
      * Create a new CSV.
      */
-    public function __construct(Spreadsheet $spreadsheet)
-    {
+    public function __construct(Spreadsheet $spreadsheet) {
+
         $this->spreadsheet = $spreadsheet;
     }
 
@@ -84,8 +84,8 @@ class Csv extends BaseWriter
      *
      * @param resource|string $filename
      */
-    public function save($filename, int $flags = 0): void
-    {
+    public function save($filename, int $flags = 0): void{
+
         $this->processFlags($flags);
 
         // Fetch sheet
@@ -122,6 +122,7 @@ class Csv extends BaseWriter
         $maxRow = $sheet->getHighestDataRow();
 
         // Write rows to file
+
         for ($row = 1; $row <= $maxRow; ++$row) {
             // Convert the row to an array...
             $cellsArray = $sheet->rangeToArray('A' . $row . ':' . $maxCol . $row, '', $this->preCalculateFormulas);
@@ -134,37 +135,37 @@ class Csv extends BaseWriter
         Calculation::getInstance($this->spreadsheet)->getDebugLog()->setWriteDebugLog($saveDebugLog);
     }
 
-    public function getDelimiter(): string
-    {
+    public function getDelimiter(): string {
+
         return $this->delimiter;
     }
 
-    public function setDelimiter(string $delimiter): self
-    {
+    public function setDelimiter(string $delimiter): self{
+
         $this->delimiter = $delimiter;
 
         return $this;
     }
 
-    public function getEnclosure(): string
-    {
+    public function getEnclosure(): string {
+
         return $this->enclosure;
     }
 
-    public function setEnclosure(string $enclosure = '"'): self
-    {
+    public function setEnclosure(string $enclosure = '"'): self{
+
         $this->enclosure = $enclosure;
 
         return $this;
     }
 
-    public function getLineEnding(): string
-    {
+    public function getLineEnding(): string {
+
         return $this->lineEnding;
     }
 
-    public function setLineEnding(string $lineEnding): self
-    {
+    public function setLineEnding(string $lineEnding): self{
+
         $this->lineEnding = $lineEnding;
 
         return $this;
@@ -173,16 +174,16 @@ class Csv extends BaseWriter
     /**
      * Get whether BOM should be used.
      */
-    public function getUseBOM(): bool
-    {
+    public function getUseBOM(): bool {
+
         return $this->useBOM;
     }
 
     /**
      * Set whether BOM should be used, typically when non-ASCII characters are used.
      */
-    public function setUseBOM(bool $useBOM): self
-    {
+    public function setUseBOM(bool $useBOM): self{
+
         $this->useBOM = $useBOM;
 
         return $this;
@@ -191,16 +192,16 @@ class Csv extends BaseWriter
     /**
      * Get whether a separator line should be included.
      */
-    public function getIncludeSeparatorLine(): bool
-    {
+    public function getIncludeSeparatorLine(): bool {
+
         return $this->includeSeparatorLine;
     }
 
     /**
      * Set whether a separator line should be included as the first line of the file.
      */
-    public function setIncludeSeparatorLine(bool $includeSeparatorLine): self
-    {
+    public function setIncludeSeparatorLine(bool $includeSeparatorLine): self{
+
         $this->includeSeparatorLine = $includeSeparatorLine;
 
         return $this;
@@ -209,8 +210,8 @@ class Csv extends BaseWriter
     /**
      * Get whether the file should be saved with full Excel Compatibility.
      */
-    public function getExcelCompatibility(): bool
-    {
+    public function getExcelCompatibility(): bool {
+
         return $this->excelCompatibility;
     }
 
@@ -220,32 +221,32 @@ class Csv extends BaseWriter
      * @param bool $excelCompatibility Set the file to be written as a fully Excel compatible csv file
      *                                Note that this overrides other settings such as useBOM, enclosure and delimiter
      */
-    public function setExcelCompatibility(bool $excelCompatibility): self
-    {
+    public function setExcelCompatibility(bool $excelCompatibility): self{
+
         $this->excelCompatibility = $excelCompatibility;
 
         return $this;
     }
 
-    public function getSheetIndex(): int
-    {
+    public function getSheetIndex(): int {
+
         return $this->sheetIndex;
     }
 
-    public function setSheetIndex(int $sheetIndex): self
-    {
+    public function setSheetIndex(int $sheetIndex): self{
+
         $this->sheetIndex = $sheetIndex;
 
         return $this;
     }
 
-    public function getOutputEncoding(): string
-    {
+    public function getOutputEncoding(): string {
+
         return $this->outputEncoding;
     }
 
-    public function setOutputEncoding(string $outputEnconding): self
-    {
+    public function setOutputEncoding(string $outputEnconding): self{
+
         $this->outputEncoding = $outputEnconding;
 
         return $this;
@@ -254,15 +255,15 @@ class Csv extends BaseWriter
     /** @var bool */
     private $enclosureRequired = true;
 
-    public function setEnclosureRequired(bool $value): self
-    {
+    public function setEnclosureRequired(bool $value): self{
+
         $this->enclosureRequired = $value;
 
         return $this;
     }
 
-    public function getEnclosureRequired(): bool
-    {
+    public function getEnclosureRequired(): bool {
+
         return $this->enclosureRequired;
     }
 
@@ -271,8 +272,8 @@ class Csv extends BaseWriter
      *
      * @param mixed $element
      */
-    private static function elementToString($element): string
-    {
+    private static function elementToString($element): string {
+
         if (is_bool($element)) {
             return $element ? 'TRUE' : 'FALSE';
         }
@@ -286,8 +287,8 @@ class Csv extends BaseWriter
      * @param resource $fileHandle PHP filehandle
      * @param array $values Array containing values in a row
      */
-    private function writeLine($fileHandle, array $values): void
-    {
+    private function writeLine($fileHandle, array $values): void{
+
         // No leading delimiter
         $delimiter = '';
 
@@ -301,15 +302,19 @@ class Csv extends BaseWriter
             $delimiter = $this->delimiter;
             // Escape enclosures
             $enclosure = $this->enclosure;
+
             if ($enclosure) {
                 // If enclosure is not required, use enclosure only if
                 // element contains newline, delimiter, or enclosure.
+
                 if (!$this->enclosureRequired && strpbrk($element, "$delimiter$enclosure\n") === false) {
                     $enclosure = '';
                 } else {
                     $element = str_replace($enclosure, $enclosure . $enclosure, $element);
                 }
+
             }
+
             // Add enclosed string
             $line .= $enclosure . $element . $enclosure;
         }
@@ -318,9 +323,12 @@ class Csv extends BaseWriter
         $line .= $this->lineEnding;
 
         // Write to file
+
         if ($this->outputEncoding != '') {
             $line = mb_convert_encoding($line, $this->outputEncoding);
         }
-        fwrite($fileHandle, /** @scrutinizer ignore-type */ $line);
+
+        fwrite($fileHandle, /** @scrutinizer ignore-type */$line);
     }
+
 }

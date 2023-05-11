@@ -5,21 +5,21 @@ namespace phenyxDigitale\digitalSpreadSheet\Calculation\Statistical\Distribution
 use phenyxDigitale\digitalSpreadSheet\Calculation\Functions;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class NewtonRaphson
-{
+class NewtonRaphson {
+
     private const MAX_ITERATIONS = 256;
 
     /** @var callable */
     protected $callback;
 
-    public function __construct(callable $callback)
-    {
+    public function __construct(callable $callback) {
+
         $this->callback = $callback;
     }
 
     /** @return float|string */
-    public function execute(float $probability)
-    {
+    public function execute(float $probability) {
+
         $xLo = 100;
         $xHi = 0;
 
@@ -34,13 +34,14 @@ class NewtonRaphson
 
             if ($error == 0.0) {
                 $dx = 0;
-            } elseif ($error < 0.0) {
+            } else if ($error < 0.0) {
                 $xLo = $x;
             } else {
                 $xHi = $x;
             }
 
             // Avoid division by zero
+
             if ($result != 0.0) {
                 $dx = $error / $result;
                 $xNew = $x - $dx;
@@ -49,10 +50,12 @@ class NewtonRaphson
             // If the NR fails to converge (which for example may be the
             // case if the initial guess is too rough) we apply a bisection
             // step to determine a more narrow interval around the root.
+
             if (($xNew < $xLo) || ($xNew > $xHi) || ($result == 0.0)) {
                 $xNew = ($xLo + $xHi) / 2;
                 $dx = $xNew - $x;
             }
+
             $x = $xNew;
         }
 
@@ -62,4 +65,5 @@ class NewtonRaphson
 
         return $x;
     }
+
 }

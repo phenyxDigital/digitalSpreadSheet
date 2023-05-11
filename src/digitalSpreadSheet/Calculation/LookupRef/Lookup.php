@@ -6,8 +6,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\ArrayEnabled;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 use phenyxDigitale\digitalSpreadSheet\Calculation\LookupRef;
 
-class Lookup
-{
+class Lookup {
+
     use ArrayEnabled;
 
     /**
@@ -20,8 +20,8 @@ class Lookup
      *
      * @return mixed The value of the found cell
      */
-    public static function lookup($lookupValue, $lookupVector, $resultVector = null)
-    {
+    public static function lookup($lookupValue, $lookupVector, $resultVector = null) {
+
         if (is_array($lookupValue)) {
             return self::evaluateArrayArgumentsSubset([self::class, __FUNCTION__], 1, $lookupValue, $lookupVector, $resultVector);
         }
@@ -29,10 +29,12 @@ class Lookup
         if (!is_array($lookupVector)) {
             return ExcelError::NA();
         }
+
         $hasResultVector = isset($resultVector);
         $lookupRows = self::rowCount($lookupVector);
         $lookupColumns = self::columnCount($lookupVector);
         // we correctly orient our results
+
         if (($lookupRows === 1 && $lookupColumns > 1) || (!$hasResultVector && $lookupRows === 2 && $lookupColumns !== 2)) {
             $lookupVector = LookupRef\Matrix::transpose($lookupVector);
             $lookupRows = self::rowCount($lookupVector);
@@ -53,9 +55,11 @@ class Lookup
         return VLookup::lookup($lookupValue, $lookupVector, 2);
     }
 
-    private static function verifyLookupValues(array $lookupVector, array $resultVector): array
+    private static function verifyLookupValues(array $lookupVector, array $resultVector) : array
     {
+
         foreach ($lookupVector as &$value) {
+
             if (is_array($value)) {
                 $k = array_keys($value);
                 $key1 = $key2 = array_shift($k);
@@ -68,22 +72,27 @@ class Lookup
             }
 
             $dataValue2 = array_shift($resultVector);
+
             if (is_array($dataValue2)) {
                 $dataValue2 = array_shift($dataValue2);
             }
+
             $value = [$key1 => $dataValue1, $key2 => $dataValue2];
         }
+
         unset($value);
 
         return $lookupVector;
     }
 
-    private static function verifyResultVector(array $resultVector): array
+    private static function verifyResultVector(array $resultVector) : array
     {
+
         $resultRows = self::rowCount($resultVector);
         $resultColumns = self::columnCount($resultVector);
 
         // we correctly orient our results
+
         if ($resultRows === 1 && $resultColumns > 1) {
             $resultVector = LookupRef\Matrix::transpose($resultVector);
         }
@@ -91,16 +100,17 @@ class Lookup
         return $resultVector;
     }
 
-    private static function rowCount(array $dataArray): int
-    {
+    private static function rowCount(array $dataArray): int {
+
         return count($dataArray);
     }
 
-    private static function columnCount(array $dataArray): int
-    {
+    private static function columnCount(array $dataArray): int{
+
         $rowKeys = array_keys($dataArray);
         $row = array_shift($rowKeys);
 
         return count($dataArray[$row]);
     }
+
 }

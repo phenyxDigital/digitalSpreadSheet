@@ -16,8 +16,8 @@ use phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet;
 /**
  * @deprecated 1.18.0
  */
-class LookupRef
-{
+class LookupRef {
+
     /**
      * CELL_ADDRESS.
      *
@@ -44,8 +44,8 @@ class LookupRef
      *
      * @return array|string
      */
-    public static function cellAddress($row, $column, $relativity = 1, $referenceStyle = true, $sheetText = '')
-    {
+    public static function cellAddress($row, $column, $relativity = 1, $referenceStyle = true, $sheetText = '') {
+
         return Address::cell($row, $column, $relativity, $referenceStyle, $sheetText);
     }
 
@@ -70,8 +70,8 @@ class LookupRef
      *
      * @return int|int[]|string
      */
-    public static function COLUMN($cellAddress = null, ?Cell $cell = null)
-    {
+    public static function COLUMN($cellAddress = null,  ? Cell $cell = null) {
+
         return RowColumnInformation::COLUMN($cellAddress, $cell);
     }
 
@@ -92,8 +92,8 @@ class LookupRef
      *
      * @return int|string The number of columns in cellAddress, or a string if arguments are invalid
      */
-    public static function COLUMNS($cellAddress = null)
-    {
+    public static function COLUMNS($cellAddress = null) {
+
         return RowColumnInformation::COLUMNS($cellAddress);
     }
 
@@ -118,8 +118,8 @@ class LookupRef
      *
      * @return int|mixed[]|string
      */
-    public static function ROW($cellAddress = null, ?Cell $cell = null)
-    {
+    public static function ROW($cellAddress = null,  ? Cell $cell = null) {
+
         return RowColumnInformation::ROW($cellAddress, $cell);
     }
 
@@ -140,8 +140,8 @@ class LookupRef
      *
      * @return int|string The number of rows in cellAddress, or a string if arguments are invalid
      */
-    public static function ROWS($cellAddress = null)
-    {
+    public static function ROWS($cellAddress = null) {
+
         return RowColumnInformation::ROWS($cellAddress);
     }
 
@@ -161,8 +161,8 @@ class LookupRef
      *
      * @return string The value of $displayName (or $linkURL if $displayName was blank)
      */
-    public static function HYPERLINK($linkURL = '', $displayName = null, ?Cell $cell = null)
-    {
+    public static function HYPERLINK($linkURL = '', $displayName = null,  ? Cell $cell = null) {
+
         return LookupRef\Hyperlink::set($linkURL, $displayName, $cell);
     }
 
@@ -186,8 +186,8 @@ class LookupRef
      *
      * NOTE - INDIRECT() does not yet support the optional a1 parameter introduced in Excel 2010
      */
-    public static function INDIRECT($cellAddress, Cell $cell)
-    {
+    public static function INDIRECT($cellAddress, Cell $cell) {
+
         return Indirect::INDIRECT($cellAddress, true, $cell);
     }
 
@@ -225,8 +225,8 @@ class LookupRef
      *
      * @return array|int|string An array containing a cell or range of cells, or a string on error
      */
-    public static function OFFSET($cellAddress = null, $rows = 0, $columns = 0, $height = null, $width = null, ?Cell $cell = null)
-    {
+    public static function OFFSET($cellAddress = null, $rows = 0, $columns = 0, $height = null, $width = null,  ? Cell $cell = null) {
+
         return Offset::OFFSET($cellAddress, $rows, $columns, $height, $width, $cell);
     }
 
@@ -247,8 +247,8 @@ class LookupRef
      *
      * @return mixed The selected value
      */
-    public static function CHOOSE(...$chooseArgs)
-    {
+    public static function CHOOSE(...$chooseArgs) {
+
         return LookupRef\Selection::choose(...$chooseArgs);
     }
 
@@ -271,8 +271,8 @@ class LookupRef
      *
      * @return array|int|string The relative position of the found item
      */
-    public static function MATCH($lookupValue, $lookupArray, $matchType = 1)
-    {
+    public static function MATCH($lookupValue, $lookupArray, $matchType = 1) {
+
         return LookupRef\ExcelMatch::MATCH($lookupValue, $lookupArray, $matchType);
     }
 
@@ -296,8 +296,8 @@ class LookupRef
      *
      * @return mixed the value of a specified cell or array of cells
      */
-    public static function INDEX($matrix, $rowNum = 0, $columnNum = 0)
-    {
+    public static function INDEX($matrix, $rowNum = 0, $columnNum = 0) {
+
         return Matrix::index($matrix, $rowNum, $columnNum);
     }
 
@@ -315,8 +315,8 @@ class LookupRef
      * Unlike the Excel TRANSPOSE function, which will only work on a single row or column,
      *     this function will transpose a full matrix
      */
-    public static function TRANSPOSE($matrixData)
-    {
+    public static function TRANSPOSE($matrixData) {
+
         return Matrix::transpose($matrixData);
     }
 
@@ -337,8 +337,8 @@ class LookupRef
      *
      * @return mixed The value of the found cell
      */
-    public static function VLOOKUP($lookup_value, $lookup_array, $index_number, $not_exact_match = true)
-    {
+    public static function VLOOKUP($lookup_value, $lookup_array, $index_number, $not_exact_match = true) {
+
         return VLookup::lookup($lookup_value, $lookup_array, $index_number, $not_exact_match);
     }
 
@@ -359,8 +359,8 @@ class LookupRef
      *
      * @return mixed The value of the found cell
      */
-    public static function HLOOKUP($lookup_value, $lookup_array, $index_number, $not_exact_match = true)
-    {
+    public static function HLOOKUP($lookup_value, $lookup_array, $index_number, $not_exact_match = true) {
+
         return HLookup::lookup($lookup_value, $lookup_array, $index_number, $not_exact_match);
     }
 
@@ -378,8 +378,8 @@ class LookupRef
      *
      * @return mixed The value of the found cell
      */
-    public static function LOOKUP($lookup_value, $lookup_vector, $result_vector = null)
-    {
+    public static function LOOKUP($lookup_value, $lookup_vector, $result_vector = null) {
+
         return Lookup::lookup($lookup_value, $lookup_vector, $result_vector);
     }
 
@@ -395,8 +395,8 @@ class LookupRef
      *
      * @return string
      */
-    public static function FORMULATEXT($cellReference = '', ?Cell $cell = null)
-    {
+    public static function FORMULATEXT($cellReference = '',  ? Cell $cell = null) {
+
         return LookupRef\Formula::text($cellReference, $cell);
     }
 }

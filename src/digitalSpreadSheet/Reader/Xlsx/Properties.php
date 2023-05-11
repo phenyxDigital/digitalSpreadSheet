@@ -7,16 +7,16 @@ use phenyxDigitale\digitalSpreadSheet\Reader\Security\XmlScanner;
 use phenyxDigitale\digitalSpreadSheet\Settings;
 use SimpleXMLElement;
 
-class Properties
-{
+class Properties {
+
     /** @var XmlScanner */
     private $securityScanner;
 
     /** @var DocumentProperties */
     private $docProps;
 
-    public function __construct(XmlScanner $securityScanner, DocumentProperties $docProps)
-    {
+    public function __construct(XmlScanner $securityScanner, DocumentProperties $docProps) {
+
         $this->securityScanner = $securityScanner;
         $this->docProps = $docProps;
     }
@@ -24,13 +24,13 @@ class Properties
     /**
      * @param mixed $obj
      */
-    private static function nullOrSimple($obj): ?SimpleXMLElement
-    {
+    private static function nullOrSimple($obj):  ? SimpleXMLElement {
+
         return ($obj instanceof SimpleXMLElement) ? $obj : null;
     }
 
-    private function extractPropertyData(string $propertyData): ?SimpleXMLElement
-    {
+    private function extractPropertyData(string $propertyData) :  ? SimpleXMLElement{
+
         // okay to omit namespace because everything will be processed by xpath
         $obj = simplexml_load_string(
             $this->securityScanner->scan($propertyData),
@@ -41,8 +41,8 @@ class Properties
         return self::nullOrSimple($obj);
     }
 
-    public function readCoreProperties(string $propertyData): void
-    {
+    public function readCoreProperties(string $propertyData) : void{
+
         $xmlCore = $this->extractPropertyData($propertyData);
 
         if (is_object($xmlCore)) {
@@ -60,30 +60,37 @@ class Properties
             $this->docProps->setKeywords((string) self::getArrayItem($xmlCore->xpath('cp:keywords')));
             $this->docProps->setCategory((string) self::getArrayItem($xmlCore->xpath('cp:category')));
         }
+
     }
 
-    public function readExtendedProperties(string $propertyData): void
-    {
+    public function readExtendedProperties(string $propertyData): void{
+
         $xmlCore = $this->extractPropertyData($propertyData);
 
         if (is_object($xmlCore)) {
+
             if (isset($xmlCore->Company)) {
                 $this->docProps->setCompany((string) $xmlCore->Company);
             }
+
             if (isset($xmlCore->Manager)) {
                 $this->docProps->setManager((string) $xmlCore->Manager);
             }
+
         }
+
     }
 
-    public function readCustomProperties(string $propertyData): void
-    {
+    public function readCustomProperties(string $propertyData): void{
+
         $xmlCore = $this->extractPropertyData($propertyData);
 
         if (is_object($xmlCore)) {
+
             foreach ($xmlCore as $xmlProperty) {
                 /** @var SimpleXMLElement $xmlProperty */
                 $cellDataOfficeAttributes = $xmlProperty->attributes();
+
                 if (isset($cellDataOfficeAttributes['name'])) {
                     $propertyName = (string) $cellDataOfficeAttributes['name'];
                     $cellDataOfficeChildren = $xmlProperty->children('http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes');
@@ -94,16 +101,20 @@ class Properties
                     $attributeType = DocumentProperties::convertPropertyType($attributeType);
                     $this->docProps->setCustomProperty($propertyName, $attributeValue, $attributeType);
                 }
+
             }
+
         }
+
     }
 
     /**
      * @param null|array|false $array
      * @param mixed $key
      */
-    private static function getArrayItem($array, $key = 0): ?SimpleXMLElement
-    {
+    private static function getArrayItem($array, $key = 0):  ? SimpleXMLElement {
+
         return is_array($array) ? ($array[$key] ?? null) : null;
     }
+
 }

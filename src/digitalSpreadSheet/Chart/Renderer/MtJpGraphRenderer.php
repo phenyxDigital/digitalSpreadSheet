@@ -10,11 +10,12 @@ namespace phenyxDigitale\digitalSpreadSheet\Chart\Renderer;
  *
  * This package is up to date for August 2022 and has PHP 8.1 support.
  */
-class MtJpGraphRenderer extends JpGraphRendererBase
-{
-    protected static function init(): void
-    {
+class MtJpGraphRenderer extends JpGraphRendererBase {
+
+    protected static function init(): void {
+
         static $loaded = false;
+
         if ($loaded) {
             return;
         }
@@ -33,4 +34,5 @@ class MtJpGraphRenderer extends JpGraphRendererBase
 
         $loaded = true;
     }
+
 }

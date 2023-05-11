@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Calculation\Database;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Statistical\Maximum;
 
-class DMax extends DatabaseAbstract
-{
+class DMax extends DatabaseAbstract {
+
     /**
      * DMAX.
      *
@@ -33,9 +33,10 @@ class DMax extends DatabaseAbstract
      *
      * @return null|float|string
      */
-    public static function evaluate($database, $field, $criteria, bool $returnError = true)
-    {
+    public static function evaluate($database, $field, $criteria, bool $returnError = true) {
+
         $field = self::fieldExtract($database, $field);
+
         if ($field === null) {
             return $returnError ? ExcelError::VALUE() : null;
         }
@@ -44,4 +45,5 @@ class DMax extends DatabaseAbstract
             self::getFilteredColumn($database, $field, $criteria)
         );
     }
+
 }

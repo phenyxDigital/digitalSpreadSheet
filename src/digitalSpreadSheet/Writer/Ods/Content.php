@@ -18,8 +18,8 @@ use phenyxDigitale\digitalSpreadSheet\Writer\Ods\Cell\Style;
 /**
  * @author     Alexander Pervakov <frost-nzcr4@jagmort.com>
  */
-class Content extends WriterPart
-{
+class Content extends WriterPart {
+
     const NUMBER_COLS_REPEATED_MAX = 1024;
     const NUMBER_ROWS_REPEATED_MAX = 1048576;
 
@@ -29,8 +29,8 @@ class Content extends WriterPart
     /**
      * Set parent Ods writer.
      */
-    public function __construct(Ods $writer)
-    {
+    public function __construct(Ods $writer) {
+
         parent::__construct($writer);
 
         $this->formulaConvertor = new Formula($this->getParentWriter()->getSpreadsheet()->getDefinedNames());
@@ -41,9 +41,10 @@ class Content extends WriterPart
      *
      * @return string XML Output
      */
-    public function write(): string
-    {
+    public function write(): string{
+
         $objWriter = null;
+
         if ($this->getParentWriter()->getUseDiskCaching()) {
             $objWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
@@ -117,15 +118,17 @@ class Content extends WriterPart
     /**
      * Write sheets.
      */
-    private function writeSheets(XMLWriter $objWriter): void
-    {
+    private function writeSheets(XMLWriter $objWriter): void{
+
         $spreadsheet = $this->getParentWriter()->getSpreadsheet(); /** @var Spreadsheet $spreadsheet */
         $sheetCount = $spreadsheet->getSheetCount();
+
         for ($sheetIndex = 0; $sheetIndex < $sheetCount; ++$sheetIndex) {
             $objWriter->startElement('table:table');
             $objWriter->writeAttribute('table:name', $spreadsheet->getSheet($sheetIndex)->getTitle());
             $objWriter->writeAttribute('table:style-name', Style::TABLE_STYLE_PREFIX . (string) ($sheetIndex + 1));
             $objWriter->writeElement('office:forms');
+
             foreach ($spreadsheet->getSheet($sheetIndex)->getColumnDimensions() as $columnDimension) {
                 $objWriter->startElement('table:table-column');
                 $objWriter->writeAttribute(
@@ -136,55 +139,68 @@ class Content extends WriterPart
 //                $objWriter->writeAttribute('table:number-columns-repeated', self::NUMBER_COLS_REPEATED_MAX);
                 $objWriter->endElement();
             }
+
             $this->writeRows($objWriter, $spreadsheet->getSheet($sheetIndex), $sheetIndex);
             $objWriter->endElement();
         }
+
     }
 
     /**
      * Write rows of the specified sheet.
      */
-    private function writeRows(XMLWriter $objWriter, Worksheet $sheet, int $sheetIndex): void
-    {
+    private function writeRows(XMLWriter $objWriter, Worksheet $sheet, int $sheetIndex): void{
+
         $numberRowsRepeated = self::NUMBER_ROWS_REPEATED_MAX;
         $span_row = 0;
         $rows = $sheet->getRowIterator();
+
         foreach ($rows as $row) {
             $cellIterator = $row->getCellIterator();
             --$numberRowsRepeated;
+
             if ($cellIterator->valid()) {
                 $objWriter->startElement('table:table-row');
+
                 if ($span_row) {
+
                     if ($span_row > 1) {
                         $objWriter->writeAttribute('table:number-rows-repeated', (string) $span_row);
                     }
+
                     $objWriter->startElement('table:table-cell');
                     $objWriter->writeAttribute('table:number-columns-repeated', (string) self::NUMBER_COLS_REPEATED_MAX);
                     $objWriter->endElement();
                     $span_row = 0;
                 } else {
+
                     if ($sheet->getRowDimension($row->getRowIndex())->getRowHeight() > 0) {
                         $objWriter->writeAttribute(
                             'table:style-name',
                             sprintf('%s_%d_%d', Style::ROW_STYLE_PREFIX, $sheetIndex, $row->getRowIndex())
                         );
                     }
+
                     $this->writeCells($objWriter, $cellIterator);
                 }
+
                 $objWriter->endElement();
             } else {
                 ++$span_row;
             }
+
         }
+
     }
 
     /**
      * Write cells of the specified row.
      */
-    private function writeCells(XMLWriter $objWriter, RowCellIterator $cells): void
-    {
+    private function writeCells(XMLWriter $objWriter, RowCellIterator $cells): void{
+
         $numberColsRepeated = self::NUMBER_COLS_REPEATED_MAX;
         $prevColumn = -1;
+
         foreach ($cells as $cell) {
             /** @var \phenyxDigitale\digitalSpreadSheet\Cell\Cell $cell */
             $column = Coordinate::columnIndexFromString($cell->getColumn()) - 1;
@@ -195,64 +211,73 @@ class Content extends WriterPart
 
             // Style XF
             $style = $cell->getXfIndex();
+
             if ($style !== null) {
                 $objWriter->writeAttribute('table:style-name', Style::CELL_STYLE_PREFIX . $style);
             }
 
             switch ($cell->getDataType()) {
-                case DataType::TYPE_BOOL:
-                    $objWriter->writeAttribute('office:value-type', 'boolean');
-                    $objWriter->writeAttribute('office:value', $cell->getValue());
-                    $objWriter->writeElement('text:p', $cell->getValue());
+            case DataType::TYPE_BOOL:
+                $objWriter->writeAttribute('office:value-type', 'boolean');
+                $objWriter->writeAttribute('office:value', $cell->getValue());
+                $objWriter->writeElement('text:p', $cell->getValue());
 
-                    break;
-                case DataType::TYPE_ERROR:
-                    $objWriter->writeAttribute('table:formula', 'of:=#NULL!');
-                    $objWriter->writeAttribute('office:value-type', 'string');
-                    $objWriter->writeAttribute('office:string-value', '');
-                    $objWriter->writeElement('text:p', '#NULL!');
+                break;
+            case DataType::TYPE_ERROR:
+                $objWriter->writeAttribute('table:formula', 'of:=#NULL!');
+                $objWriter->writeAttribute('office:value-type', 'string');
+                $objWriter->writeAttribute('office:string-value', '');
+                $objWriter->writeElement('text:p', '#NULL!');
 
-                    break;
-                case DataType::TYPE_FORMULA:
-                    $formulaValue = $cell->getValue();
-                    if ($this->getParentWriter()->getPreCalculateFormulas()) {
-                        try {
-                            $formulaValue = $cell->getCalculatedValue();
-                        } catch (Exception $e) {
-                            // don't do anything
-                        }
+                break;
+            case DataType::TYPE_FORMULA:
+                $formulaValue = $cell->getValue();
+
+                if ($this->getParentWriter()->getPreCalculateFormulas()) {
+                    try {
+                        $formulaValue = $cell->getCalculatedValue();
+                    } catch (Exception $e) {
+                        // don't do anything
                     }
-                    $objWriter->writeAttribute('table:formula', $this->formulaConvertor->convertFormula($cell->getValue()));
-                    if (is_numeric($formulaValue)) {
-                        $objWriter->writeAttribute('office:value-type', 'float');
-                    } else {
-                        $objWriter->writeAttribute('office:value-type', 'string');
-                    }
-                    $objWriter->writeAttribute('office:value', $formulaValue);
-                    $objWriter->writeElement('text:p', $formulaValue);
 
-                    break;
-                case DataType::TYPE_NUMERIC:
+                }
+
+                $objWriter->writeAttribute('table:formula', $this->formulaConvertor->convertFormula($cell->getValue()));
+
+                if (is_numeric($formulaValue)) {
                     $objWriter->writeAttribute('office:value-type', 'float');
-                    $objWriter->writeAttribute('office:value', $cell->getValue());
-                    $objWriter->writeElement('text:p', $cell->getValue());
-
-                    break;
-                case DataType::TYPE_INLINE:
-                    // break intentionally omitted
-                case DataType::TYPE_STRING:
+                } else {
                     $objWriter->writeAttribute('office:value-type', 'string');
-                    $objWriter->writeElement('text:p', $cell->getValue());
+                }
 
-                    break;
+                $objWriter->writeAttribute('office:value', $formulaValue);
+                $objWriter->writeElement('text:p', $formulaValue);
+
+                break;
+            case DataType::TYPE_NUMERIC:
+                $objWriter->writeAttribute('office:value-type', 'float');
+                $objWriter->writeAttribute('office:value', $cell->getValue());
+                $objWriter->writeElement('text:p', $cell->getValue());
+
+                break;
+            case DataType::TYPE_INLINE:
+            // break intentionally omitted
+            case DataType::TYPE_STRING:
+                $objWriter->writeAttribute('office:value-type', 'string');
+                $objWriter->writeElement('text:p', $cell->getValue());
+
+                break;
             }
+
             Comment::write($objWriter, $cell);
             $objWriter->endElement();
             $prevColumn = $column;
         }
 
         $numberColsRepeated = $numberColsRepeated - $prevColumn - 1;
+
         if ($numberColsRepeated > 0) {
+
             if ($numberColsRepeated > 1) {
                 $objWriter->startElement('table:table-cell');
                 $objWriter->writeAttribute('table:number-columns-repeated', (string) $numberColsRepeated);
@@ -260,7 +285,9 @@ class Content extends WriterPart
             } else {
                 $objWriter->writeElement('table:table-cell');
             }
+
         }
+
     }
 
     /**
@@ -269,56 +296,69 @@ class Content extends WriterPart
      * @param int $curColumn
      * @param int $prevColumn
      */
-    private function writeCellSpan(XMLWriter $objWriter, $curColumn, $prevColumn): void
-    {
+    private function writeCellSpan(XMLWriter $objWriter, $curColumn, $prevColumn): void{
+
         $diff = $curColumn - $prevColumn - 1;
+
         if (1 === $diff) {
             $objWriter->writeElement('table:table-cell');
-        } elseif ($diff > 1) {
+        } else if ($diff > 1) {
             $objWriter->startElement('table:table-cell');
             $objWriter->writeAttribute('table:number-columns-repeated', (string) $diff);
             $objWriter->endElement();
         }
+
     }
 
     /**
      * Write XF cell styles.
      */
-    private function writeXfStyles(XMLWriter $writer, Spreadsheet $spreadsheet): void
-    {
+    private function writeXfStyles(XMLWriter $writer, Spreadsheet $spreadsheet): void{
+
         $styleWriter = new Style($writer);
 
         $sheetCount = $spreadsheet->getSheetCount();
+
         for ($i = 0; $i < $sheetCount; ++$i) {
             $worksheet = $spreadsheet->getSheet($i);
             $styleWriter->writeTableStyle($worksheet, $i + 1);
 
             $worksheet->calculateColumnWidths();
+
             foreach ($worksheet->getColumnDimensions() as $columnDimension) {
+
                 if ($columnDimension->getWidth() !== -1.0) {
                     $styleWriter->writeColumnStyles($columnDimension, $i);
                 }
+
             }
+
         }
+
         for ($i = 0; $i < $sheetCount; ++$i) {
             $worksheet = $spreadsheet->getSheet($i);
+
             foreach ($worksheet->getRowDimensions() as $rowDimension) {
+
                 if ($rowDimension->getRowHeight() > 0.0) {
                     $styleWriter->writeRowStyles($rowDimension, $i);
                 }
+
             }
+
         }
 
         foreach ($spreadsheet->getCellXfCollection() as $style) {
             $styleWriter->write($style);
         }
+
     }
 
     /**
      * Write attributes for merged cell.
      */
-    private function writeCellMerge(XMLWriter $objWriter, Cell $cell): void
-    {
+    private function writeCellMerge(XMLWriter $objWriter, Cell $cell): void {
+
         if (!$cell->isMergeRangeValueCell()) {
             return;
         }
@@ -333,4 +373,5 @@ class Content extends WriterPart
         $objWriter->writeAttribute('table:number-columns-spanned', (string) $columnSpan);
         $objWriter->writeAttribute('table:number-rows-spanned', (string) $rowSpan);
     }
+
 }

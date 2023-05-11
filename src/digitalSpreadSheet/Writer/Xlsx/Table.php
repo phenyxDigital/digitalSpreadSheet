@@ -7,8 +7,8 @@ use phenyxDigitale\digitalSpreadSheet\Reader\Xlsx\Namespaces;
 use phenyxDigitale\digitalSpreadSheet\Shared\XMLWriter;
 use phenyxDigitale\digitalSpreadSheet\Worksheet\Table as WorksheetTable;
 
-class Table extends WriterPart
-{
+class Table extends WriterPart {
+
     /**
      * Write Table to XML format.
      *
@@ -16,10 +16,11 @@ class Table extends WriterPart
      *
      * @return string XML Output
      */
-    public function writeTable(WorksheetTable $table, $tableRef): string
-    {
+    public function writeTable(WorksheetTable $table, $tableRef): string{
+
         // Create XML writer
         $objWriter = null;
+
         if ($this->getParentWriter()->getUseDiskCaching()) {
             $objWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
@@ -47,10 +48,12 @@ class Table extends WriterPart
         [$rangeStart, $rangeEnd] = Coordinate::rangeBoundaries($table->getRange());
 
         // Table Auto Filter
+
         if ($table->getShowHeaderRow() && $table->getAllowFilter() === true) {
             $objWriter->startElement('autoFilter');
             $objWriter->writeAttribute('ref', $range);
             $objWriter->endElement();
+
             foreach (range($rangeStart[0], $rangeEnd[0]) as $offset => $columnIndex) {
                 $column = $table->getColumnByOffset($offset);
 
@@ -63,14 +66,18 @@ class Table extends WriterPart
                     $column = $table->getAutoFilter()->getColumnByOffset($offset);
                     AutoFilter::writeAutoFilterColumn($objWriter, $column, $offset);
                 }
+
             }
+
         }
 
         // Table Columns
         $objWriter->startElement('tableColumns');
         $objWriter->writeAttribute('count', (string) ($rangeEnd[0] - $rangeStart[0] + 1));
+
         foreach (range($rangeStart[0], $rangeEnd[0]) as $offset => $columnIndex) {
             $worksheet = $table->getWorksheet();
+
             if (!$worksheet) {
                 continue;
             }
@@ -83,19 +90,24 @@ class Table extends WriterPart
             $objWriter->writeAttribute('name', $table->getShowHeaderRow() ? $cell->getValue() : 'Column' . ($offset + 1));
 
             if ($table->getShowTotalsRow()) {
+
                 if ($column->getTotalsRowLabel()) {
                     $objWriter->writeAttribute('totalsRowLabel', $column->getTotalsRowLabel());
                 }
+
                 if ($column->getTotalsRowFunction()) {
                     $objWriter->writeAttribute('totalsRowFunction', $column->getTotalsRowFunction());
                 }
+
             }
+
             if ($column->getColumnFormula()) {
                 $objWriter->writeElement('calculatedColumnFormula', $column->getColumnFormula());
             }
 
             $objWriter->endElement();
         }
+
         $objWriter->endElement();
 
         // Table Styles
@@ -112,4 +124,5 @@ class Table extends WriterPart
         // Return
         return $objWriter->getData();
     }
+
 }

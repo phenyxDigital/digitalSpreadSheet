@@ -9,28 +9,28 @@ use phenyxDigitale\digitalSpreadSheet\Style\ConditionalFormatting\Wizard;
 /**
  * @method Expression formula(string $expression)
  */
-class Expression extends WizardAbstract implements WizardInterface
-{
+class Expression extends WizardAbstract implements WizardInterface {
+
     /**
      * @var string
      */
     protected $expression;
 
-    public function __construct(string $cellRange)
-    {
+    public function __construct(string $cellRange) {
+
         parent::__construct($cellRange);
     }
 
-    public function expression(string $expression): self
-    {
+    public function expression(string $expression): self{
+
         $expression = $this->validateOperand($expression, Wizard::VALUE_TYPE_FORMULA);
         $this->expression = $expression;
 
         return $this;
     }
 
-    public function getConditional(): Conditional
-    {
+    public function getConditional(): Conditional{
+
         $expression = $this->adjustConditionsForCellReferences([$this->expression]);
 
         $conditional = new Conditional();
@@ -42,8 +42,8 @@ class Expression extends WizardAbstract implements WizardInterface
         return $conditional;
     }
 
-    public static function fromConditional(Conditional $conditional, string $cellRange = 'A1'): WizardInterface
-    {
+    public static function fromConditional(Conditional $conditional, string $cellRange = 'A1'): WizardInterface {
+
         if ($conditional->getConditionType() !== Conditional::CONDITION_EXPRESSION) {
             throw new Exception('Conditional is not an Expression CF Rule conditional');
         }
@@ -60,8 +60,8 @@ class Expression extends WizardAbstract implements WizardInterface
      * @param string $methodName
      * @param mixed[] $arguments
      */
-    public function __call($methodName, $arguments): self
-    {
+    public function __call($methodName, $arguments): self {
+
         if ($methodName !== 'formula') {
             throw new Exception('Invalid Operation for Expression CF Rule Wizard');
         }
@@ -72,4 +72,5 @@ class Expression extends WizardAbstract implements WizardInterface
 
         return $this;
     }
+
 }

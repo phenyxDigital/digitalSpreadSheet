@@ -8,8 +8,8 @@ use Matrix\Matrix;
 // $this->slope is specified where an array is expected in several places.
 // But it seems that it should always be float.
 // This code is probably not exercised at all in unit tests.
-class PolynomialBestFit extends BestFit
-{
+class PolynomialBestFit extends BestFit {
+
     /**
      * Algorithm type to use for best-fit
      * (Name of this Trend class).
@@ -30,8 +30,8 @@ class PolynomialBestFit extends BestFit
      *
      * @return int
      */
-    public function getOrder()
-    {
+    public function getOrder() {
+
         return $this->order;
     }
 
@@ -42,16 +42,19 @@ class PolynomialBestFit extends BestFit
      *
      * @return float Y-Value
      */
-    public function getValueOfYForX($xValue)
-    {
+    public function getValueOfYForX($xValue) {
+
         $retVal = $this->getIntersect();
         $slope = $this->getSlope();
         // Phpstan and Scrutinizer are both correct - getSlope returns float, not array.
         // @phpstan-ignore-next-line
+
         foreach ($slope as $key => $value) {
+
             if ($value != 0.0) {
                 $retVal += $value * $xValue ** ($key + 1);
             }
+
         }
 
         return $retVal;
@@ -64,8 +67,8 @@ class PolynomialBestFit extends BestFit
      *
      * @return float X-Value
      */
-    public function getValueOfXForY($yValue)
-    {
+    public function getValueOfXForY($yValue) {
+
         return ($yValue - $this->getIntersect()) / $this->getSlope();
     }
 
@@ -76,21 +79,26 @@ class PolynomialBestFit extends BestFit
      *
      * @return string
      */
-    public function getEquation($dp = 0)
-    {
+    public function getEquation($dp = 0) {
+
         $slope = $this->getSlope($dp);
         $intersect = $this->getIntersect($dp);
 
         $equation = 'Y = ' . $intersect;
         // Phpstan and Scrutinizer are both correct - getSlope returns float, not array.
         // @phpstan-ignore-next-line
+
         foreach ($slope as $key => $value) {
+
             if ($value != 0.0) {
                 $equation .= ' + ' . $value . ' * X';
+
                 if ($key > 0) {
                     $equation .= '^' . ($key + 1);
                 }
+
             }
+
         }
 
         return $equation;
@@ -103,12 +111,13 @@ class PolynomialBestFit extends BestFit
      *
      * @return float
      */
-    public function getSlope($dp = 0)
-    {
+    public function getSlope($dp = 0) {
+
         if ($dp != 0) {
             $coefficients = [];
             // Scrutinizer is correct - $this->slope is float, not array.
             //* @phpstan-ignore-next-line
+
             foreach ($this->slope as $coefficient) {
                 $coefficients[] = round($coefficient, $dp);
             }
@@ -125,8 +134,8 @@ class PolynomialBestFit extends BestFit
      *
      * @return array
      */
-    public function getCoefficients($dp = 0)
-    {
+    public function getCoefficients($dp = 0) {
+
         // Phpstan and Scrutinizer are both correct - getSlope returns float, not array.
         // @phpstan-ignore-next-line
         return array_merge([$this->getIntersect($dp)], $this->getSlope($dp));
@@ -139,45 +148,55 @@ class PolynomialBestFit extends BestFit
      * @param float[] $yValues The set of Y-values for this regression
      * @param float[] $xValues The set of X-values for this regression
      */
-    private function polynomialRegression($order, $yValues, $xValues): void
-    {
+    private function polynomialRegression($order, $yValues, $xValues): void{
+
         // calculate sums
         $x_sum = array_sum($xValues);
         $y_sum = array_sum($yValues);
         $xx_sum = $xy_sum = $yy_sum = 0;
+
         for ($i = 0; $i < $this->valueCount; ++$i) {
             $xy_sum += $xValues[$i] * $yValues[$i];
             $xx_sum += $xValues[$i] * $xValues[$i];
             $yy_sum += $yValues[$i] * $yValues[$i];
         }
+
         /*
-         *    This routine uses logic from the PHP port of polyfit version 0.1
-         *    written by Michael Bommarito and Paul Meagher
-         *
-         *    The function fits a polynomial function of order $order through
-         *    a series of x-y data points using least squares.
-         *
-         */
+                     *    This routine uses logic from the PHP port of polyfit version 0.1
+                     *    written by Michael Bommarito and Paul Meagher
+                     *
+                     *    The function fits a polynomial function of order $order through
+                     *    a series of x-y data points using least squares.
+                     *
+        */
         $A = [];
         $B = [];
+
         for ($i = 0; $i < $this->valueCount; ++$i) {
+
             for ($j = 0; $j <= $order; ++$j) {
                 $A[$i][$j] = $xValues[$i] ** $j;
             }
+
         }
+
         for ($i = 0; $i < $this->valueCount; ++$i) {
             $B[$i] = [$yValues[$i]];
         }
+
         $matrixA = new Matrix($A);
         $matrixB = new Matrix($B);
         $C = $matrixA->solve($matrixB);
 
         $coefficients = [];
+
         for ($i = 0; $i < $C->rows; ++$i) {
             $r = $C->getValue($i + 1, 1); // row and column are origin-1
+
             if (abs($r) <= 10 ** (-9)) {
                 $r = 0;
             }
+
             $coefficients[] = $r;
         }
 
@@ -187,9 +206,11 @@ class PolynomialBestFit extends BestFit
         $this->slope = $coefficients;
 
         $this->calculateGoodnessOfFit($x_sum, $y_sum, $xx_sum, $yy_sum, $xy_sum, 0, 0, 0);
+
         foreach ($this->xValues as $xKey => $xValue) {
             $this->yBestFitValues[$xKey] = $this->getValueOfYForX($xValue);
         }
+
     }
 
     /**
@@ -199,21 +220,27 @@ class PolynomialBestFit extends BestFit
      * @param float[] $yValues The set of Y-values for this regression
      * @param float[] $xValues The set of X-values for this regression
      */
-    public function __construct($order, $yValues, $xValues = [])
-    {
+    public function __construct($order, $yValues, $xValues = []) {
+
         parent::__construct($yValues, $xValues);
 
         if (!$this->error) {
+
             if ($order < $this->valueCount) {
                 $this->bestFitType .= '_' . $order;
                 $this->order = $order;
                 $this->polynomialRegression($order, $yValues, $xValues);
+
                 if (($this->getGoodnessOfFit() < 0.0) || ($this->getGoodnessOfFit() > 1.0)) {
                     $this->error = true;
                 }
+
             } else {
                 $this->error = true;
             }
+
         }
+
     }
+
 }

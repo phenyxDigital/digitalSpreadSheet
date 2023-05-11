@@ -6,8 +6,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\ArrayEnabled;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class Base
-{
+class Base {
+
     use ArrayEnabled;
 
     /**
@@ -29,8 +29,8 @@ class Base
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function evaluate($number, $radix, $minLength = null)
-    {
+    public static function evaluate($number, $radix, $minLength = null) {
+
         if (is_array($number) || is_array($radix) || is_array($minLength)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $number, $radix, $minLength);
         }
@@ -48,14 +48,16 @@ class Base
     /**
      * @param mixed $minLength
      */
-    private static function calculate(float $number, int $radix, $minLength): string
-    {
+    private static function calculate(float $number, int $radix, $minLength): string {
+
         if ($minLength === null || is_numeric($minLength)) {
+
             if ($number < 0 || $number >= 2 ** 53 || $radix < 2 || $radix > 36) {
                 return ExcelError::NAN(); // Numeric range constraints
             }
 
             $outcome = strtoupper((string) base_convert("$number", 10, $radix));
+
             if ($minLength !== null) {
                 $outcome = str_pad($outcome, (int) $minLength, '0', STR_PAD_LEFT); // String padding
             }
@@ -65,4 +67,5 @@ class Base
 
         return ExcelError::VALUE();
     }
+
 }

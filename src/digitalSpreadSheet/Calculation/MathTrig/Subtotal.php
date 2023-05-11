@@ -7,19 +7,22 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Functions;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Statistical;
 
-class Subtotal
-{
+class Subtotal {
+
     /**
      * @param mixed $cellReference
      * @param mixed $args
      */
     protected static function filterHiddenArgs($cellReference, $args): array
     {
+
         return array_filter(
             $args,
             function ($index) use ($cellReference) {
+
                 $explodeArray = explode('.', $index);
                 $row = $explodeArray[1] ?? '';
+
                 if (!is_numeric($row)) {
                     return true;
                 }
@@ -34,15 +37,18 @@ class Subtotal
      * @param mixed $cellReference
      * @param mixed $args
      */
-    protected static function filterFormulaArgs($cellReference, $args): array
+    protected static function filterFormulaArgs($cellReference, $args) : array
     {
+
         return array_filter(
             $args,
             function ($index) use ($cellReference) {
+
                 $explodeArray = explode('.', $index);
                 $row = $explodeArray[1] ?? '';
                 $column = $explodeArray[2] ?? '';
                 $retVal = true;
+
                 if ($cellReference->getWorksheet()->cellExists($column . $row)) {
                     //take this cell out if it contains the SUBTOTAL or AGGREGATE functions in a formula
                     $isFormula = $cellReference->getWorksheet()->getCell($column . $row)->isFormula();
@@ -90,8 +96,8 @@ class Subtotal
      *
      * @return float|string
      */
-    public static function evaluate($functionType, ...$args)
-    {
+    public static function evaluate($functionType, ...$args) {
+
         $cellReference = array_pop($args);
         $bArgs = Functions::flattenArrayIndexed($args);
         $aArgs = [];
@@ -99,15 +105,21 @@ class Subtotal
         // Otherwise, PHP thinks positional args follow keyword
         //    in the subsequent call to call_user_func_array.
         // Fortunately, order of args is unimportant to Subtotal.
+
         foreach ($bArgs as $key => $value) {
+
             if (is_int($key)) {
                 $aArgs[$key] = $value;
             }
+
         }
+
         foreach ($bArgs as $key => $value) {
+
             if (!is_int($key)) {
                 $aArgs[$key] = $value;
             }
+
         }
 
         try {
@@ -117,12 +129,14 @@ class Subtotal
         }
 
         // Calculate
+
         if ($subtotal > 100) {
             $aArgs = self::filterHiddenArgs($cellReference, $aArgs);
             $subtotal -= 100;
         }
 
         $aArgs = self::filterFormulaArgs($cellReference, $aArgs);
+
         if (array_key_exists($subtotal, self::CALL_FUNCTIONS)) {
             /** @var callable */
             $call = self::CALL_FUNCTIONS[$subtotal];
@@ -132,4 +146,5 @@ class Subtotal
 
         return ExcelError::VALUE();
     }
+
 }

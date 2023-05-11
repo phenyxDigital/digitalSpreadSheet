@@ -8,28 +8,32 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Functions;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 use phenyxDigitale\digitalSpreadSheet\Shared\Trend\Trend;
 
-class Trends
-{
+class Trends {
+
     use ArrayEnabled;
 
-    private static function filterTrendValues(array &$array1, array &$array2): void
-    {
+    private static function filterTrendValues(array &$array1, array &$array2): void {
+
         foreach ($array1 as $key => $value) {
+
             if ((is_bool($value)) || (is_string($value)) || ($value === null)) {
                 unset($array1[$key], $array2[$key]);
             }
+
         }
+
     }
 
     /**
      * @param mixed $array1 should be array, but scalar is made into one
      * @param mixed $array2 should be array, but scalar is made into one
      */
-    private static function checkTrendArrays(&$array1, &$array2): void
-    {
+    private static function checkTrendArrays(&$array1, &$array2): void {
+
         if (!is_array($array1)) {
             $array1 = [$array1];
         }
+
         if (!is_array($array2)) {
             $array2 = [$array2];
         }
@@ -45,16 +49,17 @@ class Trends
         $array2 = array_merge($array2);
     }
 
-    protected static function validateTrendArrays(array $yValues, array $xValues): void
-    {
+    protected static function validateTrendArrays(array $yValues, array $xValues): void{
+
         $yValueCount = count($yValues);
         $xValueCount = count($xValues);
 
         if (($yValueCount === 0) || ($yValueCount !== $xValueCount)) {
             throw new Exception(ExcelError::NA());
-        } elseif ($yValueCount === 1) {
+        } else if ($yValueCount === 1) {
             throw new Exception(ExcelError::DIV0());
         }
+
     }
 
     /**
@@ -67,8 +72,8 @@ class Trends
      *
      * @return float|string
      */
-    public static function CORREL($yValues, $xValues = null)
-    {
+    public static function CORREL($yValues, $xValues = null) {
+
         if (($xValues === null) || (!is_array($yValues)) || (!is_array($xValues))) {
             return ExcelError::VALUE();
         }
@@ -95,8 +100,8 @@ class Trends
      *
      * @return float|string
      */
-    public static function COVAR($yValues, $xValues)
-    {
+    public static function COVAR($yValues, $xValues) {
+
         try {
             self::checkTrendArrays($yValues, $xValues);
             self::validateTrendArrays($yValues, $xValues);
@@ -124,8 +129,8 @@ class Trends
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function FORECAST($xValue, $yValues, $xValues)
-    {
+    public static function FORECAST($xValue, $yValues, $xValues) {
+
         if (is_array($xValue)) {
             return self::evaluateArrayArgumentsSubset([self::class, __FUNCTION__], 1, $xValue, $yValues, $xValues);
         }
@@ -155,19 +160,21 @@ class Trends
      *
      * @return float[]
      */
-    public static function GROWTH($yValues, $xValues = [], $newValues = [], $const = true)
-    {
+    public static function GROWTH($yValues, $xValues = [], $newValues = [], $const = true) {
+
         $yValues = Functions::flattenArray($yValues);
         $xValues = Functions::flattenArray($xValues);
         $newValues = Functions::flattenArray($newValues);
         $const = ($const === null) ? true : (bool) Functions::flattenSingleValue($const);
 
         $bestFitExponential = Trend::calculate(Trend::TREND_EXPONENTIAL, $yValues, $xValues, $const);
+
         if (empty($newValues)) {
             $newValues = $bestFitExponential->getXValues();
         }
 
         $returnArray = [];
+
         foreach ($newValues as $xValue) {
             $returnArray[0][] = [$bestFitExponential->getValueOfYForX($xValue)];
         }
@@ -185,8 +192,8 @@ class Trends
      *
      * @return float|string
      */
-    public static function INTERCEPT($yValues, $xValues)
-    {
+    public static function INTERCEPT($yValues, $xValues) {
+
         try {
             self::checkTrendArrays($yValues, $xValues);
             self::validateTrendArrays($yValues, $xValues);
@@ -212,10 +219,11 @@ class Trends
      *
      * @return array|int|string The result, or a string containing an error
      */
-    public static function LINEST($yValues, $xValues = null, $const = true, $stats = false)
-    {
+    public static function LINEST($yValues, $xValues = null, $const = true, $stats = false) {
+
         $const = ($const === null) ? true : (bool) Functions::flattenSingleValue($const);
         $stats = ($stats === null) ? false : (bool) Functions::flattenSingleValue($stats);
+
         if ($xValues === null) {
             $xValues = $yValues;
         }
@@ -273,10 +281,11 @@ class Trends
      *
      * @return array|int|string The result, or a string containing an error
      */
-    public static function LOGEST($yValues, $xValues = null, $const = true, $stats = false)
-    {
+    public static function LOGEST($yValues, $xValues = null, $const = true, $stats = false) {
+
         $const = ($const === null) ? true : (bool) Functions::flattenSingleValue($const);
         $stats = ($stats === null) ? false : (bool) Functions::flattenSingleValue($stats);
+
         if ($xValues === null) {
             $xValues = $yValues;
         }
@@ -289,9 +298,11 @@ class Trends
         }
 
         foreach ($yValues as $value) {
+
             if ($value < 0.0) {
                 return ExcelError::NAN();
             }
+
         }
 
         $bestFitExponential = Trend::calculate(Trend::TREND_EXPONENTIAL, $yValues, $xValues, $const);
@@ -338,8 +349,8 @@ class Trends
      *
      * @return float|string The result, or a string containing an error
      */
-    public static function RSQ($yValues, $xValues)
-    {
+    public static function RSQ($yValues, $xValues) {
+
         try {
             self::checkTrendArrays($yValues, $xValues);
             self::validateTrendArrays($yValues, $xValues);
@@ -362,8 +373,8 @@ class Trends
      *
      * @return float|string The result, or a string containing an error
      */
-    public static function SLOPE($yValues, $xValues)
-    {
+    public static function SLOPE($yValues, $xValues) {
+
         try {
             self::checkTrendArrays($yValues, $xValues);
             self::validateTrendArrays($yValues, $xValues);
@@ -386,8 +397,8 @@ class Trends
      *
      * @return float|string
      */
-    public static function STEYX($yValues, $xValues)
-    {
+    public static function STEYX($yValues, $xValues) {
+
         try {
             self::checkTrendArrays($yValues, $xValues);
             self::validateTrendArrays($yValues, $xValues);
@@ -412,23 +423,26 @@ class Trends
      *
      * @return float[]
      */
-    public static function TREND($yValues, $xValues = [], $newValues = [], $const = true)
-    {
+    public static function TREND($yValues, $xValues = [], $newValues = [], $const = true) {
+
         $yValues = Functions::flattenArray($yValues);
         $xValues = Functions::flattenArray($xValues);
         $newValues = Functions::flattenArray($newValues);
         $const = ($const === null) ? true : (bool) Functions::flattenSingleValue($const);
 
         $bestFitLinear = Trend::calculate(Trend::TREND_LINEAR, $yValues, $xValues, $const);
+
         if (empty($newValues)) {
             $newValues = $bestFitLinear->getXValues();
         }
 
         $returnArray = [];
+
         foreach ($newValues as $xValue) {
             $returnArray[0][] = [$bestFitLinear->getValueOfYForX($xValue)];
         }
 
         return $returnArray; //* @phpstan-ignore-line
     }
+
 }

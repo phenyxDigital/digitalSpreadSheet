@@ -6,8 +6,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\ArrayEnabled;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class Random
-{
+class Random {
+
     use ArrayEnabled;
 
     /**
@@ -15,8 +15,8 @@ class Random
      *
      * @return float Random number
      */
-    public static function rand()
-    {
+    public static function rand() {
+
         return mt_rand(0, 10000000) / 10000000;
     }
 
@@ -32,8 +32,8 @@ class Random
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function randBetween($min, $max)
-    {
+    public static function randBetween($min, $max) {
+
         if (is_array($min) || is_array($max)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $min, $max);
         }
@@ -67,8 +67,8 @@ class Random
      *
      * @return array|string The resulting array, or a string containing an error
      */
-    public static function randArray($rows = 1, $columns = 1, $min = 0, $max = 1, $wholeNumber = false)
-    {
+    public static function randArray($rows = 1, $columns = 1, $min = 0, $max = 1, $wholeNumber = false) {
+
         try {
             $rows = (int) Helpers::validateNumericNullSubstitution($rows, 1);
             Helpers::validatePositive($rows);
@@ -80,6 +80,7 @@ class Random
             if ($max <= $min) {
                 return ExcelError::VALUE();
             }
+
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -87,13 +88,15 @@ class Random
         return array_chunk(
             array_map(
                 function () use ($min, $max, $wholeNumber) {
+
                     return $wholeNumber
-                        ? mt_rand((int) $min, (int) $max)
-                        : (mt_rand() / mt_getrandmax()) * ($max - $min) + $min;
+                    ? mt_rand((int) $min, (int) $max)
+                    : (mt_rand() / mt_getrandmax()) * ($max - $min) + $min;
                 },
                 array_fill(0, $rows * $columns, $min)
             ),
             max($columns, 1)
         );
     }
+
 }

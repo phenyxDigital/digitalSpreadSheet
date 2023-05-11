@@ -6,10 +6,10 @@ use DOMElement;
 use phenyxDigitale\digitalSpreadSheet\DefinedName;
 use phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet;
 
-class DefinedNames extends BaseLoader
-{
-    public function read(DOMElement $workbookData): void
-    {
+class DefinedNames extends BaseLoader {
+
+    public function read(DOMElement $workbookData): void{
+
         $this->readDefinedRanges($workbookData);
         $this->readDefinedExpressions($workbookData);
     }
@@ -17,9 +17,10 @@ class DefinedNames extends BaseLoader
     /**
      * Read any Named Ranges that are defined in this spreadsheet.
      */
-    protected function readDefinedRanges(DOMElement $workbookData): void
-    {
+    protected function readDefinedRanges(DOMElement $workbookData): void{
+
         $namedRanges = $workbookData->getElementsByTagNameNS($this->tableNs, 'named-range');
+
         foreach ($namedRanges as $definedNameElement) {
             $definedName = $definedNameElement->getAttributeNS($this->tableNs, 'name');
             $baseAddress = $definedNameElement->getAttributeNS($this->tableNs, 'base-cell-address');
@@ -30,14 +31,16 @@ class DefinedNames extends BaseLoader
 
             $this->addDefinedName($baseAddress, $definedName, $range);
         }
+
     }
 
     /**
      * Read any Named Formulae that are defined in this spreadsheet.
      */
-    protected function readDefinedExpressions(DOMElement $workbookData): void
-    {
+    protected function readDefinedExpressions(DOMElement $workbookData): void{
+
         $namedExpressions = $workbookData->getElementsByTagNameNS($this->tableNs, 'named-expression');
+
         foreach ($namedExpressions as $definedNameElement) {
             $definedName = $definedNameElement->getAttributeNS($this->tableNs, 'name');
             $baseAddress = $definedNameElement->getAttributeNS($this->tableNs, 'base-cell-address');
@@ -49,18 +52,22 @@ class DefinedNames extends BaseLoader
 
             $this->addDefinedName($baseAddress, $definedName, $expression);
         }
+
     }
 
     /**
      * Assess scope and store the Defined Name.
      */
-    private function addDefinedName(string $baseAddress, string $definedName, string $value): void
-    {
+    private function addDefinedName(string $baseAddress, string $definedName, string $value): void {
+
         [$sheetReference] = Worksheet::extractSheetTitle($baseAddress, true);
         $worksheet = $this->spreadsheet->getSheetByName($sheetReference);
         // Worksheet might still be null if we're only loading selected sheets rather than the full spreadsheet
+
         if ($worksheet !== null) {
             $this->spreadsheet->addDefinedName(DefinedName::createInstance((string) $definedName, $worksheet, $value));
         }
+
     }
+
 }

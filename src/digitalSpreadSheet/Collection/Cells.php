@@ -10,8 +10,8 @@ use phenyxDigitale\digitalSpreadSheet\Settings;
 use phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet;
 use Psr\SimpleCache\CacheInterface;
 
-class Cells
-{
+class Cells {
+
     protected const MAX_COLUMN_ID = 16384;
 
     /**
@@ -67,8 +67,8 @@ class Cells
      *
      * @param Worksheet $parent The worksheet for this cell collection
      */
-    public function __construct(Worksheet $parent, CacheInterface $cache)
-    {
+    public function __construct(Worksheet $parent, CacheInterface $cache) {
+
         // Set our parent worksheet.
         // This is maintained here to facilitate re-attaching it to Cell objects when
         // they are woken from a serialized state
@@ -82,8 +82,8 @@ class Cells
      *
      * @return null|Worksheet
      */
-    public function getParent()
-    {
+    public function getParent() {
+
         return $this->parent;
     }
 
@@ -92,8 +92,8 @@ class Cells
      *
      * @param string $cellCoordinate Coordinate of the cell to check
      */
-    public function has($cellCoordinate): bool
-    {
+    public function has($cellCoordinate): bool {
+
         return ($cellCoordinate === $this->currentCoordinate) || isset($this->index[$cellCoordinate]);
     }
 
@@ -102,8 +102,8 @@ class Cells
      *
      * @param Cell $cell Cell to update
      */
-    public function update(Cell $cell): Cell
-    {
+    public function update(Cell $cell): Cell {
+
         return $this->add($cell->getCoordinate(), $cell);
     }
 
@@ -112,8 +112,8 @@ class Cells
      *
      * @param string $cellCoordinate Coordinate of the cell to delete
      */
-    public function delete($cellCoordinate): void
-    {
+    public function delete($cellCoordinate): void {
+
         if ($cellCoordinate === $this->currentCoordinate && $this->currentCell !== null) {
             $this->currentCell->detach();
             $this->currentCoordinate = null;
@@ -132,8 +132,8 @@ class Cells
      *
      * @return string[]
      */
-    public function getCoordinates()
-    {
+    public function getCoordinates() {
+
         return array_keys($this->index);
     }
 
@@ -142,8 +142,8 @@ class Cells
      *
      * @return string[]
      */
-    public function getSortedCoordinates()
-    {
+    public function getSortedCoordinates() {
+
         asort($this->index);
 
         return array_keys($this->index);
@@ -154,16 +154,16 @@ class Cells
      *
      * @return null|string
      */
-    public function getCurrentCoordinate()
-    {
+    public function getCurrentCoordinate() {
+
         return $this->currentCoordinate;
     }
 
     /**
      * Return the column coordinate of the currently active cell object.
      */
-    public function getCurrentColumn(): string
-    {
+    public function getCurrentColumn(): string{
+
         $column = 0;
         $row = '';
         sscanf($this->currentCoordinate ?? '', '%[A-Z]%d', $column, $row);
@@ -174,8 +174,8 @@ class Cells
     /**
      * Return the row coordinate of the currently active cell object.
      */
-    public function getCurrentRow(): int
-    {
+    public function getCurrentRow() : int{
+
         $column = 0;
         $row = '';
         sscanf($this->currentCoordinate ?? '', '%[A-Z]%d', $column, $row);
@@ -188,10 +188,11 @@ class Cells
      *
      * @return array Highest column name and highest row number
      */
-    public function getHighestRowAndColumn()
-    {
+    public function getHighestRowAndColumn() {
+
         // Lookup highest column and highest row
         $maxRow = $maxColumn = 1;
+
         foreach ($this->index as $coordinate) {
             $row = (int) floor($coordinate / self::MAX_COLUMN_ID) + 1;
             $maxRow = ($maxRow > $row) ? $maxRow : $row;
@@ -200,7 +201,7 @@ class Cells
         }
 
         return [
-            'row' => $maxRow,
+            'row'    => $maxRow,
             'column' => Coordinate::stringFromColumnIndex($maxColumn),
         ];
     }
@@ -213,13 +214,14 @@ class Cells
      *
      * @return string Highest column name
      */
-    public function getHighestColumn($row = null)
-    {
+    public function getHighestColumn($row = null) {
+
         if ($row === null) {
             return $this->getHighestRowAndColumn()['column'];
         }
 
         $row = (int) $row;
+
         if ($row <= 0) {
             throw new PhenyxXlsException('Row number must be a positive integer');
         }
@@ -227,10 +229,13 @@ class Cells
         $maxColumn = 1;
         $toRow = $row * self::MAX_COLUMN_ID;
         $fromRow = --$row * self::MAX_COLUMN_ID;
+
         foreach ($this->index as $coordinate) {
+
             if ($coordinate < $fromRow || $coordinate >= $toRow) {
                 continue;
             }
+
             $column = $coordinate % self::MAX_COLUMN_ID;
             $maxColumn = $maxColumn > $column ? $maxColumn : $column;
         }
@@ -246,18 +251,21 @@ class Cells
      *
      * @return int Highest row number
      */
-    public function getHighestRow($column = null)
-    {
+    public function getHighestRow($column = null) {
+
         if ($column === null) {
             return $this->getHighestRowAndColumn()['row'];
         }
 
         $maxRow = 1;
         $columnIndex = Coordinate::columnIndexFromString($column);
+
         foreach ($this->index as $coordinate) {
+
             if ($coordinate % self::MAX_COLUMN_ID !== $columnIndex) {
                 continue;
             }
+
             $row = (int) floor($coordinate / self::MAX_COLUMN_ID) + 1;
             $maxRow = ($maxRow > $row) ? $maxRow : $row;
         }
@@ -270,13 +278,13 @@ class Cells
      *
      * @return string Unique Reference
      */
-    private function getUniqueID()
-    {
+    private function getUniqueID() {
+
         $cacheType = Settings::getCache();
 
         return ($cacheType instanceof Memory\SimpleCache1 || $cacheType instanceof Memory\SimpleCache3)
-            ? random_bytes(7) . ':'
-            : uniqid('phpspreadsheet.', true) . '.';
+        ? random_bytes(7) . ':'
+        : uniqid('phpspreadsheet.', true) . '.';
     }
 
     /**
@@ -284,8 +292,8 @@ class Cells
      *
      * @return self
      */
-    public function cloneCellCollection(Worksheet $worksheet)
-    {
+    public function cloneCellCollection(Worksheet $worksheet) {
+
         $this->storeCurrentCell();
         $newCollection = clone $this;
 
@@ -298,9 +306,11 @@ class Cells
                 $newCollection->cachePrefix . $key,
                 clone $this->cache->get($this->cachePrefix . $key)
             );
+
             if ($stored === false) {
                 $this->destructIfNeeded($newCollection, 'Failed to copy cells in cache');
             }
+
         }
 
         return $newCollection;
@@ -311,23 +321,28 @@ class Cells
      *
      * @param int|string $row Row number to remove
      */
-    public function removeRow($row): void
-    {
+    public function removeRow($row) : void{
+
         $this->storeCurrentCell();
         $row = (int) $row;
+
         if ($row <= 0) {
             throw new PhenyxXlsException('Row number must be a positive integer');
         }
 
         $toRow = $row * self::MAX_COLUMN_ID;
         $fromRow = --$row * self::MAX_COLUMN_ID;
+
         foreach ($this->index as $coordinate) {
+
             if ($coordinate >= $fromRow && $coordinate < $toRow) {
                 $row = (int) floor($coordinate / self::MAX_COLUMN_ID) + 1;
                 $column = Coordinate::stringFromColumnIndex($coordinate % self::MAX_COLUMN_ID);
                 $this->delete("{$column}{$row}");
             }
+
         }
+
     }
 
     /**
@@ -335,33 +350,39 @@ class Cells
      *
      * @param string $column Column ID to remove
      */
-    public function removeColumn($column): void
-    {
+    public function removeColumn($column) : void{
+
         $this->storeCurrentCell();
 
         $columnIndex = Coordinate::columnIndexFromString($column);
+
         foreach ($this->index as $coordinate) {
+
             if ($coordinate % self::MAX_COLUMN_ID === $columnIndex) {
                 $row = (int) floor($coordinate / self::MAX_COLUMN_ID) + 1;
                 $column = Coordinate::stringFromColumnIndex($coordinate % self::MAX_COLUMN_ID);
                 $this->delete("{$column}{$row}");
             }
+
         }
+
     }
 
     /**
      * Store cell data in cache for the current cell object if it's "dirty",
      * and the 'nullify' the current cell object.
      */
-    private function storeCurrentCell(): void
-    {
+    private function storeCurrentCell() : void {
+
         if ($this->currentCellIsDirty && isset($this->currentCoordinate, $this->currentCell)) {
-            $this->currentCell->/** @scrutinizer ignore-call */ detach();
+            $this->currentCell->/** @scrutinizer ignore-call */detach();
 
             $stored = $this->cache->set($this->cachePrefix . $this->currentCoordinate, $this->currentCell);
+
             if ($stored === false) {
                 $this->destructIfNeeded($this, "Failed to store cell {$this->currentCoordinate} in cache");
             }
+
             $this->currentCellIsDirty = false;
         }
 
@@ -369,8 +390,8 @@ class Cells
         $this->currentCell = null;
     }
 
-    private function destructIfNeeded(self $cells, string $message): void
-    {
+    private function destructIfNeeded(self $cells, string $message): void{
+
         $cells->__destruct();
 
         throw new PhenyxXlsException($message);
@@ -384,11 +405,12 @@ class Cells
      *
      * @return Cell
      */
-    public function add($cellCoordinate, Cell $cell)
-    {
+    public function add($cellCoordinate, Cell $cell) {
+
         if ($cellCoordinate !== $this->currentCoordinate) {
             $this->storeCurrentCell();
         }
+
         $column = 0;
         $row = '';
         sscanf($cellCoordinate, '%[A-Z]%d', $column, $row);
@@ -408,20 +430,23 @@ class Cells
      *
      * @return null|Cell Cell that was found, or null if not found
      */
-    public function get($cellCoordinate)
-    {
+    public function get($cellCoordinate) {
+
         if ($cellCoordinate === $this->currentCoordinate) {
             return $this->currentCell;
         }
+
         $this->storeCurrentCell();
 
         // Return null if requested entry doesn't exist in collection
+
         if ($this->has($cellCoordinate) === false) {
             return null;
         }
 
         // Check if the entry that has been requested actually exists in the cache
         $cell = $this->cache->get($this->cachePrefix . $cellCoordinate);
+
         if ($cell === null) {
             throw new PhenyxXlsException("Cell entry {$cellCoordinate} no longer exists in cache. This probably means that the cache was cleared by someone else.");
         }
@@ -439,8 +464,8 @@ class Cells
     /**
      * Clear the cell collection and disconnect from our parent.
      */
-    public function unsetWorksheetCells(): void
-    {
+    public function unsetWorksheetCells(): void {
+
         if ($this->currentCell !== null) {
             $this->currentCell->detach();
             $this->currentCell = null;
@@ -459,8 +484,8 @@ class Cells
     /**
      * Destroy this cell collection.
      */
-    public function __destruct()
-    {
+    public function __destruct() {
+
         $this->cache->deleteMultiple($this->getAllCacheKeys());
     }
 
@@ -469,10 +494,12 @@ class Cells
      *
      * @return Generator|string[]
      */
-    private function getAllCacheKeys()
-    {
+    private function getAllCacheKeys() {
+
         foreach ($this->index as $coordinate => $value) {
             yield $this->cachePrefix . $coordinate;
         }
+
     }
+
 }

@@ -8,8 +8,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Chart;
  * Date: 7/2/14
  * Time: 5:45 PM.
  */
-abstract class Properties
-{
+abstract class Properties {
+
     /** @deprecated 1.24 use constant from ChartColor instead */
     const EXCEL_COLOR_TYPE_STANDARD = ChartColor::EXCEL_COLOR_TYPE_STANDARD;
     /** @deprecated 1.24 use constant from ChartColor instead */
@@ -18,23 +18,23 @@ abstract class Properties
     const EXCEL_COLOR_TYPE_ARGB = ChartColor::EXCEL_COLOR_TYPE_ARGB;
 
     const
-        AXIS_LABELS_LOW = 'low';
+    AXIS_LABELS_LOW = 'low';
     const AXIS_LABELS_HIGH = 'high';
     const AXIS_LABELS_NEXT_TO = 'nextTo';
     const AXIS_LABELS_NONE = 'none';
 
     const
-        TICK_MARK_NONE = 'none';
+    TICK_MARK_NONE = 'none';
     const TICK_MARK_INSIDE = 'in';
     const TICK_MARK_OUTSIDE = 'out';
     const TICK_MARK_CROSS = 'cross';
 
     const
-        HORIZONTAL_CROSSES_AUTOZERO = 'autoZero';
+    HORIZONTAL_CROSSES_AUTOZERO = 'autoZero';
     const HORIZONTAL_CROSSES_MAXIMUM = 'max';
 
     const
-        FORMAT_CODE_GENERAL = 'General';
+    FORMAT_CODE_GENERAL = 'General';
     const FORMAT_CODE_NUMBER = '#,##0.00';
     const FORMAT_CODE_CURRENCY = '$#,##0.00';
     const FORMAT_CODE_ACCOUNTING = '_($* #,##0.00_);_($* (#,##0.00);_($* "-"??_);_(@_)';
@@ -48,11 +48,11 @@ abstract class Properties
     const FORMAT_CODE_SPECIAL = '00000';
 
     const
-        ORIENTATION_NORMAL = 'minMax';
+    ORIENTATION_NORMAL = 'minMax';
     const ORIENTATION_REVERSED = 'maxMin';
 
     const
-        LINE_STYLE_COMPOUND_SIMPLE = 'sng';
+    LINE_STYLE_COMPOUND_SIMPLE = 'sng';
     const LINE_STYLE_COMPOUND_DOUBLE = 'dbl';
     const LINE_STYLE_COMPOUND_THICKTHIN = 'thickThin';
     const LINE_STYLE_COMPOUND_THINTHICK = 'thinThick';
@@ -90,7 +90,7 @@ abstract class Properties
     const LINE_STYLE_ARROW_SIZE_9 = 9;
 
     const
-        SHADOW_PRESETS_NOSHADOW = null;
+    SHADOW_PRESETS_NOSHADOW = null;
     const SHADOW_PRESETS_OUTER_BOTTTOM_RIGHT = 1;
     const SHADOW_PRESETS_OUTER_BOTTOM = 2;
     const SHADOW_PRESETS_OUTER_BOTTOM_LEFT = 3;
@@ -139,8 +139,8 @@ abstract class Properties
     /** @var ChartColor */
     protected $shadowColor;
 
-    public function __construct()
-    {
+    public function __construct() {
+
         $this->lineColor = new ChartColor();
         $this->glowColor = new ChartColor();
         $this->shadowColor = new ChartColor();
@@ -154,8 +154,8 @@ abstract class Properties
      *
      * @return bool
      */
-    public function getObjectState()
-    {
+    public function getObjectState() {
+
         return $this->objectState;
     }
 
@@ -164,50 +164,51 @@ abstract class Properties
      *
      * @return $this
      */
-    public function activateObject()
-    {
+    public function activateObject() {
+
         $this->objectState = true;
 
         return $this;
     }
 
-    public static function pointsToXml(float $width): string
-    {
+    public static function pointsToXml(float $width): string {
+
         return (string) (int) ($width * self::POINTS_WIDTH_MULTIPLIER);
     }
 
-    public static function xmlToPoints(string $width): float
-    {
+    public static function xmlToPoints(string $width): float {
+
         return ((float) $width) / self::POINTS_WIDTH_MULTIPLIER;
     }
 
-    public static function angleToXml(float $angle): string
-    {
+    public static function angleToXml(float $angle): string {
+
         return (string) (int) ($angle * self::ANGLE_MULTIPLIER);
     }
 
-    public static function xmlToAngle(string $angle): float
-    {
+    public static function xmlToAngle(string $angle): float {
+
         return ((float) $angle) / self::ANGLE_MULTIPLIER;
     }
 
-    public static function tenthOfPercentToXml(float $value): string
-    {
+    public static function tenthOfPercentToXml(float $value): string {
+
         return (string) (int) ($value * self::PERCENTAGE_MULTIPLIER);
     }
 
-    public static function xmlToTenthOfPercent(string $value): float
-    {
+    public static function xmlToTenthOfPercent(string $value): float {
+
         return ((float) $value) / self::PERCENTAGE_MULTIPLIER;
     }
 
     /**
      * @param null|float|int|string $alpha
      */
-    protected function setColorProperties(?string $color, $alpha, ?string $colorType): array
+    protected function setColorProperties( ? string $color, $alpha,  ? string $colorType) : array
     {
+
         return [
-            'type' => $colorType,
+            'type'  => $colorType,
             'value' => $color,
             'alpha' => ($alpha === null) ? null : (int) $alpha,
         ];
@@ -215,214 +216,215 @@ abstract class Properties
 
     protected const PRESETS_OPTIONS = [
         //NONE
-        0 => [
-            'presets' => self::SHADOW_PRESETS_NOSHADOW,
-            'effect' => null,
+        0  => [
+            'presets'      => self::SHADOW_PRESETS_NOSHADOW,
+            'effect'       => null,
             //'color' => [
             //    'type' => ChartColor::EXCEL_COLOR_TYPE_STANDARD,
             //    'value' => 'black',
             //    'alpha' => 40,
             //],
-            'size' => [
+            'size'         => [
                 'sx' => null,
                 'sy' => null,
                 'kx' => null,
                 'ky' => null,
             ],
-            'blur' => null,
-            'direction' => null,
-            'distance' => null,
-            'algn' => null,
+            'blur'         => null,
+            'direction'    => null,
+            'distance'     => null,
+            'algn'         => null,
             'rotWithShape' => null,
         ],
         //OUTER
-        1 => [
-            'effect' => 'outerShdw',
-            'blur' => 50800 / self::POINTS_WIDTH_MULTIPLIER,
-            'distance' => 38100 / self::POINTS_WIDTH_MULTIPLIER,
-            'direction' => 2700000 / self::ANGLE_MULTIPLIER,
-            'algn' => 'tl',
+        1  => [
+            'effect'       => 'outerShdw',
+            'blur'         => 50800 / self::POINTS_WIDTH_MULTIPLIER,
+            'distance'     => 38100 / self::POINTS_WIDTH_MULTIPLIER,
+            'direction'    => 2700000 / self::ANGLE_MULTIPLIER,
+            'algn'         => 'tl',
             'rotWithShape' => '0',
         ],
-        2 => [
-            'effect' => 'outerShdw',
-            'blur' => 50800 / self::POINTS_WIDTH_MULTIPLIER,
-            'distance' => 38100 / self::POINTS_WIDTH_MULTIPLIER,
-            'direction' => 5400000 / self::ANGLE_MULTIPLIER,
-            'algn' => 't',
+        2  => [
+            'effect'       => 'outerShdw',
+            'blur'         => 50800 / self::POINTS_WIDTH_MULTIPLIER,
+            'distance'     => 38100 / self::POINTS_WIDTH_MULTIPLIER,
+            'direction'    => 5400000 / self::ANGLE_MULTIPLIER,
+            'algn'         => 't',
             'rotWithShape' => '0',
         ],
-        3 => [
-            'effect' => 'outerShdw',
-            'blur' => 50800 / self::POINTS_WIDTH_MULTIPLIER,
-            'distance' => 38100 / self::POINTS_WIDTH_MULTIPLIER,
-            'direction' => 8100000 / self::ANGLE_MULTIPLIER,
-            'algn' => 'tr',
+        3  => [
+            'effect'       => 'outerShdw',
+            'blur'         => 50800 / self::POINTS_WIDTH_MULTIPLIER,
+            'distance'     => 38100 / self::POINTS_WIDTH_MULTIPLIER,
+            'direction'    => 8100000 / self::ANGLE_MULTIPLIER,
+            'algn'         => 'tr',
             'rotWithShape' => '0',
         ],
-        4 => [
-            'effect' => 'outerShdw',
-            'blur' => 50800 / self::POINTS_WIDTH_MULTIPLIER,
-            'distance' => 38100 / self::POINTS_WIDTH_MULTIPLIER,
-            'algn' => 'l',
+        4  => [
+            'effect'       => 'outerShdw',
+            'blur'         => 50800 / self::POINTS_WIDTH_MULTIPLIER,
+            'distance'     => 38100 / self::POINTS_WIDTH_MULTIPLIER,
+            'algn'         => 'l',
             'rotWithShape' => '0',
         ],
-        5 => [
-            'effect' => 'outerShdw',
-            'size' => [
+        5  => [
+            'effect'       => 'outerShdw',
+            'size'         => [
                 'sx' => 102000 / self::PERCENTAGE_MULTIPLIER,
                 'sy' => 102000 / self::PERCENTAGE_MULTIPLIER,
             ],
-            'blur' => 63500 / self::POINTS_WIDTH_MULTIPLIER,
-            'distance' => 38100 / self::POINTS_WIDTH_MULTIPLIER,
-            'algn' => 'ctr',
+            'blur'         => 63500 / self::POINTS_WIDTH_MULTIPLIER,
+            'distance'     => 38100 / self::POINTS_WIDTH_MULTIPLIER,
+            'algn'         => 'ctr',
             'rotWithShape' => '0',
         ],
-        6 => [
-            'effect' => 'outerShdw',
-            'blur' => 50800 / self::POINTS_WIDTH_MULTIPLIER,
-            'distance' => 38100 / self::POINTS_WIDTH_MULTIPLIER,
-            'direction' => 10800000 / self::ANGLE_MULTIPLIER,
-            'algn' => 'r',
+        6  => [
+            'effect'       => 'outerShdw',
+            'blur'         => 50800 / self::POINTS_WIDTH_MULTIPLIER,
+            'distance'     => 38100 / self::POINTS_WIDTH_MULTIPLIER,
+            'direction'    => 10800000 / self::ANGLE_MULTIPLIER,
+            'algn'         => 'r',
             'rotWithShape' => '0',
         ],
-        7 => [
-            'effect' => 'outerShdw',
-            'blur' => 50800 / self::POINTS_WIDTH_MULTIPLIER,
-            'distance' => 38100 / self::POINTS_WIDTH_MULTIPLIER,
-            'direction' => 18900000 / self::ANGLE_MULTIPLIER,
-            'algn' => 'bl',
+        7  => [
+            'effect'       => 'outerShdw',
+            'blur'         => 50800 / self::POINTS_WIDTH_MULTIPLIER,
+            'distance'     => 38100 / self::POINTS_WIDTH_MULTIPLIER,
+            'direction'    => 18900000 / self::ANGLE_MULTIPLIER,
+            'algn'         => 'bl',
             'rotWithShape' => '0',
         ],
-        8 => [
-            'effect' => 'outerShdw',
-            'blur' => 50800 / self::POINTS_WIDTH_MULTIPLIER,
-            'distance' => 38100 / self::POINTS_WIDTH_MULTIPLIER,
-            'direction' => 16200000 / self::ANGLE_MULTIPLIER,
+        8  => [
+            'effect'       => 'outerShdw',
+            'blur'         => 50800 / self::POINTS_WIDTH_MULTIPLIER,
+            'distance'     => 38100 / self::POINTS_WIDTH_MULTIPLIER,
+            'direction'    => 16200000 / self::ANGLE_MULTIPLIER,
             'rotWithShape' => '0',
         ],
-        9 => [
-            'effect' => 'outerShdw',
-            'blur' => 50800 / self::POINTS_WIDTH_MULTIPLIER,
-            'distance' => 38100 / self::POINTS_WIDTH_MULTIPLIER,
-            'direction' => 13500000 / self::ANGLE_MULTIPLIER,
-            'algn' => 'br',
+        9  => [
+            'effect'       => 'outerShdw',
+            'blur'         => 50800 / self::POINTS_WIDTH_MULTIPLIER,
+            'distance'     => 38100 / self::POINTS_WIDTH_MULTIPLIER,
+            'direction'    => 13500000 / self::ANGLE_MULTIPLIER,
+            'algn'         => 'br',
             'rotWithShape' => '0',
         ],
         //INNER
         10 => [
-            'effect' => 'innerShdw',
-            'blur' => 63500 / self::POINTS_WIDTH_MULTIPLIER,
-            'distance' => 50800 / self::POINTS_WIDTH_MULTIPLIER,
+            'effect'    => 'innerShdw',
+            'blur'      => 63500 / self::POINTS_WIDTH_MULTIPLIER,
+            'distance'  => 50800 / self::POINTS_WIDTH_MULTIPLIER,
             'direction' => 2700000 / self::ANGLE_MULTIPLIER,
         ],
         11 => [
-            'effect' => 'innerShdw',
-            'blur' => 63500 / self::POINTS_WIDTH_MULTIPLIER,
-            'distance' => 50800 / self::POINTS_WIDTH_MULTIPLIER,
+            'effect'    => 'innerShdw',
+            'blur'      => 63500 / self::POINTS_WIDTH_MULTIPLIER,
+            'distance'  => 50800 / self::POINTS_WIDTH_MULTIPLIER,
             'direction' => 5400000 / self::ANGLE_MULTIPLIER,
         ],
         12 => [
-            'effect' => 'innerShdw',
-            'blur' => 63500 / self::POINTS_WIDTH_MULTIPLIER,
-            'distance' => 50800 / self::POINTS_WIDTH_MULTIPLIER,
+            'effect'    => 'innerShdw',
+            'blur'      => 63500 / self::POINTS_WIDTH_MULTIPLIER,
+            'distance'  => 50800 / self::POINTS_WIDTH_MULTIPLIER,
             'direction' => 8100000 / self::ANGLE_MULTIPLIER,
         ],
         13 => [
-            'effect' => 'innerShdw',
-            'blur' => 63500 / self::POINTS_WIDTH_MULTIPLIER,
+            'effect'   => 'innerShdw',
+            'blur'     => 63500 / self::POINTS_WIDTH_MULTIPLIER,
             'distance' => 50800 / self::POINTS_WIDTH_MULTIPLIER,
         ],
         14 => [
             'effect' => 'innerShdw',
-            'blur' => 114300 / self::POINTS_WIDTH_MULTIPLIER,
+            'blur'   => 114300 / self::POINTS_WIDTH_MULTIPLIER,
         ],
         15 => [
-            'effect' => 'innerShdw',
-            'blur' => 63500 / self::POINTS_WIDTH_MULTIPLIER,
-            'distance' => 50800 / self::POINTS_WIDTH_MULTIPLIER,
+            'effect'    => 'innerShdw',
+            'blur'      => 63500 / self::POINTS_WIDTH_MULTIPLIER,
+            'distance'  => 50800 / self::POINTS_WIDTH_MULTIPLIER,
             'direction' => 10800000 / self::ANGLE_MULTIPLIER,
         ],
         16 => [
-            'effect' => 'innerShdw',
-            'blur' => 63500 / self::POINTS_WIDTH_MULTIPLIER,
-            'distance' => 50800 / self::POINTS_WIDTH_MULTIPLIER,
+            'effect'    => 'innerShdw',
+            'blur'      => 63500 / self::POINTS_WIDTH_MULTIPLIER,
+            'distance'  => 50800 / self::POINTS_WIDTH_MULTIPLIER,
             'direction' => 18900000 / self::ANGLE_MULTIPLIER,
         ],
         17 => [
-            'effect' => 'innerShdw',
-            'blur' => 63500 / self::POINTS_WIDTH_MULTIPLIER,
-            'distance' => 50800 / self::POINTS_WIDTH_MULTIPLIER,
+            'effect'    => 'innerShdw',
+            'blur'      => 63500 / self::POINTS_WIDTH_MULTIPLIER,
+            'distance'  => 50800 / self::POINTS_WIDTH_MULTIPLIER,
             'direction' => 16200000 / self::ANGLE_MULTIPLIER,
         ],
         18 => [
-            'effect' => 'innerShdw',
-            'blur' => 63500 / self::POINTS_WIDTH_MULTIPLIER,
-            'distance' => 50800 / self::POINTS_WIDTH_MULTIPLIER,
+            'effect'    => 'innerShdw',
+            'blur'      => 63500 / self::POINTS_WIDTH_MULTIPLIER,
+            'distance'  => 50800 / self::POINTS_WIDTH_MULTIPLIER,
             'direction' => 13500000 / self::ANGLE_MULTIPLIER,
         ],
         //perspective
         19 => [
-            'effect' => 'outerShdw',
-            'blur' => 152400 / self::POINTS_WIDTH_MULTIPLIER,
-            'distance' => 317500 / self::POINTS_WIDTH_MULTIPLIER,
-            'size' => [
+            'effect'       => 'outerShdw',
+            'blur'         => 152400 / self::POINTS_WIDTH_MULTIPLIER,
+            'distance'     => 317500 / self::POINTS_WIDTH_MULTIPLIER,
+            'size'         => [
                 'sx' => 90000 / self::PERCENTAGE_MULTIPLIER,
                 'sy' => -19000 / self::PERCENTAGE_MULTIPLIER,
             ],
-            'direction' => 5400000 / self::ANGLE_MULTIPLIER,
+            'direction'    => 5400000 / self::ANGLE_MULTIPLIER,
             'rotWithShape' => '0',
         ],
         20 => [
-            'effect' => 'outerShdw',
-            'blur' => 76200 / self::POINTS_WIDTH_MULTIPLIER,
-            'direction' => 18900000 / self::ANGLE_MULTIPLIER,
-            'size' => [
+            'effect'       => 'outerShdw',
+            'blur'         => 76200 / self::POINTS_WIDTH_MULTIPLIER,
+            'direction'    => 18900000 / self::ANGLE_MULTIPLIER,
+            'size'         => [
                 'sy' => 23000 / self::PERCENTAGE_MULTIPLIER,
                 'kx' => -1200000 / self::ANGLE_MULTIPLIER,
             ],
-            'algn' => 'bl',
+            'algn'         => 'bl',
             'rotWithShape' => '0',
         ],
         21 => [
-            'effect' => 'outerShdw',
-            'blur' => 76200 / self::POINTS_WIDTH_MULTIPLIER,
-            'direction' => 13500000 / self::ANGLE_MULTIPLIER,
-            'size' => [
+            'effect'       => 'outerShdw',
+            'blur'         => 76200 / self::POINTS_WIDTH_MULTIPLIER,
+            'direction'    => 13500000 / self::ANGLE_MULTIPLIER,
+            'size'         => [
                 'sy' => 23000 / self::PERCENTAGE_MULTIPLIER,
                 'kx' => 1200000 / self::ANGLE_MULTIPLIER,
             ],
-            'algn' => 'br',
+            'algn'         => 'br',
             'rotWithShape' => '0',
         ],
         22 => [
-            'effect' => 'outerShdw',
-            'blur' => 76200 / self::POINTS_WIDTH_MULTIPLIER,
-            'distance' => 12700 / self::POINTS_WIDTH_MULTIPLIER,
-            'direction' => 2700000 / self::ANGLE_MULTIPLIER,
-            'size' => [
+            'effect'       => 'outerShdw',
+            'blur'         => 76200 / self::POINTS_WIDTH_MULTIPLIER,
+            'distance'     => 12700 / self::POINTS_WIDTH_MULTIPLIER,
+            'direction'    => 2700000 / self::ANGLE_MULTIPLIER,
+            'size'         => [
                 'sy' => -23000 / self::PERCENTAGE_MULTIPLIER,
                 'kx' => -800400 / self::ANGLE_MULTIPLIER,
             ],
-            'algn' => 'bl',
+            'algn'         => 'bl',
             'rotWithShape' => '0',
         ],
         23 => [
-            'effect' => 'outerShdw',
-            'blur' => 76200 / self::POINTS_WIDTH_MULTIPLIER,
-            'distance' => 12700 / self::POINTS_WIDTH_MULTIPLIER,
-            'direction' => 8100000 / self::ANGLE_MULTIPLIER,
-            'size' => [
+            'effect'       => 'outerShdw',
+            'blur'         => 76200 / self::POINTS_WIDTH_MULTIPLIER,
+            'distance'     => 12700 / self::POINTS_WIDTH_MULTIPLIER,
+            'direction'    => 8100000 / self::ANGLE_MULTIPLIER,
+            'size'         => [
                 'sy' => -23000 / self::PERCENTAGE_MULTIPLIER,
                 'kx' => 800400 / self::ANGLE_MULTIPLIER,
             ],
-            'algn' => 'br',
+            'algn'         => 'br',
             'rotWithShape' => '0',
         ],
     ];
 
-    protected function getShadowPresetsMap(int $presetsOption): array
+    protected function getShadowPresetsMap(int $presetsOption) : array
     {
+
         return self::PRESETS_OPTIONS[$presetsOption] ?? self::PRESETS_OPTIONS[0];
     }
 
@@ -434,9 +436,10 @@ abstract class Properties
      *
      * @return mixed
      */
-    protected function getArrayElementsValue($properties, $elements)
-    {
+    protected function getArrayElementsValue($properties, $elements) {
+
         $reference = &$properties;
+
         if (!is_array($elements)) {
             return $reference[$elements];
         }
@@ -456,15 +459,15 @@ abstract class Properties
      * @param ?int $colorAlpha
      * @param ?string $colorType
      */
-    public function setGlowProperties($size, $colorValue = null, $colorAlpha = null, $colorType = null): void
-    {
+    public function setGlowProperties($size, $colorValue = null, $colorAlpha = null, $colorType = null) : void{
+
         $this
             ->activateObject()
             ->setGlowSize($size);
         $this->glowColor->setColorPropertiesArray(
             [
                 'value' => $colorValue,
-                'type' => $colorType,
+                'type'  => $colorType,
                 'alpha' => $colorAlpha,
             ]
         );
@@ -477,18 +480,19 @@ abstract class Properties
      *
      * @return null|array|float|int|string
      */
-    public function getGlowProperty($property)
-    {
+    public function getGlowProperty($property) {
+
         $retVal = null;
+
         if ($property === 'size') {
             $retVal = $this->glowSize;
-        } elseif ($property === 'color') {
+        } else if ($property === 'color') {
             $retVal = [
                 'value' => $this->glowColor->getColorProperty('value'),
-                'type' => $this->glowColor->getColorProperty('type'),
+                'type'  => $this->glowColor->getColorProperty('type'),
                 'alpha' => $this->glowColor->getColorProperty('alpha'),
             ];
-        } elseif (is_array($property) && count($property) >= 2 && $property[0] === 'color') {
+        } else if (is_array($property) && count($property) >= 2 && $property[0] === 'color') {
             $retVal = $this->glowColor->getColorProperty($property[1]);
         }
 
@@ -502,13 +506,13 @@ abstract class Properties
      *
      * @return null|int|string
      */
-    public function getGlowColor($propertyName)
-    {
+    public function getGlowColor($propertyName) {
+
         return $this->glowColor->getColorProperty($propertyName);
     }
 
-    public function getGlowColorObject(): ChartColor
-    {
+    public function getGlowColorObject() : ChartColor {
+
         return $this->glowColor;
     }
 
@@ -517,8 +521,8 @@ abstract class Properties
      *
      * @return ?float
      */
-    public function getGlowSize()
-    {
+    public function getGlowSize() {
+
         return $this->glowSize;
     }
 
@@ -529,8 +533,8 @@ abstract class Properties
      *
      * @return $this
      */
-    protected function setGlowSize($size)
-    {
+    protected function setGlowSize($size) {
+
         $this->glowSize = $size;
 
         return $this;
@@ -541,12 +545,13 @@ abstract class Properties
      *
      * @param ?float $size
      */
-    public function setSoftEdges($size): void
-    {
+    public function setSoftEdges($size): void {
+
         if ($size !== null) {
             $this->activateObject();
             $this->softEdges['size'] = $size;
         }
+
     }
 
     /**
@@ -554,17 +559,18 @@ abstract class Properties
      *
      * @return string
      */
-    public function getSoftEdgesSize()
-    {
+    public function getSoftEdgesSize() {
+
         return $this->softEdges['size'];
     }
 
     /**
      * @param mixed $value
      */
-    public function setShadowProperty(string $propertyName, $value): self
-    {
+    public function setShadowProperty(string $propertyName, $value): self{
+
         $this->activateObject();
+
         if ($propertyName === 'color' && is_array($value)) {
             $this->shadowColor->setColorPropertiesArray($value);
         } else {
@@ -585,23 +591,28 @@ abstract class Properties
      * @param null|int $angle
      * @param null|float $distance
      */
-    public function setShadowProperties($presets, $colorValue = null, $colorType = null, $colorAlpha = null, $blur = null, $angle = null, $distance = null): void
-    {
+    public function setShadowProperties($presets, $colorValue = null, $colorType = null, $colorAlpha = null, $blur = null, $angle = null, $distance = null): void{
+
         $this->activateObject()->setShadowPresetsProperties((int) $presets);
+
         if ($presets === 0) {
             $this->shadowColor->setType(ChartColor::EXCEL_COLOR_TYPE_STANDARD);
             $this->shadowColor->setValue('black');
             $this->shadowColor->setAlpha(40);
         }
+
         if ($colorValue !== null) {
             $this->shadowColor->setValue($colorValue);
         }
+
         if ($colorType !== null) {
             $this->shadowColor->setType($colorType);
         }
+
         if (is_numeric($colorAlpha)) {
             $this->shadowColor->setAlpha((int) $colorAlpha);
         }
+
         $this
             ->setShadowBlur($blur)
             ->setShadowAngle($angle)
@@ -615,8 +626,8 @@ abstract class Properties
      *
      * @return $this
      */
-    protected function setShadowPresetsProperties($presets)
-    {
+    protected function setShadowPresetsProperties($presets) {
+
         $this->shadowProperties['presets'] = $presets;
         $this->setShadowPropertiesMapValues($this->getShadowPresetsMap($presets));
 
@@ -632,22 +643,29 @@ abstract class Properties
      *
      * @return $this
      */
-    protected function setShadowPropertiesMapValues(array $propertiesMap, &$reference = null)
-    {
+    protected function setShadowPropertiesMapValues(array $propertiesMap, &$reference = null) {
+
         $base_reference = $reference;
+
         foreach ($propertiesMap as $property_key => $property_val) {
+
             if (is_array($property_val)) {
+
                 if (in_array($property_key, self::SHADOW_ARRAY_KEYS, true)) {
                     $reference = &$this->shadowProperties[$property_key];
                     $this->setShadowPropertiesMapValues($property_val, $reference);
                 }
+
             } else {
+
                 if ($base_reference === null) {
                     $this->shadowProperties[$property_key] = $property_val;
                 } else {
                     $reference[$property_key] = $property_val;
                 }
+
             }
+
         }
 
         return $this;
@@ -660,8 +678,8 @@ abstract class Properties
      *
      * @return $this
      */
-    protected function setShadowBlur($blur)
-    {
+    protected function setShadowBlur($blur) {
+
         if ($blur !== null) {
             $this->shadowProperties['blur'] = $blur;
         }
@@ -676,8 +694,8 @@ abstract class Properties
      *
      * @return $this
      */
-    protected function setShadowAngle($angle)
-    {
+    protected function setShadowAngle($angle) {
+
         if (is_numeric($angle)) {
             $this->shadowProperties['direction'] = $angle;
         }
@@ -692,8 +710,8 @@ abstract class Properties
      *
      * @return $this
      */
-    protected function setShadowDistance($distance)
-    {
+    protected function setShadowDistance($distance) {
+
         if ($distance !== null) {
             $this->shadowProperties['distance'] = $distance;
         }
@@ -701,8 +719,8 @@ abstract class Properties
         return $this;
     }
 
-    public function getShadowColorObject(): ChartColor
-    {
+    public function getShadowColorObject(): ChartColor {
+
         return $this->shadowColor;
     }
 
@@ -713,12 +731,12 @@ abstract class Properties
      *
      * @return array|string
      */
-    public function getShadowProperty($elements)
-    {
+    public function getShadowProperty($elements) {
+
         if ($elements === 'color') {
             return [
                 'value' => $this->shadowColor->getValue(),
-                'type' => $this->shadowColor->getType(),
+                'type'  => $this->shadowColor->getType(),
                 'alpha' => $this->shadowColor->getAlpha(),
             ];
         }
@@ -728,7 +746,9 @@ abstract class Properties
 
     public function getShadowArray(): array
     {
+
         $array = $this->shadowProperties;
+
         if ($this->getShadowColorObject()->isUsable()) {
             $array['color'] = $this->getShadowProperty('color');
         }
@@ -741,29 +761,29 @@ abstract class Properties
 
     /** @var array */
     protected $lineStyleProperties = [
-        'width' => null, //'9525',
+        'width'    => null, //'9525',
         'compound' => '', //self::LINE_STYLE_COMPOUND_SIMPLE,
-        'dash' => '', //self::LINE_STYLE_DASH_SOLID,
-        'cap' => '', //self::LINE_STYLE_CAP_FLAT,
-        'join' => '', //self::LINE_STYLE_JOIN_BEVEL,
-        'arrow' => [
+        'dash'     => '', //self::LINE_STYLE_DASH_SOLID,
+        'cap'      => '', //self::LINE_STYLE_CAP_FLAT,
+        'join'     => '', //self::LINE_STYLE_JOIN_BEVEL,
+        'arrow'    => [
             'head' => [
                 'type' => '', //self::LINE_STYLE_ARROW_TYPE_NOARROW,
                 'size' => '', //self::LINE_STYLE_ARROW_SIZE_5,
-                'w' => '',
-                'len' => '',
+                'w'    => '',
+                'len'  => '',
             ],
-            'end' => [
+            'end'  => [
                 'type' => '', //self::LINE_STYLE_ARROW_TYPE_NOARROW,
                 'size' => '', //self::LINE_STYLE_ARROW_SIZE_8,
-                'w' => '',
-                'len' => '',
+                'w'    => '',
+                'len'  => '',
             ],
         ],
     ];
 
-    public function copyLineStyles(self $otherProperties): void
-    {
+    public function copyLineStyles(self $otherProperties): void{
+
         $this->lineStyleProperties = $otherProperties->lineStyleProperties;
         $this->lineColor = $otherProperties->lineColor;
         $this->glowSize = $otherProperties->glowSize;
@@ -772,8 +792,8 @@ abstract class Properties
         $this->shadowProperties = $otherProperties->shadowProperties;
     }
 
-    public function getLineColor(): ChartColor
-    {
+    public function getLineColor(): ChartColor {
+
         return $this->lineColor;
     }
 
@@ -784,8 +804,8 @@ abstract class Properties
      * @param ?int $alpha
      * @param ?string $colorType
      */
-    public function setLineColorProperties($value, $alpha = null, $colorType = null): void
-    {
+    public function setLineColorProperties($value, $alpha = null, $colorType = null): void{
+
         $this->activateObject();
         $this->lineColor->setColorPropertiesArray(
             $this->setColorProperties(
@@ -803,8 +823,8 @@ abstract class Properties
      *
      * @return null|int|string
      */
-    public function getLineColorProperty($propertyName)
-    {
+    public function getLineColorProperty($propertyName) {
+
         return $this->lineColor->getColorProperty($propertyName);
     }
 
@@ -825,61 +845,76 @@ abstract class Properties
      * @param string $endArrowWidth
      * @param string $endArrowLength
      */
-    public function setLineStyleProperties($lineWidth = null, $compoundType = '', $dashType = '', $capType = '', $joinType = '', $headArrowType = '', $headArrowSize = '', $endArrowType = '', $endArrowSize = '', $headArrowWidth = '', $headArrowLength = '', $endArrowWidth = '', $endArrowLength = ''): void
-    {
+    public function setLineStyleProperties($lineWidth = null, $compoundType = '', $dashType = '', $capType = '', $joinType = '', $headArrowType = '', $headArrowSize = '', $endArrowType = '', $endArrowSize = '', $headArrowWidth = '', $headArrowLength = '', $endArrowWidth = '', $endArrowLength = ''): void{
+
         $this->activateObject();
+
         if (is_numeric($lineWidth)) {
             $this->lineStyleProperties['width'] = $lineWidth;
         }
+
         if ($compoundType !== '') {
             $this->lineStyleProperties['compound'] = $compoundType;
         }
+
         if ($dashType !== '') {
             $this->lineStyleProperties['dash'] = $dashType;
         }
+
         if ($capType !== '') {
             $this->lineStyleProperties['cap'] = $capType;
         }
+
         if ($joinType !== '') {
             $this->lineStyleProperties['join'] = $joinType;
         }
+
         if ($headArrowType !== '') {
             $this->lineStyleProperties['arrow']['head']['type'] = $headArrowType;
         }
+
         if (array_key_exists($headArrowSize, self::ARROW_SIZES)) {
             $this->lineStyleProperties['arrow']['head']['size'] = $headArrowSize;
             $this->lineStyleProperties['arrow']['head']['w'] = self::ARROW_SIZES[$headArrowSize]['w'];
             $this->lineStyleProperties['arrow']['head']['len'] = self::ARROW_SIZES[$headArrowSize]['len'];
         }
+
         if ($endArrowType !== '') {
             $this->lineStyleProperties['arrow']['end']['type'] = $endArrowType;
         }
+
         if (array_key_exists($endArrowSize, self::ARROW_SIZES)) {
             $this->lineStyleProperties['arrow']['end']['size'] = $endArrowSize;
             $this->lineStyleProperties['arrow']['end']['w'] = self::ARROW_SIZES[$endArrowSize]['w'];
             $this->lineStyleProperties['arrow']['end']['len'] = self::ARROW_SIZES[$endArrowSize]['len'];
         }
+
         if ($headArrowWidth !== '') {
             $this->lineStyleProperties['arrow']['head']['w'] = $headArrowWidth;
         }
+
         if ($headArrowLength !== '') {
             $this->lineStyleProperties['arrow']['head']['len'] = $headArrowLength;
         }
+
         if ($endArrowWidth !== '') {
             $this->lineStyleProperties['arrow']['end']['w'] = $endArrowWidth;
         }
+
         if ($endArrowLength !== '') {
             $this->lineStyleProperties['arrow']['end']['len'] = $endArrowLength;
         }
+
     }
 
     public function getLineStyleArray(): array
     {
+
         return $this->lineStyleProperties;
     }
 
-    public function setLineStyleArray(array $lineStyleProperties = []): self
-    {
+    public function setLineStyleArray(array $lineStyleProperties = []): self{
+
         $this->activateObject();
         $this->lineStyleProperties['width'] = $lineStyleProperties['width'] ?? null;
         $this->lineStyleProperties['compound'] = $lineStyleProperties['compound'] ?? '';
@@ -901,8 +936,8 @@ abstract class Properties
     /**
      * @param mixed $value
      */
-    public function setLineStyleProperty(string $propertyName, $value): self
-    {
+    public function setLineStyleProperty(string $propertyName, $value) : self{
+
         $this->activateObject();
         $this->lineStyleProperties[$propertyName] = $value;
 
@@ -916,8 +951,8 @@ abstract class Properties
      *
      * @return string
      */
-    public function getLineStyleProperty($elements)
-    {
+    public function getLineStyleProperty($elements) {
+
         return $this->getArrayElementsValue($this->lineStyleProperties, $elements);
     }
 
@@ -941,8 +976,8 @@ abstract class Properties
      *
      * @return string
      */
-    protected function getLineStyleArrowSize($arraySelector, $arrayKaySelector)
-    {
+    protected function getLineStyleArrowSize($arraySelector, $arrayKaySelector) {
+
         return self::ARROW_SIZES[$arraySelector][$arrayKaySelector] ?? '';
     }
 
@@ -954,8 +989,8 @@ abstract class Properties
      *
      * @return string
      */
-    public function getLineStyleArrowParameters($arrowSelector, $propertySelector)
-    {
+    public function getLineStyleArrowParameters($arrowSelector, $propertySelector) {
+
         return $this->getLineStyleArrowSize($this->lineStyleProperties['arrow'][$arrowSelector]['size'], $propertySelector);
     }
 
@@ -966,8 +1001,8 @@ abstract class Properties
      *
      * @return string
      */
-    public function getLineStyleArrowWidth($arrow)
-    {
+    public function getLineStyleArrowWidth($arrow) {
+
         return $this->getLineStyleProperty(['arrow', $arrow, 'w']);
     }
 
@@ -978,8 +1013,9 @@ abstract class Properties
      *
      * @return string
      */
-    public function getLineStyleArrowLength($arrow)
-    {
+    public function getLineStyleArrowLength($arrow) {
+
         return $this->getLineStyleProperty(['arrow', $arrow, 'len']);
     }
+
 }

@@ -6,8 +6,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\ArrayEnabled;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Functions;
 
-class NetworkDays
-{
+class NetworkDays {
+
     use ArrayEnabled;
 
     /**
@@ -33,8 +33,8 @@ class NetworkDays
      *         If an array of values is passed for the $startDate or $endDate arguments, then the returned result
      *            will also be an array with matching dimensions
      */
-    public static function count($startDate, $endDate, ...$dateArgs)
-    {
+    public static function count($startDate, $endDate, ...$dateArgs) {
+
         if (is_array($startDate) || is_array($endDate)) {
             return self::evaluateArrayArgumentsSubset(
                 [self::class, __FUNCTION__],
@@ -55,9 +55,11 @@ class NetworkDays
             $dateArgs = Functions::flattenArray($dateArgs);
             //    Test any extra holiday parameters
             $holidayArray = [];
+
             foreach ($dateArgs as $holidayDate) {
                 $holidayArray[] = Helpers::getDateValue($holidayDate);
             }
+
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -70,21 +72,27 @@ class NetworkDays
 
         //    Test any extra holiday parameters
         $holidayCountedArray = [];
+
         foreach ($holidayArray as $holidayDate) {
+
             if (($holidayDate >= $startDate) && ($holidayDate <= $endDate)) {
+
                 if ((Week::day($holidayDate, 2) < 6) && (!in_array($holidayDate, $holidayCountedArray))) {
                     --$partWeekDays;
                     $holidayCountedArray[] = $holidayDate;
                 }
+
             }
+
         }
 
         return self::applySign($wholeWeekDays + $partWeekDays, $sDate, $eDate);
     }
 
-    private static function calcStartDow(float $startDate): int
-    {
+    private static function calcStartDow(float $startDate): int{
+
         $startDow = 6 - (int) Week::day($startDate, 2);
+
         if ($startDow < 0) {
             $startDow = 5;
         }
@@ -92,9 +100,10 @@ class NetworkDays
         return $startDow;
     }
 
-    private static function calcEndDow(float $endDate): int
-    {
+    private static function calcEndDow(float $endDate): int{
+
         $endDow = (int) Week::day($endDate, 2);
+
         if ($endDow >= 6) {
             $endDow = 0;
         }
@@ -102,9 +111,10 @@ class NetworkDays
         return $endDow;
     }
 
-    private static function calcPartWeekDays(int $startDow, int $endDow): int
-    {
+    private static function calcPartWeekDays(int $startDow, int $endDow): int{
+
         $partWeekDays = $endDow + $startDow;
+
         if ($partWeekDays > 5) {
             $partWeekDays -= 5;
         }
@@ -112,8 +122,9 @@ class NetworkDays
         return $partWeekDays;
     }
 
-    private static function applySign(int $result, float $sDate, float $eDate): int
-    {
+    private static function applySign(int $result, float $sDate, float $eDate): int {
+
         return ($sDate > $eDate) ? -$result : $result;
     }
+
 }

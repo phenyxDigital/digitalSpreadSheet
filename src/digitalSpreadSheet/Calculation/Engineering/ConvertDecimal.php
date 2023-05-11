@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Calculation\Engineering;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class ConvertDecimal extends ConvertBase
-{
+class ConvertDecimal extends ConvertBase {
+
     const LARGEST_OCTAL_IN_DECIMAL = 536870911;
     const SMALLEST_OCTAL_IN_DECIMAL = -536870912;
     const LARGEST_BINARY_IN_DECIMAL = 511;
@@ -20,7 +20,7 @@ class ConvertDecimal extends ConvertBase
      * Return a decimal value as binary.
      *
      * Excel Function:
-     *        DEC2BIN(x[,places])
+     *        DEC2BIN(x[self::class,places])
      *
      * @param array|string $value The decimal integer you want to convert. If number is negative,
      *                          valid place values are ignored and DEC2BIN returns a 10-character
@@ -45,22 +45,23 @@ class ConvertDecimal extends ConvertBase
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function toBinary($value, $places = null)
-    {
+    public static function toBinary($value, $places = null) {
+
         if (is_array($value) || is_array($places)) {
-            return self::evaluateArrayArguments([self::class, __FUNCTION__], $value, $places);
+            return evaluateArrayArguments([self::class, __FUNCTION__], $value, $places);
         }
 
         try {
-            $value = self::validateValue($value);
-            $value = self::validateDecimal($value);
-            $places = self::validatePlaces($places);
+            $value = validateValue($value);
+            $value = validateDecimal($value);
+            $places = validatePlaces($places);
         } catch (Exception $e) {
             return $e->getMessage();
         }
 
         $value = (int) floor((float) $value);
-        if ($value > self::LARGEST_BINARY_IN_DECIMAL || $value < self::SMALLEST_BINARY_IN_DECIMAL) {
+
+        if ($value > LARGEST_BINARY_IN_DECIMAL || $value < SMALLEST_BINARY_IN_DECIMAL) {
             return ExcelError::NAN();
         }
 
@@ -68,7 +69,7 @@ class ConvertDecimal extends ConvertBase
         // Two's Complement
         $r = substr($r, -10);
 
-        return self::nbrConversionFormat($r, $places);
+        return nbrConversionFormat($r, $places);
     }
 
     /**
@@ -77,7 +78,7 @@ class ConvertDecimal extends ConvertBase
      * Return a decimal value as hex.
      *
      * Excel Function:
-     *        DEC2HEX(x[,places])
+     *        DEC2HEX(x[self::class,places])
      *
      * @param array|string $value The decimal integer you want to convert. If number is negative,
      *                          places is ignored and DEC2HEX returns a 10-character (40-bit)
@@ -102,46 +103,52 @@ class ConvertDecimal extends ConvertBase
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function toHex($value, $places = null)
-    {
+    public static function toHex($value, $places = null) {
+
         if (is_array($value) || is_array($places)) {
-            return self::evaluateArrayArguments([self::class, __FUNCTION__], $value, $places);
+            return evaluateArrayArguments([self::class, __FUNCTION__], $value, $places);
         }
 
         try {
-            $value = self::validateValue($value);
-            $value = self::validateDecimal($value);
-            $places = self::validatePlaces($places);
+            $value = validateValue($value);
+            $value = validateDecimal($value);
+            $places = validatePlaces($places);
         } catch (Exception $e) {
             return $e->getMessage();
         }
 
         $value = floor((float) $value);
-        if ($value > self::LARGEST_HEX_IN_DECIMAL || $value < self::SMALLEST_HEX_IN_DECIMAL) {
+
+        if ($value > LARGEST_HEX_IN_DECIMAL || $value < SMALLEST_HEX_IN_DECIMAL) {
             return ExcelError::NAN();
         }
-        $r = strtoupper(dechex((int) $value));
-        $r = self::hex32bit($value, $r);
 
-        return self::nbrConversionFormat($r, $places);
+        $r = strtoupper(dechex((int) $value));
+        $r = hex32bit($value, $r);
+
+        return nbrConversionFormat($r, $places);
     }
 
-    public static function hex32bit(float $value, string $hexstr, bool $force = false): string
-    {
+    public static function hex32bit(float $value, string $hexstr, bool $force = false): string {
+
         if (PHP_INT_SIZE === 4 || $force) {
+
             if ($value >= 2 ** 32) {
                 $quotient = (int) ($value / (2 ** 32));
 
                 return strtoupper(substr('0' . dechex($quotient), -2) . $hexstr);
             }
+
             if ($value < -(2 ** 32)) {
                 $quotient = 256 - (int) ceil((-$value) / (2 ** 32));
 
                 return strtoupper(substr('0' . dechex($quotient), -2) . substr("00000000$hexstr", -8));
             }
+
             if ($value < 0) {
                 return "FF$hexstr";
             }
+
         }
 
         return $hexstr;
@@ -153,7 +160,7 @@ class ConvertDecimal extends ConvertBase
      * Return an decimal value as octal.
      *
      * Excel Function:
-     *        DEC2OCT(x[,places])
+     *        DEC2OCT(x[self::class,places])
      *
      * @param array|string $value The decimal integer you want to convert. If number is negative,
      *                          places is ignored and DEC2OCT returns a 10-character (30-bit)
@@ -178,36 +185,39 @@ class ConvertDecimal extends ConvertBase
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function toOctal($value, $places = null)
-    {
+    public static function toOctal($value, $places = null) {
+
         if (is_array($value) || is_array($places)) {
-            return self::evaluateArrayArguments([self::class, __FUNCTION__], $value, $places);
+            return evaluateArrayArguments([self::class, __FUNCTION__], $value, $places);
         }
 
         try {
-            $value = self::validateValue($value);
-            $value = self::validateDecimal($value);
-            $places = self::validatePlaces($places);
+            $value = validateValue($value);
+            $value = validateDecimal($value);
+            $places = validatePlaces($places);
         } catch (Exception $e) {
             return $e->getMessage();
         }
 
         $value = (int) floor((float) $value);
-        if ($value > self::LARGEST_OCTAL_IN_DECIMAL || $value < self::SMALLEST_OCTAL_IN_DECIMAL) {
+
+        if ($value > LARGEST_OCTAL_IN_DECIMAL || $value < SMALLEST_OCTAL_IN_DECIMAL) {
             return ExcelError::NAN();
         }
+
         $r = decoct($value);
         $r = substr($r, -10);
 
-        return self::nbrConversionFormat($r, $places);
+        return nbrConversionFormat($r, $places);
     }
 
-    protected static function validateDecimal(string $value): string
-    {
+    protected static function validateDecimal(string $value): string {
+
         if (strlen($value) > preg_match_all('/[-0123456789.]/', $value)) {
             throw new Exception(ExcelError::VALUE());
         }
 
         return $value;
     }
+
 }

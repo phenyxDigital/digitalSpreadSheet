@@ -7,8 +7,8 @@ use DateTimeInterface;
 /**
  * @deprecated 1.18.0
  */
-class TextData
-{
+class TextData {
+
     /**
      * CHARACTER.
      *
@@ -20,8 +20,8 @@ class TextData
      *
      * @return array|string
      */
-    public static function CHARACTER($character)
-    {
+    public static function CHARACTER($character) {
+
         return TextData\CharacterConvert::character($character);
     }
 
@@ -36,8 +36,8 @@ class TextData
      *
      * @return null|array|string
      */
-    public static function TRIMNONPRINTABLE($stringValue = '')
-    {
+    public static function TRIMNONPRINTABLE($stringValue = '') {
+
         return TextData\Trim::nonPrintable($stringValue);
     }
 
@@ -52,8 +52,8 @@ class TextData
      *
      * @return array|string
      */
-    public static function TRIMSPACES($stringValue = '')
-    {
+    public static function TRIMSPACES($stringValue = '') {
+
         return TextData\Trim::spaces($stringValue);
     }
 
@@ -68,8 +68,8 @@ class TextData
      *
      * @return array|int|string A string if arguments are invalid
      */
-    public static function ASCIICODE($characters)
-    {
+    public static function ASCIICODE($characters) {
+
         return TextData\CharacterConvert::code($characters);
     }
 
@@ -84,8 +84,8 @@ class TextData
      *
      * @return string
      */
-    public static function CONCATENATE(...$args)
-    {
+    public static function CONCATENATE(...$args) {
+
         return TextData\Concatenate::CONCATENATE(...$args);
     }
 
@@ -106,8 +106,8 @@ class TextData
      *
      * @return array|string
      */
-    public static function DOLLAR($value = 0, $decimals = 2)
-    {
+    public static function DOLLAR($value = 0, $decimals = 2) {
+
         return TextData\Format::DOLLAR($value, $decimals);
     }
 
@@ -124,8 +124,8 @@ class TextData
      *
      * @return array|int|string
      */
-    public static function SEARCHSENSITIVE($needle, $haystack, $offset = 1)
-    {
+    public static function SEARCHSENSITIVE($needle, $haystack, $offset = 1) {
+
         return TextData\Search::sensitive($needle, $haystack, $offset);
     }
 
@@ -142,8 +142,8 @@ class TextData
      *
      * @return array|int|string
      */
-    public static function SEARCHINSENSITIVE($needle, $haystack, $offset = 1)
-    {
+    public static function SEARCHINSENSITIVE($needle, $haystack, $offset = 1) {
+
         return TextData\Search::insensitive($needle, $haystack, $offset);
     }
 
@@ -160,8 +160,8 @@ class TextData
      *
      * @return array|string
      */
-    public static function FIXEDFORMAT($value, $decimals = 2, $no_commas = false)
-    {
+    public static function FIXEDFORMAT($value, $decimals = 2, $no_commas = false) {
+
         return TextData\Format::FIXEDFORMAT($value, $decimals, $no_commas);
     }
 
@@ -177,8 +177,8 @@ class TextData
      *
      * @return array|string
      */
-    public static function LEFT($value = '', $chars = 1)
-    {
+    public static function LEFT($value = '', $chars = 1) {
+
         return TextData\Extract::left($value, $chars);
     }
 
@@ -195,8 +195,8 @@ class TextData
      *
      * @return array|string
      */
-    public static function MID($value = '', $start = 1, $chars = null)
-    {
+    public static function MID($value = '', $start = 1, $chars = null) {
+
         return TextData\Extract::mid($value, $start, $chars);
     }
 
@@ -212,8 +212,8 @@ class TextData
      *
      * @return array|string
      */
-    public static function RIGHT($value = '', $chars = 1)
-    {
+    public static function RIGHT($value = '', $chars = 1) {
+
         return TextData\Extract::right($value, $chars);
     }
 
@@ -228,8 +228,8 @@ class TextData
      *
      * @return array|int
      */
-    public static function STRINGLENGTH($value = '')
-    {
+    public static function STRINGLENGTH($value = '') {
+
         return TextData\Text::length($value);
     }
 
@@ -246,8 +246,8 @@ class TextData
      *
      * @return array|string
      */
-    public static function LOWERCASE($mixedCaseString)
-    {
+    public static function LOWERCASE($mixedCaseString) {
+
         return TextData\CaseConvert::lower($mixedCaseString);
     }
 
@@ -264,8 +264,8 @@ class TextData
      *
      * @return array|string
      */
-    public static function UPPERCASE($mixedCaseString)
-    {
+    public static function UPPERCASE($mixedCaseString) {
+
         return TextData\CaseConvert::upper($mixedCaseString);
     }
 
@@ -282,8 +282,8 @@ class TextData
      *
      * @return array|string
      */
-    public static function PROPERCASE($mixedCaseString)
-    {
+    public static function PROPERCASE($mixedCaseString) {
+
         return TextData\CaseConvert::proper($mixedCaseString);
     }
 
@@ -301,8 +301,8 @@ class TextData
      *
      * @return array|string
      */
-    public static function REPLACE($oldText, $start, $chars, $newText)
-    {
+    public static function REPLACE($oldText, $start, $chars, $newText) {
+
         return TextData\Replace::replace($oldText, $start, $chars, $newText);
     }
 
@@ -320,8 +320,8 @@ class TextData
      *
      * @return array|string
      */
-    public static function SUBSTITUTE($text = '', $fromText = '', $toText = '', $instance = 0)
-    {
+    public static function SUBSTITUTE($text = '', $fromText = '', $toText = '', $instance = 0) {
+
         return TextData\Replace::substitute($text, $fromText, $toText, $instance);
     }
 
@@ -336,8 +336,8 @@ class TextData
      *
      * @return null|array|string
      */
-    public static function RETURNSTRING($testValue = '')
-    {
+    public static function RETURNSTRING($testValue = '') {
+
         return TextData\Text::test($testValue);
     }
 
@@ -353,8 +353,8 @@ class TextData
      *
      * @return array|string
      */
-    public static function TEXTFORMAT($value, $format)
-    {
+    public static function TEXTFORMAT($value, $format) {
+
         return TextData\Format::TEXTFORMAT($value, $format);
     }
 
@@ -369,8 +369,8 @@ class TextData
      *
      * @return array|DateTimeInterface|float|int|string A string if arguments are invalid
      */
-    public static function VALUE($value = '')
-    {
+    public static function VALUE($value = '') {
+
         return TextData\Format::VALUE($value);
     }
 
@@ -387,8 +387,8 @@ class TextData
      *
      * @return array|float|string
      */
-    public static function NUMBERVALUE($value = '', $decimalSeparator = null, $groupSeparator = null)
-    {
+    public static function NUMBERVALUE($value = '', $decimalSeparator = null, $groupSeparator = null) {
+
         return TextData\Format::NUMBERVALUE($value, $decimalSeparator, $groupSeparator);
     }
 
@@ -406,8 +406,8 @@ class TextData
      *
      * @return array|bool
      */
-    public static function EXACT($value1, $value2)
-    {
+    public static function EXACT($value1, $value2) {
+
         return TextData\Text::exact($value1, $value2);
     }
 
@@ -424,8 +424,8 @@ class TextData
      *
      * @return array|string
      */
-    public static function TEXTJOIN($delimiter, $ignoreEmpty, ...$args)
-    {
+    public static function TEXTJOIN($delimiter, $ignoreEmpty, ...$args) {
+
         return TextData\Concatenate::TEXTJOIN($delimiter, $ignoreEmpty, ...$args);
     }
 
@@ -443,8 +443,8 @@ class TextData
      *
      * @return array|string
      */
-    public static function builtinREPT($str, $number)
-    {
+    public static function builtinREPT($str, $number) {
+
         return TextData\Concatenate::builtinREPT($str, $number);
     }
 }

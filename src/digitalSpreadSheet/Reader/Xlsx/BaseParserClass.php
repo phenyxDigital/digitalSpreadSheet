@@ -2,13 +2,13 @@
 
 namespace phenyxDigitale\digitalSpreadSheet\Reader\Xlsx;
 
-class BaseParserClass
-{
+class BaseParserClass {
+
     /**
      * @param mixed $value
      */
-    protected static function boolean($value): bool
-    {
+    protected static function boolean($value): bool {
+
         if (is_object($value)) {
             $value = (string) $value; // @phpstan-ignore-line
         }
@@ -19,4 +19,5 @@ class BaseParserClass
 
         return $value === 'true' || $value === 'TRUE';
     }
+
 }

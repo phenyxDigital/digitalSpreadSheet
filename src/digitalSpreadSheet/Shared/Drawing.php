@@ -6,8 +6,8 @@ use GdImage;
 use phenyxDigitale\digitalSpreadSheet\Reader\Exception as ReaderException;
 use SimpleXMLElement;
 
-class Drawing
-{
+class Drawing {
+
     /**
      * Convert pixels to EMU.
      *
@@ -15,8 +15,8 @@ class Drawing
      *
      * @return int Value in EMU
      */
-    public static function pixelsToEMU($pixelValue)
-    {
+    public static function pixelsToEMU($pixelValue) {
+
         return $pixelValue * 9525;
     }
 
@@ -27,9 +27,10 @@ class Drawing
      *
      * @return int Value in pixels
      */
-    public static function EMUToPixels($emuValue)
-    {
+    public static function EMUToPixels($emuValue) {
+
         $emuValue = (int) $emuValue;
+
         if ($emuValue != 0) {
             return (int) round($emuValue / 9525);
         }
@@ -46,8 +47,8 @@ class Drawing
      *
      * @return float|int Value in cell dimension
      */
-    public static function pixelsToCellDimension($pixelValue, \phenyxDigitale\digitalSpreadSheet\Style\Font $defaultFont)
-    {
+    public static function pixelsToCellDimension($pixelValue, \phenyxDigitale\digitalSpreadSheet\Style\Font $defaultFont) {
+
         // Font name and size
         $name = $defaultFont->getName();
         $size = $defaultFont->getSize();
@@ -55,13 +56,13 @@ class Drawing
         if (isset(Font::$defaultColumnWidths[$name][$size])) {
             // Exact width can be determined
             return $pixelValue * Font::$defaultColumnWidths[$name][$size]['width']
-                / Font::$defaultColumnWidths[$name][$size]['px'];
+            / Font::$defaultColumnWidths[$name][$size]['px'];
         }
 
         // We don't have data for this particular font and size, use approximation by
         // extrapolating from Calibri 11
         return $pixelValue * 11 * Font::$defaultColumnWidths['Calibri'][11]['width']
-            / Font::$defaultColumnWidths['Calibri'][11]['px'] / $size;
+        / Font::$defaultColumnWidths['Calibri'][11]['px'] / $size;
     }
 
     /**
@@ -72,8 +73,8 @@ class Drawing
      *
      * @return int Value in pixels
      */
-    public static function cellDimensionToPixels($cellWidth, \phenyxDigitale\digitalSpreadSheet\Style\Font $defaultFont)
-    {
+    public static function cellDimensionToPixels($cellWidth, \phenyxDigitale\digitalSpreadSheet\Style\Font $defaultFont) {
+
         // Font name and size
         $name = $defaultFont->getName();
         $size = $defaultFont->getSize();
@@ -81,12 +82,12 @@ class Drawing
         if (isset(Font::$defaultColumnWidths[$name][$size])) {
             // Exact width can be determined
             $colWidth = $cellWidth * Font::$defaultColumnWidths[$name][$size]['px']
-                / Font::$defaultColumnWidths[$name][$size]['width'];
+            / Font::$defaultColumnWidths[$name][$size]['width'];
         } else {
             // We don't have data for this particular font and size, use approximation by
             // extrapolating from Calibri 11
             $colWidth = $cellWidth * $size * Font::$defaultColumnWidths['Calibri'][11]['px']
-                / Font::$defaultColumnWidths['Calibri'][11]['width'] / 11;
+            / Font::$defaultColumnWidths['Calibri'][11]['width'] / 11;
         }
 
         // Round pixels to closest integer
@@ -102,8 +103,8 @@ class Drawing
      *
      * @return float Value in points
      */
-    public static function pixelsToPoints($pixelValue)
-    {
+    public static function pixelsToPoints($pixelValue) {
+
         return $pixelValue * 0.75;
     }
 
@@ -114,8 +115,8 @@ class Drawing
      *
      * @return int Value in pixels
      */
-    public static function pointsToPixels($pointValue)
-    {
+    public static function pointsToPixels($pointValue) {
+
         if ($pointValue != 0) {
             return (int) ceil($pointValue / 0.75);
         }
@@ -130,8 +131,8 @@ class Drawing
      *
      * @return int Angle
      */
-    public static function degreesToAngle($degrees)
-    {
+    public static function degreesToAngle($degrees) {
+
         return (int) round($degrees * 60000);
     }
 
@@ -142,9 +143,10 @@ class Drawing
      *
      * @return int Degrees
      */
-    public static function angleToDegrees($angle)
-    {
+    public static function angleToDegrees($angle) {
+
         $angle = (int) $angle;
+
         if ($angle != 0) {
             return (int) round($angle / 60000);
         }
@@ -165,13 +167,15 @@ class Drawing
      *
      * @codeCoverageIgnore
      */
-    public static function imagecreatefrombmp($bmpFilename)
-    {
+    public static function imagecreatefrombmp($bmpFilename) {
+
         $retVal = @imagecreatefrombmp($bmpFilename);
+
         if ($retVal === false) {
             throw new ReaderException("Unable to create image from $bmpFilename");
         }
 
         return $retVal;
     }
+
 }

@@ -2,8 +2,8 @@
 
 namespace phenyxDigitale\digitalSpreadSheet\Reader\Xlsx;
 
-class Namespaces
-{
+class Namespaces {
+
     const SCHEMAS = 'http://schemas.openxmlformats.org';
 
     const RELATIONSHIPS = 'http://schemas.openxmlformats.org/package/2006/relationships';

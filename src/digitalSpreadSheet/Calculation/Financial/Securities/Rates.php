@@ -8,8 +8,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Financial\Constants as Financi
 use phenyxDigitale\digitalSpreadSheet\Calculation\Functions;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class Rates
-{
+class Rates {
+
     /**
      * DISC.
      *
@@ -41,13 +41,14 @@ class Rates
         $redemption,
         $basis = FinancialConstants::BASIS_DAYS_PER_YEAR_NASD
     ) {
+
         $settlement = Functions::flattenSingleValue($settlement);
         $maturity = Functions::flattenSingleValue($maturity);
         $price = Functions::flattenSingleValue($price);
         $redemption = Functions::flattenSingleValue($redemption);
         $basis = ($basis === null)
-            ? FinancialConstants::BASIS_DAYS_PER_YEAR_NASD
-            : Functions::flattenSingleValue($basis);
+        ? FinancialConstants::BASIS_DAYS_PER_YEAR_NASD
+        : Functions::flattenSingleValue($basis);
 
         try {
             $settlement = SecurityValidations::validateSettlementDate($settlement);
@@ -65,6 +66,7 @@ class Rates
         }
 
         $daysBetweenSettlementAndMaturity = Functions::scalar(DateTimeExcel\YearFrac::fraction($settlement, $maturity, $basis));
+
         if (!is_numeric($daysBetweenSettlementAndMaturity)) {
             //    return date error
             return $daysBetweenSettlementAndMaturity;
@@ -104,13 +106,14 @@ class Rates
         $redemption,
         $basis = FinancialConstants::BASIS_DAYS_PER_YEAR_NASD
     ) {
+
         $settlement = Functions::flattenSingleValue($settlement);
         $maturity = Functions::flattenSingleValue($maturity);
         $investment = Functions::flattenSingleValue($investment);
         $redemption = Functions::flattenSingleValue($redemption);
         $basis = ($basis === null)
-            ? FinancialConstants::BASIS_DAYS_PER_YEAR_NASD
-            : Functions::flattenSingleValue($basis);
+        ? FinancialConstants::BASIS_DAYS_PER_YEAR_NASD
+        : Functions::flattenSingleValue($basis);
 
         try {
             $settlement = SecurityValidations::validateSettlementDate($settlement);
@@ -128,6 +131,7 @@ class Rates
         }
 
         $daysBetweenSettlementAndMaturity = Functions::scalar(DateTimeExcel\YearFrac::fraction($settlement, $maturity, $basis));
+
         if (!is_numeric($daysBetweenSettlementAndMaturity)) {
             //    return date error
             return $daysBetweenSettlementAndMaturity;
@@ -135,4 +139,5 @@ class Rates
 
         return (($redemption / $investment) - 1) / ($daysBetweenSettlementAndMaturity);
     }
+
 }

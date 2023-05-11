@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Calculation\Database;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 use phenyxDigitale\digitalSpreadSheet\Calculation\MathTrig;
 
-class DSum extends DatabaseAbstract
-{
+class DSum extends DatabaseAbstract {
+
     /**
      * DSUM.
      *
@@ -32,9 +32,10 @@ class DSum extends DatabaseAbstract
      *
      * @return null|float|string
      */
-    public static function evaluate($database, $field, $criteria, bool $returnNull = false)
-    {
+    public static function evaluate($database, $field, $criteria, bool $returnNull = false) {
+
         $field = self::fieldExtract($database, $field);
+
         if ($field === null) {
             return $returnNull ? null : ExcelError::VALUE();
         }
@@ -43,4 +44,5 @@ class DSum extends DatabaseAbstract
             self::getFilteredColumn($database, $field, $criteria)
         );
     }
+
 }

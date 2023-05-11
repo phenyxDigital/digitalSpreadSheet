@@ -2,8 +2,8 @@
 
 namespace phenyxDigitale\digitalSpreadSheet\Reader\Xls;
 
-class MD5
-{
+class MD5 {
+
     /**
      * @var int
      */
@@ -32,8 +32,8 @@ class MD5
     /**
      * MD5 stream constructor.
      */
-    public function __construct()
-    {
+    public function __construct() {
+
         self::$allOneBits = self::signedInt(0xffffffff);
         $this->reset();
     }
@@ -41,8 +41,8 @@ class MD5
     /**
      * Reset the MD5 stream context.
      */
-    public function reset(): void
-    {
+    public function reset(): void{
+
         $this->a = 0x67452301;
         $this->b = self::signedInt(0xEFCDAB89);
         $this->c = self::signedInt(0x98BADCFE);
@@ -54,9 +54,10 @@ class MD5
      *
      * @return string
      */
-    public function getContext()
-    {
+    public function getContext() {
+
         $s = '';
+
         foreach (['a', 'b', 'c', 'd'] as $i) {
             $v = $this->{$i};
             $s .= chr($v & 0xff);
@@ -73,8 +74,8 @@ class MD5
      *
      * @param string $data Data to add
      */
-    public function add(string $data): void
-    {
+    public function add(string $data): void{
+
         // @phpstan-ignore-next-line
         $words = array_values(unpack('V16', $data));
 
@@ -166,29 +167,29 @@ class MD5
         $this->d = ($this->d + $D) & self::$allOneBits;
     }
 
-    private static function f(int $X, int $Y, int $Z): int
-    {
+    private static function f(int $X, int $Y, int $Z): int {
+
         return ($X & $Y) | ((~$X) & $Z); // X AND Y OR NOT X AND Z
     }
 
-    private static function g(int $X, int $Y, int $Z): int
-    {
+    private static function g(int $X, int $Y, int $Z): int {
+
         return ($X & $Z) | ($Y & (~$Z)); // X AND Z OR Y AND NOT Z
     }
 
-    private static function h(int $X, int $Y, int $Z): int
-    {
+    private static function h(int $X, int $Y, int $Z): int {
+
         return $X ^ $Y ^ $Z; // X XOR Y XOR Z
     }
 
-    private static function i(int $X, int $Y, int $Z): int
-    {
+    private static function i(int $X, int $Y, int $Z): int {
+
         return $Y ^ ($X | (~$Z)); // Y XOR (X OR NOT Z)
     }
 
     /** @param float|int $t may be float on 32-bit system */
-    private static function step(callable $func, int &$A, int $B, int $C, int $D, int $M, int $s, $t): void
-    {
+    private static function step(callable $func, int &$A, int $B, int $C, int $D, int $M, int $s, $t): void{
+
         $t = self::signedInt($t);
         $A = (int) ($A + call_user_func($func, $B, $C, $D) + $M + $t) & self::$allOneBits;
         $A = self::rotate($A, $s);
@@ -196,15 +197,16 @@ class MD5
     }
 
     /** @param float|int $result may be float on 32-bit system */
-    private static function signedInt($result): int
-    {
+    private static function signedInt($result): int {
+
         return is_int($result) ? $result : (int) (PHP_INT_MIN + $result - 1 - PHP_INT_MAX);
     }
 
-    private static function rotate(int $decimal, int $bits): int
-    {
+    private static function rotate(int $decimal, int $bits): int{
+
         $binary = str_pad(decbin($decimal), 32, '0', STR_PAD_LEFT);
 
         return self::signedInt(bindec(substr($binary, $bits) . substr($binary, 0, $bits)));
     }
+
 }

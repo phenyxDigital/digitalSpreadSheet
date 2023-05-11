@@ -27,8 +27,8 @@ use phenyxDigitale\digitalSpreadSheet\Shared\OLE;
  *
  * @author   Xavier Noguer <xnoguer@php.net>
  */
-class PPS
-{
+class PPS {
+
     /**
      * The PPS index.
      *
@@ -134,8 +134,8 @@ class PPS
      * @param ?string $data The (usually binary) source data of the PPS
      * @param array $children Array containing children PPS for this PPS
      */
-    public function __construct($No, $name, $type, $prev, $next, $dir, $time_1st, $time_2nd, $data, $children)
-    {
+    public function __construct($No, $name, $type, $prev, $next, $dir, $time_1st, $time_2nd, $data, $children) {
+
         $this->No = (int) $No;
         $this->Name = (string) $name;
         $this->Type = (int) $type;
@@ -154,8 +154,8 @@ class PPS
      *
      * @return int The amount of data (in bytes)
      */
-    public function getDataLen()
-    {
+    public function getDataLen() {
+
         //if (!isset($this->_data)) {
         //    return 0;
         //}
@@ -168,26 +168,26 @@ class PPS
      *
      * @return string The binary string
      */
-    public function getPpsWk()
-    {
+    public function getPpsWk() {
+
         $ret = str_pad($this->Name, 64, "\x00");
 
-        $ret .= pack('v', strlen($this->Name) + 2)  // 66
-            . pack('c', $this->Type)              // 67
-            . pack('c', 0x00) //UK                // 68
-            . pack('V', $this->PrevPps) //Prev    // 72
-            . pack('V', $this->NextPps) //Next    // 76
-            . pack('V', $this->DirPps)  //Dir     // 80
-            . "\x00\x09\x02\x00"                  // 84
-            . "\x00\x00\x00\x00"                  // 88
-            . "\xc0\x00\x00\x00"                  // 92
-            . "\x00\x00\x00\x46"                  // 96 // Seems to be ok only for Root
-            . "\x00\x00\x00\x00"                  // 100
-            . OLE::localDateToOLE($this->Time1st)          // 108
-            . OLE::localDateToOLE($this->Time2nd)          // 116
-            . pack('V', $this->startBlock ?? 0)  // 120
-            . pack('V', $this->Size)               // 124
-            . pack('V', 0); // 128
+        $ret .= pack('v', strlen($this->Name) + 2) // 66
+         . pack('c', $this->Type) // 67
+         . pack('c', 0x00) //UK                // 68
+         . pack('V', $this->PrevPps) //Prev    // 72
+         . pack('V', $this->NextPps) //Next    // 76
+         . pack('V', $this->DirPps) //Dir     // 80
+         . "\x00\x09\x02\x00" // 84
+         . "\x00\x00\x00\x00" // 88
+         . "\xc0\x00\x00\x00" // 92
+         . "\x00\x00\x00\x46" // 96 // Seems to be ok only for Root
+         . "\x00\x00\x00\x00" // 100
+         . OLE::localDateToOLE($this->Time1st) // 108
+         . OLE::localDateToOLE($this->Time2nd) // 116
+         . pack('V', $this->startBlock ?? 0) // 120
+         . pack('V', $this->Size) // 124
+         . pack('V', 0); // 128
 
         return $ret;
     }
@@ -203,11 +203,11 @@ class PPS
      *
      * @return int The index for this PPS
      */
-    public static function savePpsSetPnt(&$raList, $to_save, $depth = 0)
-    {
+    public static function savePpsSetPnt(&$raList, $to_save, $depth = 0) {
+
         if (!is_array($to_save) || (empty($to_save))) {
             return 0xFFFFFFFF;
-        } elseif (count($to_save) == 1) {
+        } else if (count($to_save) == 1) {
             $cnt = count($raList);
             // If the first entry, it's the root... Don't clone it!
             $raList[$cnt] = ($depth == 0) ? $to_save[0] : clone $to_save[0];
@@ -230,4 +230,5 @@ class PPS
 
         return $cnt;
     }
+
 }

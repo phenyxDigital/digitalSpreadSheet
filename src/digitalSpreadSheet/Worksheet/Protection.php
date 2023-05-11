@@ -4,8 +4,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Worksheet;
 
 use phenyxDigitale\digitalSpreadSheet\Shared\PasswordHasher;
 
-class Protection
-{
+class Protection {
+
     const ALGORITHM_MD2 = 'MD2';
     const ALGORITHM_MD4 = 'MD4';
     const ALGORITHM_MD5 = 'MD5';
@@ -160,222 +160,220 @@ class Protection
     /**
      * Create a new Protection.
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * Is some sort of protection enabled?
      */
-    public function isProtectionEnabled(): bool
-    {
+    public function isProtectionEnabled(): bool {
+
         return
-            $this->password !== '' ||
-            isset($this->sheet) ||
-            isset($this->objects) ||
-            isset($this->scenarios) ||
-            isset($this->formatCells) ||
-            isset($this->formatColumns) ||
-            isset($this->formatRows) ||
-            isset($this->insertColumns) ||
-            isset($this->insertRows) ||
-            isset($this->insertHyperlinks) ||
-            isset($this->deleteColumns) ||
-            isset($this->deleteRows) ||
-            isset($this->selectLockedCells) ||
-            isset($this->sort) ||
-            isset($this->autoFilter) ||
-            isset($this->pivotTables) ||
-            isset($this->selectUnlockedCells);
+        $this->password !== '' ||
+        isset($this->sheet) ||
+        isset($this->objects) ||
+        isset($this->scenarios) ||
+        isset($this->formatCells) ||
+        isset($this->formatColumns) ||
+        isset($this->formatRows) ||
+        isset($this->insertColumns) ||
+        isset($this->insertRows) ||
+        isset($this->insertHyperlinks) ||
+        isset($this->deleteColumns) ||
+        isset($this->deleteRows) ||
+        isset($this->selectLockedCells) ||
+        isset($this->sort) ||
+        isset($this->autoFilter) ||
+        isset($this->pivotTables) ||
+        isset($this->selectUnlockedCells);
     }
 
-    public function getSheet(): ?bool
-    {
+    public function getSheet():  ? bool {
+
         return $this->sheet;
     }
 
-    public function setSheet(?bool $sheet): self
-    {
+    public function setSheet( ? bool $sheet) : self{
+
         $this->sheet = $sheet;
 
         return $this;
     }
 
-    public function getObjects(): ?bool
-    {
+    public function getObjects() :  ? bool {
+
         return $this->objects;
     }
 
-    public function setObjects(?bool $objects): self
-    {
+    public function setObjects( ? bool $objects) : self{
+
         $this->objects = $objects;
 
         return $this;
     }
 
-    public function getScenarios(): ?bool
-    {
+    public function getScenarios() :  ? bool {
+
         return $this->scenarios;
     }
 
-    public function setScenarios(?bool $scenarios): self
-    {
+    public function setScenarios( ? bool $scenarios) : self{
+
         $this->scenarios = $scenarios;
 
         return $this;
     }
 
-    public function getFormatCells(): ?bool
-    {
+    public function getFormatCells() :  ? bool {
+
         return $this->formatCells;
     }
 
-    public function setFormatCells(?bool $formatCells): self
-    {
+    public function setFormatCells( ? bool $formatCells) : self{
+
         $this->formatCells = $formatCells;
 
         return $this;
     }
 
-    public function getFormatColumns(): ?bool
-    {
+    public function getFormatColumns() :  ? bool {
+
         return $this->formatColumns;
     }
 
-    public function setFormatColumns(?bool $formatColumns): self
-    {
+    public function setFormatColumns( ? bool $formatColumns) : self{
+
         $this->formatColumns = $formatColumns;
 
         return $this;
     }
 
-    public function getFormatRows(): ?bool
-    {
+    public function getFormatRows() :  ? bool {
+
         return $this->formatRows;
     }
 
-    public function setFormatRows(?bool $formatRows): self
-    {
+    public function setFormatRows( ? bool $formatRows) : self{
+
         $this->formatRows = $formatRows;
 
         return $this;
     }
 
-    public function getInsertColumns(): ?bool
-    {
+    public function getInsertColumns() :  ? bool {
+
         return $this->insertColumns;
     }
 
-    public function setInsertColumns(?bool $insertColumns): self
-    {
+    public function setInsertColumns( ? bool $insertColumns) : self{
+
         $this->insertColumns = $insertColumns;
 
         return $this;
     }
 
-    public function getInsertRows(): ?bool
-    {
+    public function getInsertRows() :  ? bool {
+
         return $this->insertRows;
     }
 
-    public function setInsertRows(?bool $insertRows): self
-    {
+    public function setInsertRows( ? bool $insertRows) : self{
+
         $this->insertRows = $insertRows;
 
         return $this;
     }
 
-    public function getInsertHyperlinks(): ?bool
-    {
+    public function getInsertHyperlinks() :  ? bool {
+
         return $this->insertHyperlinks;
     }
 
-    public function setInsertHyperlinks(?bool $insertHyperLinks): self
-    {
+    public function setInsertHyperlinks( ? bool $insertHyperLinks) : self{
+
         $this->insertHyperlinks = $insertHyperLinks;
 
         return $this;
     }
 
-    public function getDeleteColumns(): ?bool
-    {
+    public function getDeleteColumns() :  ? bool {
+
         return $this->deleteColumns;
     }
 
-    public function setDeleteColumns(?bool $deleteColumns): self
-    {
+    public function setDeleteColumns( ? bool $deleteColumns) : self{
+
         $this->deleteColumns = $deleteColumns;
 
         return $this;
     }
 
-    public function getDeleteRows(): ?bool
-    {
+    public function getDeleteRows() :  ? bool {
+
         return $this->deleteRows;
     }
 
-    public function setDeleteRows(?bool $deleteRows): self
-    {
+    public function setDeleteRows( ? bool $deleteRows) : self{
+
         $this->deleteRows = $deleteRows;
 
         return $this;
     }
 
-    public function getSelectLockedCells(): ?bool
-    {
+    public function getSelectLockedCells() :  ? bool {
+
         return $this->selectLockedCells;
     }
 
-    public function setSelectLockedCells(?bool $selectLockedCells): self
-    {
+    public function setSelectLockedCells( ? bool $selectLockedCells) : self{
+
         $this->selectLockedCells = $selectLockedCells;
 
         return $this;
     }
 
-    public function getSort(): ?bool
-    {
+    public function getSort() :  ? bool {
+
         return $this->sort;
     }
 
-    public function setSort(?bool $sort): self
-    {
+    public function setSort( ? bool $sort) : self{
+
         $this->sort = $sort;
 
         return $this;
     }
 
-    public function getAutoFilter(): ?bool
-    {
+    public function getAutoFilter() :  ? bool {
+
         return $this->autoFilter;
     }
 
-    public function setAutoFilter(?bool $autoFilter): self
-    {
+    public function setAutoFilter( ? bool $autoFilter) : self{
+
         $this->autoFilter = $autoFilter;
 
         return $this;
     }
 
-    public function getPivotTables(): ?bool
-    {
+    public function getPivotTables() :  ? bool {
+
         return $this->pivotTables;
     }
 
-    public function setPivotTables(?bool $pivotTables): self
-    {
+    public function setPivotTables( ? bool $pivotTables) : self{
+
         $this->pivotTables = $pivotTables;
 
         return $this;
     }
 
-    public function getSelectUnlockedCells(): ?bool
-    {
+    public function getSelectUnlockedCells() :  ? bool {
+
         return $this->selectUnlockedCells;
     }
 
-    public function setSelectUnlockedCells(?bool $selectUnlockedCells): self
-    {
+    public function setSelectUnlockedCells( ? bool $selectUnlockedCells) : self{
+
         $this->selectUnlockedCells = $selectUnlockedCells;
 
         return $this;
@@ -386,8 +384,8 @@ class Protection
      *
      * @return string
      */
-    public function getPassword()
-    {
+    public function getPassword() {
+
         return $this->password;
     }
 
@@ -399,8 +397,8 @@ class Protection
      *
      * @return $this
      */
-    public function setPassword($password, $alreadyHashed = false)
-    {
+    public function setPassword($password, $alreadyHashed = false) {
+
         if (!$alreadyHashed) {
             $salt = $this->generateSalt();
             $this->setSalt($salt);
@@ -412,57 +410,57 @@ class Protection
         return $this;
     }
 
-    public function setHashValue(string $password): self
-    {
+    public function setHashValue(string $password) : self {
+
         return $this->setPassword($password, true);
     }
 
     /**
      * Create a pseudorandom string.
      */
-    private function generateSalt(): string
-    {
+    private function generateSalt(): string {
+
         return base64_encode(random_bytes(16));
     }
 
     /**
      * Get algorithm name.
      */
-    public function getAlgorithm(): string
-    {
+    public function getAlgorithm(): string {
+
         return $this->algorithm;
     }
 
     /**
      * Set algorithm name.
      */
-    public function setAlgorithm(string $algorithm): self
-    {
+    public function setAlgorithm(string $algorithm): self {
+
         return $this->setAlgorithmName($algorithm);
     }
 
     /**
      * Set algorithm name.
      */
-    public function setAlgorithmName(string $algorithm): self
-    {
+    public function setAlgorithmName(string $algorithm): self{
+
         $this->algorithm = $algorithm;
 
         return $this;
     }
 
-    public function getSalt(): string
-    {
+    public function getSalt(): string {
+
         return $this->salt;
     }
 
-    public function setSalt(string $salt): self
-    {
+    public function setSalt(string $salt): self {
+
         return $this->setSaltValue($salt);
     }
 
-    public function setSaltValue(string $salt): self
-    {
+    public function setSaltValue(string $salt): self{
+
         $this->salt = $salt;
 
         return $this;
@@ -471,16 +469,16 @@ class Protection
     /**
      * Get spin count.
      */
-    public function getSpinCount(): int
-    {
+    public function getSpinCount(): int {
+
         return $this->spinCount;
     }
 
     /**
      * Set spin count.
      */
-    public function setSpinCount(int $spinCount): self
-    {
+    public function setSpinCount(int $spinCount): self{
+
         $this->spinCount = $spinCount;
 
         return $this;
@@ -489,8 +487,8 @@ class Protection
     /**
      * Verify that the given non-hashed password can "unlock" the protection.
      */
-    public function verify(string $password): bool
-    {
+    public function verify(string $password): bool {
+
         if ($this->password === '') {
             return true;
         }
@@ -503,15 +501,20 @@ class Protection
     /**
      * Implement PHP __clone to create a deep clone, not just a shallow copy.
      */
-    public function __clone()
-    {
+    public function __clone() {
+
         $vars = get_object_vars($this);
+
         foreach ($vars as $key => $value) {
+
             if (is_object($value)) {
                 $this->$key = clone $value;
             } else {
                 $this->$key = $value;
             }
+
         }
+
     }
+
 }

@@ -6,8 +6,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Calculation;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 use phenyxDigitale\digitalSpreadSheet\Cell\Cell;
 
-class Formula
-{
+class Formula {
+
     /**
      * FORMULATEXT.
      *
@@ -16,8 +16,8 @@ class Formula
      *
      * @return string
      */
-    public static function text($cellReference = '', ?Cell $cell = null)
-    {
+    public static function text($cellReference = '',  ? Cell $cell = null) {
+
         if ($cell === null) {
             return ExcelError::REF();
         }
@@ -27,8 +27,8 @@ class Formula
         $cellReference = $matches[6] . $matches[7];
         $worksheetName = trim($matches[3], "'");
         $worksheet = (!empty($worksheetName))
-            ? $cell->getWorksheet()->getParentOrThrow()->getSheetByName($worksheetName)
-            : $cell->getWorksheet();
+        ? $cell->getWorksheet()->getParentOrThrow()->getSheetByName($worksheetName)
+        : $cell->getWorksheet();
 
         if (
             $worksheet === null ||
@@ -40,4 +40,5 @@ class Formula
 
         return $worksheet->getCell($cellReference)->getValue();
     }
+
 }

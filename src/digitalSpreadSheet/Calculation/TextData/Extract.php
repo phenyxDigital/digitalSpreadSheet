@@ -8,8 +8,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Functions;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 use phenyxDigitale\digitalSpreadSheet\Shared\StringHelper;
 
-class Extract
-{
+class Extract {
+
     use ArrayEnabled;
 
     /**
@@ -24,8 +24,8 @@ class Extract
      *         If an array of values is passed for the $value or $chars arguments, then the returned result
      *            will also be an array with matching dimensions
      */
-    public static function left($value, $chars = 1)
-    {
+    public static function left($value, $chars = 1) {
+
         if (is_array($value) || is_array($chars)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $value, $chars);
         }
@@ -54,8 +54,8 @@ class Extract
      *         If an array of values is passed for the $value, $start or $chars arguments, then the returned result
      *            will also be an array with matching dimensions
      */
-    public static function mid($value, $start, $chars)
-    {
+    public static function mid($value, $start, $chars) {
+
         if (is_array($value) || is_array($start) || is_array($chars)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $value, $start, $chars);
         }
@@ -83,8 +83,8 @@ class Extract
      *         If an array of values is passed for the $value or $chars arguments, then the returned result
      *            will also be an array with matching dimensions
      */
-    public static function right($value, $chars = 1)
-    {
+    public static function right($value, $chars = 1) {
+
         if (is_array($value) || is_array($chars)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $value, $chars);
         }
@@ -126,8 +126,8 @@ class Extract
      *         If an array of values is passed for any of the arguments, then the returned result
      *            will also be an array with matching dimensions
      */
-    public static function before($text, $delimiter, $instance = 1, $matchMode = 0, $matchEnd = 0, $ifNotFound = '#N/A')
-    {
+    public static function before($text, $delimiter, $instance = 1, $matchMode = 0, $matchEnd = 0, $ifNotFound = '#N/A') {
+
         if (is_array($text) || is_array($instance) || is_array($matchMode) || is_array($matchEnd) || is_array($ifNotFound)) {
             return self::evaluateArrayArgumentsIgnore([self::class, __FUNCTION__], 1, $text, $delimiter, $instance, $matchMode, $matchEnd, $ifNotFound);
         }
@@ -138,9 +138,11 @@ class Extract
         $matchEnd = (int) $matchEnd;
 
         $split = self::validateTextBeforeAfter($text, $delimiter, $instance, $matchMode, $matchEnd, $ifNotFound);
+
         if (is_string($split)) {
             return $split;
         }
+
         if (Helpers::extractString(Functions::flattenSingleValue($delimiter ?? '')) === '') {
             return ($instance > 0) ? '' : $text;
         }
@@ -152,8 +154,8 @@ class Extract
         $oddReverseAdjustment = count($split) % 2;
 
         $split = ($instance < 0)
-            ? array_slice($split, 0, max(count($split) - (abs($instance) * 2 - 1) - $adjust - $oddReverseAdjustment, 0))
-            : array_slice($split, 0, $instance * 2 - 1 - $adjust);
+        ? array_slice($split, 0, max(count($split) - (abs($instance) * 2 - 1) - $adjust - $oddReverseAdjustment, 0))
+        : array_slice($split, 0, $instance * 2 - 1 - $adjust);
 
         return implode('', $split);
     }
@@ -184,8 +186,8 @@ class Extract
      *         If an array of values is passed for any of the arguments, then the returned result
      *            will also be an array with matching dimensions
      */
-    public static function after($text, $delimiter, $instance = 1, $matchMode = 0, $matchEnd = 0, $ifNotFound = '#N/A')
-    {
+    public static function after($text, $delimiter, $instance = 1, $matchMode = 0, $matchEnd = 0, $ifNotFound = '#N/A') {
+
         if (is_array($text) || is_array($instance) || is_array($matchMode) || is_array($matchEnd) || is_array($ifNotFound)) {
             return self::evaluateArrayArgumentsIgnore([self::class, __FUNCTION__], 1, $text, $delimiter, $instance, $matchMode, $matchEnd, $ifNotFound);
         }
@@ -196,9 +198,11 @@ class Extract
         $matchEnd = (int) $matchEnd;
 
         $split = self::validateTextBeforeAfter($text, $delimiter, $instance, $matchMode, $matchEnd, $ifNotFound);
+
         if (is_string($split)) {
             return $split;
         }
+
         if (Helpers::extractString(Functions::flattenSingleValue($delimiter ?? '')) === '') {
             return ($instance < 0) ? '' : $text;
         }
@@ -210,8 +214,8 @@ class Extract
         $oddReverseAdjustment = count($split) % 2;
 
         $split = ($instance < 0)
-            ? array_slice($split, count($split) - ((int) abs($instance + 1) * 2) - $adjust - $oddReverseAdjustment)
-            : array_slice($split, $instance * 2 - $adjust);
+        ? array_slice($split, count($split) - ((int) abs($instance + 1) * 2) - $adjust - $oddReverseAdjustment)
+        : array_slice($split, $instance * 2 - $adjust);
 
         return implode('', $split);
     }
@@ -224,8 +228,8 @@ class Extract
      *
      * @return array|string
      */
-    private static function validateTextBeforeAfter(string $text, $delimiter, int $instance, $matchMode, $matchEnd, $ifNotFound)
-    {
+    private static function validateTextBeforeAfter(string $text, $delimiter, int $instance, $matchMode, $matchEnd, $ifNotFound) {
+
         $flags = self::matchFlags($matchMode);
         $delimiter = self::buildDelimiter($delimiter);
 
@@ -234,6 +238,7 @@ class Extract
         }
 
         $split = preg_split('/' . $delimiter . "/{$flags}", $text, 0, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+
         if ($split === false) {
             return ExcelError::NA();
         }
@@ -244,7 +249,7 @@ class Extract
 
         if ($matchEnd === 0 && (abs($instance) > floor(count($split) / 2))) {
             return ExcelError::NA();
-        } elseif ($matchEnd !== 0 && (abs($instance) - 1 > ceil(count($split) / 2))) {
+        } else if ($matchEnd !== 0 && (abs($instance) - 1 > ceil(count($split) / 2))) {
             return ExcelError::NA();
         }
 
@@ -255,12 +260,13 @@ class Extract
      * @param null|array|string $delimiter the text that marks the point before which you want to extract
      *                                 Multiple delimiters can be passed as an array of string values
      */
-    private static function buildDelimiter($delimiter): string
-    {
+    private static function buildDelimiter($delimiter) : string {
+
         if (is_array($delimiter)) {
             $delimiter = Functions::flattenArray($delimiter);
             $quotedDelimiters = array_map(
                 function ($delimiter) {
+
                     return preg_quote($delimiter ?? '');
                 },
                 $delimiter
@@ -273,8 +279,9 @@ class Extract
         return '(' . preg_quote($delimiter ?? '') . ')';
     }
 
-    private static function matchFlags(int $matchMode): string
-    {
+    private static function matchFlags(int $matchMode) : string {
+
         return ($matchMode === 0) ? 'mu' : 'miu';
     }
+
 }

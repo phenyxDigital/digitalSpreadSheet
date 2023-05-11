@@ -4,8 +4,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Calculation\Information;
 
 use phenyxDigitale\digitalSpreadSheet\Calculation\ArrayEnabled;
 
-class ExcelError
-{
+class ExcelError {
+
     use ArrayEnabled;
 
     /**
@@ -14,20 +14,20 @@ class ExcelError
      * @var array<string, string>
      */
     public const ERROR_CODES = [
-        'null' => '#NULL!', // 1
+        'null'           => '#NULL!', // 1
         'divisionbyzero' => '#DIV/0!', // 2
-        'value' => '#VALUE!', // 3
-        'reference' => '#REF!', // 4
-        'name' => '#NAME?', // 5
-        'num' => '#NUM!', // 6
-        'na' => '#N/A', // 7
-        'gettingdata' => '#GETTING_DATA', // 8
-        'spill' => '#SPILL!', // 9
-        'connect' => '#CONNECT!', //10
-        'blocked' => '#BLOCKED!', //11
-        'unknown' => '#UNKNOWN!', //12
-        'field' => '#FIELD!', //13
-        'calculation' => '#CALC!', //14
+        'value'          => '#VALUE!', // 3
+        'reference'      => '#REF!', // 4
+        'name'           => '#NAME?', // 5
+        'num'            => '#NUM!', // 6
+        'na'             => '#N/A', // 7
+        'gettingdata'    => '#GETTING_DATA', // 8
+        'spill'          => '#SPILL!', // 9
+        'connect'        => '#CONNECT!', //10
+        'blocked'        => '#BLOCKED!', //11
+        'unknown'        => '#UNKNOWN!', //12
+        'field'          => '#FIELD!', //13
+        'calculation'    => '#CALC!', //14
     ];
 
     /**
@@ -44,8 +44,8 @@ class ExcelError
     /**
      * @param mixed $value
      */
-    public static function throwError($value): string
-    {
+    public static function throwError($value): string {
+
         return in_array($value, self::ERROR_CODES, true) ? $value : self::ERROR_CODES['value'];
     }
 
@@ -56,17 +56,20 @@ class ExcelError
      *
      * @return array|int|string
      */
-    public static function type($value = '')
-    {
+    public static function type($value = '') {
+
         if (is_array($value)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $value);
         }
 
         $i = 1;
+
         foreach (self::ERROR_CODES as $errorCode) {
+
             if ($value === $errorCode) {
                 return $i;
             }
+
             ++$i;
         }
 
@@ -80,8 +83,8 @@ class ExcelError
      *
      * @return string #NULL!
      */
-    public static function null(): string
-    {
+    public static function null(): string {
+
         return self::ERROR_CODES['null'];
     }
 
@@ -92,8 +95,8 @@ class ExcelError
      *
      * @return string #NUM!
      */
-    public static function NAN(): string
-    {
+    public static function NAN(): string {
+
         return self::ERROR_CODES['num'];
     }
 
@@ -104,8 +107,8 @@ class ExcelError
      *
      * @return string #REF!
      */
-    public static function REF(): string
-    {
+    public static function REF(): string {
+
         return self::ERROR_CODES['reference'];
     }
 
@@ -120,8 +123,8 @@ class ExcelError
      *
      * @return string #N/A!
      */
-    public static function NA(): string
-    {
+    public static function NA(): string {
+
         return self::ERROR_CODES['na'];
     }
 
@@ -132,8 +135,8 @@ class ExcelError
      *
      * @return string #VALUE!
      */
-    public static function VALUE(): string
-    {
+    public static function VALUE(): string {
+
         return self::ERROR_CODES['value'];
     }
 
@@ -144,8 +147,8 @@ class ExcelError
      *
      * @return string #NAME?
      */
-    public static function NAME(): string
-    {
+    public static function NAME(): string {
+
         return self::ERROR_CODES['name'];
     }
 
@@ -154,8 +157,8 @@ class ExcelError
      *
      * @return string #DIV/0!
      */
-    public static function DIV0(): string
-    {
+    public static function DIV0(): string {
+
         return self::ERROR_CODES['divisionbyzero'];
     }
 
@@ -164,8 +167,9 @@ class ExcelError
      *
      * @return string #CALC!
      */
-    public static function CALC(): string
-    {
+    public static function CALC(): string {
+
         return self::ERROR_CODES['calculation'];
     }
+
 }

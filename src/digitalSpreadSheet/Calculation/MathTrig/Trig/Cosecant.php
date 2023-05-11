@@ -6,8 +6,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\ArrayEnabled;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 use phenyxDigitale\digitalSpreadSheet\Calculation\MathTrig\Helpers;
 
-class Cosecant
-{
+class Cosecant {
+
     use ArrayEnabled;
 
     /**
@@ -21,8 +21,8 @@ class Cosecant
      *         If an array of numbers is passed as the argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function csc($angle)
-    {
+    public static function csc($angle) {
+
         if (is_array($angle)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $angle);
         }
@@ -47,8 +47,8 @@ class Cosecant
      *         If an array of numbers is passed as the argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function csch($angle)
-    {
+    public static function csch($angle) {
+
         if (is_array($angle)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $angle);
         }
@@ -61,4 +61,5 @@ class Cosecant
 
         return Helpers::verySmallDenominator(1.0, sinh($angle));
     }
+
 }

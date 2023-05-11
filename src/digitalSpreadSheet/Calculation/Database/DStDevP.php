@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Calculation\Database;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Statistical\StandardDeviations;
 
-class DStDevP extends DatabaseAbstract
-{
+class DStDevP extends DatabaseAbstract {
+
     /**
      * DSTDEVP.
      *
@@ -33,9 +33,10 @@ class DStDevP extends DatabaseAbstract
      *
      * @return float|string
      */
-    public static function evaluate($database, $field, $criteria)
-    {
+    public static function evaluate($database, $field, $criteria) {
+
         $field = self::fieldExtract($database, $field);
+
         if ($field === null) {
             return ExcelError::VALUE();
         }
@@ -44,4 +45,5 @@ class DStDevP extends DatabaseAbstract
             self::getFilteredColumn($database, $field, $criteria)
         );
     }
+
 }

@@ -4,20 +4,21 @@ namespace phenyxDigitale\digitalSpreadSheet\Reader\Xls\Style;
 
 use phenyxDigitale\digitalSpreadSheet\Style\Font;
 
-class CellFont
-{
-    public static function escapement(Font $font, int $escapement): void
-    {
+class CellFont {
+
+    public static function escapement(Font $font, int $escapement): void {
+
         switch ($escapement) {
-            case 0x0001:
-                $font->setSuperscript(true);
+        case 0x0001:
+            $font->setSuperscript(true);
 
-                break;
-            case 0x0002:
-                $font->setSubscript(true);
+            break;
+        case 0x0002:
+            $font->setSubscript(true);
 
-                break;
+            break;
         }
+
     }
 
     /**
@@ -30,10 +31,12 @@ class CellFont
         0x22 => Font::UNDERLINE_DOUBLEACCOUNTING,
     ];
 
-    public static function underline(Font $font, int $underline): void
-    {
+    public static function underline(Font $font, int $underline): void {
+
         if (array_key_exists($underline, self::$underlineMap)) {
             $font->setUnderline(self::$underlineMap[$underline]);
         }
+
     }
+
 }

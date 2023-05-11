@@ -7,16 +7,18 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Functions;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class Floor
-{
+class Floor {
+
     use ArrayEnabled;
 
-    private static function floorCheck1Arg(): void
-    {
+    private static function floorCheck1Arg(): void{
+
         $compatibility = Functions::getCompatibilityMode();
+
         if ($compatibility === Functions::COMPATIBILITY_EXCEL) {
             throw new Exception('Excel requires 2 arguments for FLOOR');
         }
+
     }
 
     /**
@@ -36,8 +38,8 @@ class Floor
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function floor($number, $significance = null)
-    {
+    public static function floor($number, $significance = null) {
+
         if (is_array($number) || is_array($significance)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $number, $significance);
         }
@@ -75,8 +77,8 @@ class Floor
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function math($number, $significance = null, $mode = 0)
-    {
+    public static function math($number, $significance = null, $mode = 0) {
+
         if (is_array($number) || is_array($significance) || is_array($mode)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $number, $significance, $mode);
         }
@@ -109,8 +111,8 @@ class Floor
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function precise($number, $significance = 1)
-    {
+    public static function precise($number, $significance = 1) {
+
         if (is_array($number) || is_array($significance)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $number, $significance);
         }
@@ -130,11 +132,12 @@ class Floor
      *
      * @return float|string
      */
-    private static function argumentsOkPrecise(float $number, float $significance)
-    {
+    private static function argumentsOkPrecise(float $number, float $significance) {
+
         if ($significance == 0.0) {
             return ExcelError::DIV0();
         }
+
         if ($number == 0.0) {
             return 0.0;
         }
@@ -147,14 +150,16 @@ class Floor
      *
      * @return float|string Rounded Number, or a string containing an error
      */
-    private static function argsOk(float $number, float $significance, int $mode)
-    {
+    private static function argsOk(float $number, float $significance, int $mode) {
+
         if (!$significance) {
             return ExcelError::DIV0();
         }
+
         if (!$number) {
             return 0.0;
         }
+
         if (self::floorMathTest($number, $significance, $mode)) {
             return ceil($number / $significance) * $significance;
         }
@@ -165,8 +170,8 @@ class Floor
     /**
      * Let FLOORMATH complexity pass Scrutinizer.
      */
-    private static function floorMathTest(float $number, float $significance, int $mode): bool
-    {
+    private static function floorMathTest(float $number, float $significance, int $mode): bool {
+
         return Helpers::returnSign($significance) == -1 || (Helpers::returnSign($number) == -1 && !empty($mode));
     }
 
@@ -175,21 +180,25 @@ class Floor
      *
      * @return float|string
      */
-    private static function argumentsOk(float $number, float $significance)
-    {
+    private static function argumentsOk(float $number, float $significance) {
+
         if ($significance == 0.0) {
             return ExcelError::DIV0();
         }
+
         if ($number == 0.0) {
             return 0.0;
         }
+
         if (Helpers::returnSign($significance) == 1) {
             return floor($number / $significance) * $significance;
         }
+
         if (Helpers::returnSign($number) == -1 && Helpers::returnSign($significance) == -1) {
             return floor($number / $significance) * $significance;
         }
 
         return ExcelError::NAN();
     }
+
 }

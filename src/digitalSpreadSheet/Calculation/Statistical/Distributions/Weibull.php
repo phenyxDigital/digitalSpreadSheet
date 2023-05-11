@@ -6,8 +6,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\ArrayEnabled;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class Weibull
-{
+class Weibull {
+
     use ArrayEnabled;
 
     /**
@@ -29,8 +29,8 @@ class Weibull
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function distribution($value, $alpha, $beta, $cumulative)
-    {
+    public static function distribution($value, $alpha, $beta, $cumulative) {
+
         if (is_array($value) || is_array($alpha) || is_array($beta) || is_array($cumulative)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $value, $alpha, $beta, $cumulative);
         }
@@ -54,4 +54,5 @@ class Weibull
 
         return ($alpha / $beta ** $alpha) * $value ** ($alpha - 1) * exp(0 - ($value / $beta) ** $alpha);
     }
+
 }

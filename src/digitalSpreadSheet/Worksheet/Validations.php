@@ -7,21 +7,21 @@ use phenyxDigitale\digitalSpreadSheet\Cell\CellAddress;
 use phenyxDigitale\digitalSpreadSheet\Cell\CellRange;
 use phenyxDigitale\digitalSpreadSheet\Exception as SpreadsheetException;
 
-class Validations
-{
+class Validations {
+
     /**
      * Validate a cell address.
      *
      * @param null|array<int>|CellAddress|string $cellAddress Coordinate of the cell as a string, eg: 'C5';
      *               or as an array of [$columnIndex, $row] (e.g. [3, 5]), or a CellAddress object.
      */
-    public static function validateCellAddress($cellAddress): string
-    {
+    public static function validateCellAddress($cellAddress): string {
+
         if (is_string($cellAddress)) {
             [$worksheet, $address] = Worksheet::extractSheetTitle($cellAddress, true);
 //            if (!empty($worksheet) && $worksheet !== $this->getTitle()) {
-//                throw new Exception('Reference is not for this worksheet');
-//            }
+            //                throw new Exception('Reference is not for this worksheet');
+            //            }
 
             return empty($worksheet) ? strtoupper("$address") : $worksheet . '!' . strtoupper("$address");
         }
@@ -40,13 +40,13 @@ class Validations
      *               or as an array of [$fromColumnIndex, $fromRow, $toColumnIndex, $toRow] (e.g. [3, 5, 6, 12]),
      *               or as a CellAddress or AddressRange object.
      */
-    public static function validateCellOrCellRange($cellRange): string
-    {
+    public static function validateCellOrCellRange($cellRange): string {
+
         if (is_string($cellRange) || is_numeric($cellRange)) {
             // Convert a single column reference like 'A' to 'A:A',
             //    a single row reference like '1' to '1:1'
             $cellRange = (string) preg_replace('/^([A-Z]+|\d+)$/', '${1}:${1}', (string) $cellRange);
-        } elseif (is_object($cellRange) && $cellRange instanceof CellAddress) {
+        } else if (is_object($cellRange) && $cellRange instanceof CellAddress) {
             $cellRange = new CellRange($cellRange, $cellRange);
         }
 
@@ -60,8 +60,8 @@ class Validations
      *               or as an array of [$fromColumnIndex, $fromRow, $toColumnIndex, $toRow] (e.g. [3, 5, 6, 12]),
      *               or as an AddressRange object.
      */
-    public static function validateCellRange($cellRange): string
-    {
+    public static function validateCellRange($cellRange): string {
+
         if (is_string($cellRange)) {
             [$worksheet, $addressRange] = Worksheet::extractSheetTitle($cellRange, true);
 
@@ -77,39 +77,45 @@ class Validations
         }
 
         if (is_array($cellRange)) {
+
             switch (count($cellRange)) {
-                case 2:
-                    $from = [$cellRange[0], $cellRange[1]];
-                    $to = [$cellRange[0], $cellRange[1]];
+            case 2:
+                $from = [$cellRange[0], $cellRange[1]];
+                $to = [$cellRange[0], $cellRange[1]];
 
-                    break;
-                case 4:
-                    $from = [$cellRange[0], $cellRange[1]];
-                    $to = [$cellRange[2], $cellRange[3]];
+                break;
+            case 4:
+                $from = [$cellRange[0], $cellRange[1]];
+                $to = [$cellRange[2], $cellRange[3]];
 
-                    break;
-                default:
-                    throw new SpreadsheetException('CellRange array length must be 2 or 4');
+                break;
+            default:
+                throw new SpreadsheetException('CellRange array length must be 2 or 4');
             }
+
             $cellRange = new CellRange(CellAddress::fromColumnRowArray($from), CellAddress::fromColumnRowArray($to));
         }
 
         return (string) $cellRange;
     }
 
-    public static function definedNameToCoordinate(string $coordinate, Worksheet $worksheet): string
-    {
+    public static function definedNameToCoordinate(string $coordinate, Worksheet $worksheet): string{
+
         // Uppercase coordinate
         $coordinate = strtoupper($coordinate);
         // Eliminate leading equal sign
         $testCoordinate = (string) preg_replace('/^=/', '', $coordinate);
         $defined = $worksheet->getParentOrThrow()->getDefinedName($testCoordinate, $worksheet);
+
         if ($defined !== null) {
+
             if ($defined->getWorksheet() === $worksheet && !$defined->isFormula()) {
                 $coordinate = (string) preg_replace('/^=/', '', $defined->getValue());
             }
+
         }
 
         return $coordinate;
     }
+
 }

@@ -8,8 +8,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Functions;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 use phenyxDigitale\digitalSpreadSheet\Shared\Date as SharedDateHelper;
 
-class TimeValue
-{
+class TimeValue {
+
     use ArrayEnabled;
 
     /**
@@ -36,8 +36,8 @@ class TimeValue
      *         If an array of numbers is passed as the argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function fromString($timeValue)
-    {
+    public static function fromString($timeValue) {
+
         if (is_array($timeValue)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $timeValue);
         }
@@ -46,6 +46,7 @@ class TimeValue
         $timeValue = str_replace(['/', '.'], '-', $timeValue);
 
         $arraySplit = preg_split('/[\/:\-\s]/', $timeValue) ?: [];
+
         if ((count($arraySplit) == 2 || count($arraySplit) == 3) && $arraySplit[0] > 24) {
             $arraySplit[0] = ($arraySplit[0] % 24);
             $timeValue = implode(':', $arraySplit);
@@ -53,6 +54,7 @@ class TimeValue
 
         $PHPDateArray = Helpers::dateParse($timeValue);
         $retValue = ExcelError::VALUE();
+
         if (Helpers::dateParseSucceeded($PHPDateArray)) {
             /** @var int */
             $hour = $PHPDateArray['hour'];
@@ -64,15 +66,18 @@ class TimeValue
             $excelDateValue = SharedDateHelper::formattedPHPToExcel(1900, 1, 1, $hour, $minute, $second) - 1;
 
             $retType = Functions::getReturnDateType();
+
             if ($retType === Functions::RETURNDATE_EXCEL) {
                 $retValue = (float) $excelDateValue;
-            } elseif ($retType === Functions::RETURNDATE_UNIX_TIMESTAMP) {
+            } else if ($retType === Functions::RETURNDATE_UNIX_TIMESTAMP) {
                 $retValue = (int) SharedDateHelper::excelToTimestamp($excelDateValue + 25569) - 3600;
             } else {
                 $retValue = new DateTime('1900-01-01 ' . $PHPDateArray['hour'] . ':' . $PHPDateArray['minute'] . ':' . $PHPDateArray['second']);
             }
+
         }
 
         return $retValue;
     }
+
 }

@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Calculation\Statistical\Distribution
 use phenyxDigitale\digitalSpreadSheet\Calculation\Functions;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-abstract class GammaBase
-{
+abstract class GammaBase {
+
     private const LOG_GAMMA_X_MAX_VALUE = 2.55e305;
 
     private const EPS = 2.22e-16;
@@ -18,8 +18,8 @@ abstract class GammaBase
     private const MAX_ITERATIONS = 256;
 
     /** @return float|string */
-    protected static function calculateDistribution(float $value, float $a, float $b, bool $cumulative)
-    {
+    protected static function calculateDistribution(float $value, float $a, float $b, bool $cumulative) {
+
         if ($cumulative) {
             return self::incompleteGamma($a, $value / $b) / self::gammaValue($a);
         }
@@ -28,8 +28,8 @@ abstract class GammaBase
     }
 
     /** @return float|string */
-    protected static function calculateInverse(float $probability, float $alpha, float $beta)
-    {
+    protected static function calculateInverse(float $probability, float $alpha, float $beta) {
+
         $xLo = 0;
         $xHi = $alpha * $beta * 5;
 
@@ -40,14 +40,16 @@ abstract class GammaBase
         while ((abs($dx) > Functions::PRECISION) && (++$i <= self::MAX_ITERATIONS)) {
             // Apply Newton-Raphson step
             $result = self::calculateDistribution($x, $alpha, $beta, true);
+
             if (!is_float($result)) {
                 return ExcelError::NA();
             }
+
             $error = $result - $probability;
 
             if ($error == 0.0) {
                 $dx = 0;
-            } elseif ($error < 0.0) {
+            } else if ($error < 0.0) {
                 $xLo = $x;
             } else {
                 $xHi = $x;
@@ -55,9 +57,11 @@ abstract class GammaBase
 
             $pdf = self::calculateDistribution($x, $alpha, $beta, false);
             // Avoid division by zero
+
             if (!is_float($pdf)) {
                 return ExcelError::NA();
             }
+
             if ($pdf !== 0.0) {
                 $dx = $error / $pdf;
                 $xNew = $x - $dx;
@@ -66,10 +70,12 @@ abstract class GammaBase
             // If the NR fails to converge (which for example may be the
             // case if the initial guess is too rough) we apply a bisection
             // step to determine a more narrow interval around the root.
+
             if (($xNew < $xLo) || ($xNew > $xHi) || ($pdf == 0.0)) {
                 $xNew = ($xLo + $xHi) / 2;
                 $dx = $xNew - $x;
             }
+
             $x = $xNew;
         }
 
@@ -83,15 +89,18 @@ abstract class GammaBase
     //
     //    Implementation of the incomplete Gamma function
     //
-    public static function incompleteGamma(float $a, float $x): float
-    {
+    public static function incompleteGamma(float $a, float $x): float {
+
         static $max = 32;
         $summer = 0;
+
         for ($n = 0; $n <= $max; ++$n) {
             $divisor = $a;
+
             for ($i = 1; $i <= $n; ++$i) {
                 $divisor *= ($a + $i);
             }
+
             $summer += ($x ** $n / $divisor);
         }
 
@@ -101,8 +110,8 @@ abstract class GammaBase
     //
     //    Implementation of the Gamma function
     //
-    public static function gammaValue(float $value): float
-    {
+    public static function gammaValue(float $value): float {
+
         if ($value == 0.0) {
             return 0;
         }
@@ -122,6 +131,7 @@ abstract class GammaBase
         $tmp -= ($x + 0.5) * log($tmp);
 
         $summer = $p0;
+
         for ($j = 1; $j <= 6; ++$j) {
             $summer += ($p[$j] / ++$y);
         }
@@ -129,7 +139,7 @@ abstract class GammaBase
         return exp(0 - $tmp + log(self::SQRT2PI * $summer / $x));
     }
 
-    private const  LG_D1 = -0.5772156649015328605195174;
+    private const LG_D1 = -0.5772156649015328605195174;
 
     private const LG_D2 = 0.4227843350984671393993777;
 
@@ -267,25 +277,28 @@ abstract class GammaBase
      *
      * @return float MAX_VALUE for x < 0.0 or when overflow would occur, i.e. x > 2.55E305
      */
-    public static function logGamma(float $x): float
-    {
+    public static function logGamma(float $x): float {
+
         if ($x == self::$logGammaCacheX) {
             return self::$logGammaCacheResult;
         }
 
         $y = $x;
+
         if ($y > 0.0 && $y <= self::LOG_GAMMA_X_MAX_VALUE) {
+
             if ($y <= self::EPS) {
                 $res = -log($y);
-            } elseif ($y <= 1.5) {
+            } else if ($y <= 1.5) {
                 $res = self::logGamma1($y);
-            } elseif ($y <= 4.0) {
+            } else if ($y <= 4.0) {
                 $res = self::logGamma2($y);
-            } elseif ($y <= 12.0) {
+            } else if ($y <= 12.0) {
                 $res = self::logGamma3($y);
             } else {
                 $res = self::logGamma4($y);
             }
+
         } else {
             // --------------------------
             //    Return for bad arguments
@@ -302,11 +315,12 @@ abstract class GammaBase
         return $res;
     }
 
-    private static function logGamma1(float $y): float
-    {
+    private static function logGamma1(float $y): float {
+
         // ---------------------
         //    EPS .LT. X .LE. 1.5
         // ---------------------
+
         if ($y < self::PNT68) {
             $corr = -log($y);
             $xm1 = $y;
@@ -317,7 +331,9 @@ abstract class GammaBase
 
         $xden = 1.0;
         $xnum = 0.0;
+
         if ($y <= 0.5 || $y >= self::PNT68) {
+
             for ($i = 0; $i < 8; ++$i) {
                 $xnum = $xnum * $xm1 + self::LG_P1[$i];
                 $xden = $xden * $xm1 + self::LG_Q1[$i];
@@ -327,6 +343,7 @@ abstract class GammaBase
         }
 
         $xm2 = $y - 1.0;
+
         for ($i = 0; $i < 8; ++$i) {
             $xnum = $xnum * $xm2 + self::LG_P2[$i];
             $xden = $xden * $xm2 + self::LG_Q2[$i];
@@ -335,14 +352,15 @@ abstract class GammaBase
         return $corr + $xm2 * (self::LG_D2 + $xm2 * ($xnum / $xden));
     }
 
-    private static function logGamma2(float $y): float
-    {
+    private static function logGamma2(float $y): float{
+
         // ---------------------
         //    1.5 .LT. X .LE. 4.0
         // ---------------------
         $xm2 = $y - 2.0;
         $xden = 1.0;
         $xnum = 0.0;
+
         for ($i = 0; $i < 8; ++$i) {
             $xnum = $xnum * $xm2 + self::LG_P2[$i];
             $xden = $xden * $xm2 + self::LG_Q2[$i];
@@ -351,14 +369,15 @@ abstract class GammaBase
         return $xm2 * (self::LG_D2 + $xm2 * ($xnum / $xden));
     }
 
-    protected static function logGamma3(float $y): float
-    {
+    protected static function logGamma3(float $y): float{
+
         // ----------------------
         //    4.0 .LT. X .LE. 12.0
         // ----------------------
         $xm4 = $y - 4.0;
         $xden = -1.0;
         $xnum = 0.0;
+
         for ($i = 0; $i < 8; ++$i) {
             $xnum = $xnum * $xm4 + self::LG_P4[$i];
             $xden = $xden * $xm4 + self::LG_Q4[$i];
@@ -367,18 +386,21 @@ abstract class GammaBase
         return self::LG_D4 + $xm4 * ($xnum / $xden);
     }
 
-    protected static function logGamma4(float $y): float
-    {
+    protected static function logGamma4(float $y): float{
+
         // ---------------------------------
         //    Evaluate for argument .GE. 12.0
         // ---------------------------------
         $res = 0.0;
+
         if ($y <= self::LG_FRTBIG) {
             $res = self::LG_C[6];
             $ysq = $y * $y;
+
             for ($i = 0; $i < 6; ++$i) {
                 $res = $res / $ysq + self::LG_C[$i];
             }
+
             $res /= $y;
             $corr = log($y);
             $res = $res + log(self::SQRT2PI) - 0.5 * $corr;
@@ -387,4 +409,5 @@ abstract class GammaBase
 
         return $res;
     }
+
 }

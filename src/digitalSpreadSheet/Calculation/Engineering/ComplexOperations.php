@@ -8,8 +8,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\ArrayEnabled;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Functions;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class ComplexOperations
-{
+class ComplexOperations {
+
     use ArrayEnabled;
 
     /**
@@ -29,10 +29,10 @@ class ComplexOperations
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function IMDIV($complexDividend, $complexDivisor)
-    {
+    public static function IMDIV($complexDividend, $complexDivisor) {
+
         if (is_array($complexDividend) || is_array($complexDivisor)) {
-            return self::evaluateArrayArguments([self::class, __FUNCTION__], $complexDividend, $complexDivisor);
+            return evaluateArrayArguments([self::class, __FUNCTION__], $complexDividend, $complexDivisor);
         }
 
         try {
@@ -40,6 +40,7 @@ class ComplexOperations
         } catch (ComplexException $e) {
             return ExcelError::NAN();
         }
+
     }
 
     /**
@@ -59,10 +60,10 @@ class ComplexOperations
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function IMSUB($complexNumber1, $complexNumber2)
-    {
+    public static function IMSUB($complexNumber1, $complexNumber2) {
+
         if (is_array($complexNumber1) || is_array($complexNumber2)) {
-            return self::evaluateArrayArguments([self::class, __FUNCTION__], $complexNumber1, $complexNumber2);
+            return evaluateArrayArguments([self::class, __FUNCTION__], $complexNumber1, $complexNumber2);
         }
 
         try {
@@ -70,6 +71,7 @@ class ComplexOperations
         } catch (ComplexException $e) {
             return ExcelError::NAN();
         }
+
     }
 
     /**
@@ -78,23 +80,25 @@ class ComplexOperations
      * Returns the sum of two or more complex numbers in x + yi or x + yj text format.
      *
      * Excel Function:
-     *        IMSUM(complexNumber[,complexNumber[,...]])
+     *        IMSUM(complexNumber[self::class,complexNumber[self::class,...]])
      *
      * @param string ...$complexNumbers Series of complex numbers to add
      *
      * @return string
      */
-    public static function IMSUM(...$complexNumbers)
-    {
+    public static function IMSUM(...$complexNumbers) {
+
         // Return value
         $returnValue = new ComplexObject(0.0);
         $aArgs = Functions::flattenArray($complexNumbers);
 
         try {
             // Loop through the arguments
+
             foreach ($aArgs as $complex) {
                 $returnValue = $returnValue->add(new ComplexObject($complex));
             }
+
         } catch (ComplexException $e) {
             return ExcelError::NAN();
         }
@@ -108,27 +112,30 @@ class ComplexOperations
      * Returns the product of two or more complex numbers in x + yi or x + yj text format.
      *
      * Excel Function:
-     *        IMPRODUCT(complexNumber[,complexNumber[,...]])
+     *        IMPRODUCT(complexNumber[self::class,complexNumber[self::class,...]])
      *
      * @param string ...$complexNumbers Series of complex numbers to multiply
      *
      * @return string
      */
-    public static function IMPRODUCT(...$complexNumbers)
-    {
+    public static function IMPRODUCT(...$complexNumbers) {
+
         // Return value
         $returnValue = new ComplexObject(1.0);
         $aArgs = Functions::flattenArray($complexNumbers);
 
         try {
             // Loop through the arguments
+
             foreach ($aArgs as $complex) {
                 $returnValue = $returnValue->multiply(new ComplexObject($complex));
             }
+
         } catch (ComplexException $e) {
             return ExcelError::NAN();
         }
 
         return (string) $returnValue;
     }
+
 }

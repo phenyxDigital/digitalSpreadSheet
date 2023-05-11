@@ -4,8 +4,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Chart;
 
 use phenyxDigitale\digitalSpreadSheet\RichText\RichText;
 
-class Title
-{
+class Title {
+
     /**
      * Title Caption.
      *
@@ -34,8 +34,8 @@ class Title
      * @param ?Layout $layout
      * @param bool $overlay
      */
-    public function __construct($caption = '', ?Layout $layout = null, $overlay = false)
-    {
+    public function __construct($caption = '',  ? Layout $layout = null, $overlay = false) {
+
         $this->caption = $caption;
         $this->layout = $layout;
         $this->setOverlay($overlay);
@@ -46,29 +46,35 @@ class Title
      *
      * @return array|RichText|string
      */
-    public function getCaption()
-    {
+    public function getCaption() {
+
         return $this->caption;
     }
 
-    public function getCaptionText(): string
-    {
+    public function getCaptionText() : string{
+
         $caption = $this->caption;
+
         if (is_string($caption)) {
             return $caption;
         }
+
         if ($caption instanceof RichText) {
             return $caption->getPlainText();
         }
+
         $retVal = '';
+
         foreach ($caption as $textx) {
             /** @var RichText|string */
             $text = $textx;
+
             if ($text instanceof RichText) {
                 $retVal .= $text->getPlainText();
             } else {
                 $retVal .= $text;
             }
+
         }
 
         return $retVal;
@@ -81,8 +87,8 @@ class Title
      *
      * @return $this
      */
-    public function setCaption($caption)
-    {
+    public function setCaption($caption) {
+
         $this->caption = $caption;
 
         return $this;
@@ -93,8 +99,8 @@ class Title
      *
      * @return bool
      */
-    public function getOverlay()
-    {
+    public function getOverlay() {
+
         return $this->overlay;
     }
 
@@ -103,13 +109,14 @@ class Title
      *
      * @param bool $overlay
      */
-    public function setOverlay($overlay): void
-    {
+    public function setOverlay($overlay): void{
+
         $this->overlay = $overlay;
     }
 
-    public function getLayout(): ?Layout
-    {
+    public function getLayout():  ? Layout {
+
         return $this->layout;
     }
+
 }

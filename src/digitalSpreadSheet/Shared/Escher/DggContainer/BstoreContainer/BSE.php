@@ -4,8 +4,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Shared\Escher\DggContainer\BstoreCon
 
 use phenyxDigitale\digitalSpreadSheet\Shared\Escher\DggContainer\BstoreContainer;
 
-class BSE
-{
+class BSE {
+
     const BLIPTYPE_ERROR = 0x00;
     const BLIPTYPE_UNKNOWN = 0x01;
     const BLIPTYPE_EMF = 0x02;
@@ -42,8 +42,8 @@ class BSE
     /**
      * Set parent BLIP Store Entry Container.
      */
-    public function setParent(BstoreContainer $parent): void
-    {
+    public function setParent(BstoreContainer $parent): void{
+
         $this->parent = $parent;
     }
 
@@ -52,16 +52,16 @@ class BSE
      *
      * @return ?BSE\Blip
      */
-    public function getBlip()
-    {
+    public function getBlip() {
+
         return $this->blip;
     }
 
     /**
      * Set the BLIP.
      */
-    public function setBlip(BSE\Blip $blip): void
-    {
+    public function setBlip(BSE\Blip $blip): void{
+
         $this->blip = $blip;
         $blip->setParent($this);
     }
@@ -71,8 +71,8 @@ class BSE
      *
      * @return int
      */
-    public function getBlipType()
-    {
+    public function getBlipType() {
+
         return $this->blipType;
     }
 
@@ -81,8 +81,8 @@ class BSE
      *
      * @param int $blipType
      */
-    public function setBlipType($blipType): void
-    {
+    public function setBlipType($blipType): void{
+
         $this->blipType = $blipType;
     }
 }

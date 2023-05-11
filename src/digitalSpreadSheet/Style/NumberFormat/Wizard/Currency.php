@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Style\NumberFormat\Wizard;
 use NumberFormatter;
 use phenyxDigitale\digitalSpreadSheet\Exception;
 
-class Currency extends Number
-{
+class Currency extends Number {
+
     public const LEADING_SYMBOL = true;
 
     public const TRAILING_SYMBOL = false;
@@ -42,8 +42,9 @@ class Currency extends Number
         bool $thousandsSeparator = true,
         bool $currencySymbolPosition = self::LEADING_SYMBOL,
         bool $currencySymbolSpacing = self::SYMBOL_WITHOUT_SPACING,
-        ?string $locale = null
+        ? string $locale = null
     ) {
+
         $this->setCurrencyCode($currencyCode);
         $this->setThousandsSeparator($thousandsSeparator);
         $this->setDecimals($decimals);
@@ -52,30 +53,30 @@ class Currency extends Number
         $this->setLocale($locale);
     }
 
-    public function setCurrencyCode(string $currencyCode): void
-    {
+    public function setCurrencyCode(string $currencyCode) : void{
+
         $this->currencyCode = $currencyCode;
     }
 
-    public function setCurrencySymbolPosition(bool $currencySymbolPosition = self::LEADING_SYMBOL): void
-    {
+    public function setCurrencySymbolPosition(bool $currencySymbolPosition = self::LEADING_SYMBOL): void{
+
         $this->currencySymbolPosition = $currencySymbolPosition;
     }
 
-    public function setCurrencySymbolSpacing(bool $currencySymbolSpacing = self::SYMBOL_WITHOUT_SPACING): void
-    {
+    public function setCurrencySymbolSpacing(bool $currencySymbolSpacing = self::SYMBOL_WITHOUT_SPACING): void{
+
         $this->currencySymbolSpacing = $currencySymbolSpacing;
     }
 
-    protected function getLocaleFormat(): string
-    {
+    protected function getLocaleFormat(): string{
+
         $formatter = new Locale($this->fullLocale, NumberFormatter::CURRENCY);
 
         return str_replace('¤', $this->formatCurrencyCode(), $formatter->format());
     }
 
-    private function formatCurrencyCode(): string
-    {
+    private function formatCurrencyCode(): string {
+
         if ($this->locale === null) {
             return $this->currencyCode;
         }
@@ -83,8 +84,8 @@ class Currency extends Number
         return "[\${$this->currencyCode}-{$this->locale}]";
     }
 
-    public function format(): string
-    {
+    public function format(): string {
+
         if ($this->localeFormat !== null) {
             return $this->localeFormat;
         }
@@ -105,4 +106,5 @@ class Currency extends Number
             $this->currencySymbolPosition === self::TRAILING_SYMBOL ? $this->formatCurrencyCode() : null
         );
     }
+
 }

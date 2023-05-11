@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Calculation;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Engine\ArrayArgumentHelper;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Engine\ArrayArgumentProcessor;
 
-trait ArrayEnabled
-{
+trait ArrayEnabled {
+
     /**
      * @var ArrayArgumentHelper
      */
@@ -15,11 +15,12 @@ trait ArrayEnabled
     /**
      * @param array|false $arguments Can be changed to array for Php8.1+
      */
-    private static function initialiseHelper($arguments): void
-    {
+    private static function initialiseHelper($arguments): void {
+
         if (self::$arrayArgumentHelper === null) {
             self::$arrayArgumentHelper = new ArrayArgumentHelper();
         }
+
         self::$arrayArgumentHelper->initialise(($arguments === false) ? [] : $arguments);
     }
 
@@ -30,7 +31,9 @@ trait ArrayEnabled
      */
     protected static function evaluateSingleArgumentArray(callable $method, array $values): array
     {
+
         $result = [];
+
         foreach ($values as $value) {
             $result[] = $method($value);
         }
@@ -48,6 +51,7 @@ trait ArrayEnabled
      */
     protected static function evaluateArrayArguments(callable $method, ...$arguments): array
     {
+
         self::initialiseHelper($arguments);
         $arguments = self::$arrayArgumentHelper->arguments();
 
@@ -65,6 +69,7 @@ trait ArrayEnabled
      */
     protected static function evaluateArrayArgumentsSubset(callable $method, int $limit, ...$arguments): array
     {
+
         self::initialiseHelper(array_slice($arguments, 0, $limit));
         $trailingArguments = array_slice($arguments, $limit);
         $arguments = self::$arrayArgumentHelper->arguments();
@@ -76,8 +81,8 @@ trait ArrayEnabled
     /**
      * @param mixed $value
      */
-    private static function testFalse($value): bool
-    {
+    private static function testFalse($value): bool {
+
         return $value === false;
     }
 
@@ -92,10 +97,12 @@ trait ArrayEnabled
      */
     protected static function evaluateArrayArgumentsSubsetFrom(callable $method, int $start, ...$arguments): array
     {
+
         $arrayArgumentsSubset = array_combine(
             range($start, count($arguments) - $start),
             array_slice($arguments, $start)
         );
+
         if (self::testFalse($arrayArgumentsSubset)) {
             return ['#VALUE!'];
         }
@@ -119,6 +126,7 @@ trait ArrayEnabled
      */
     protected static function evaluateArrayArgumentsIgnore(callable $method, int $ignore, ...$arguments): array
     {
+
         $leadingArguments = array_slice($arguments, 0, $ignore);
         $ignoreArgument = array_slice($arguments, $ignore, 1);
         $trailingArguments = array_slice($arguments, $ignore + 1);
@@ -130,4 +138,5 @@ trait ArrayEnabled
 
         return ArrayArgumentProcessor::processArguments(self::$arrayArgumentHelper, $method, ...$arguments);
     }
+
 }

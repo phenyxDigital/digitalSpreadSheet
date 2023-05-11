@@ -2,8 +2,8 @@
 
 namespace phenyxDigitale\digitalSpreadSheet\Reader\Xls\Color;
 
-class BIFF8
-{
+class BIFF8 {
+
     private const BIFF8_COLOR_MAP = [
         0x08 => '000000',
         0x09 => 'FFFFFF',
@@ -70,8 +70,8 @@ class BIFF8
      *
      * @return array
      */
-    public static function lookup($color)
-    {
+    public static function lookup($color) {
+
         return ['rgb' => self::BIFF8_COLOR_MAP[$color] ?? '000000'];
     }
 }

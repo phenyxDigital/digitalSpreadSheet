@@ -4,8 +4,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Reader\Xls;
 
 use phenyxDigitale\digitalSpreadSheet\Cell\DataValidation;
 
-class DataValidationHelper
-{
+class DataValidationHelper {
+
     /**
      * @var array<int, string>
      */
@@ -43,8 +43,8 @@ class DataValidationHelper
         0x07 => DataValidation::OPERATOR_LESSTHANOREQUAL,
     ];
 
-    public static function type(int $type): ?string
-    {
+    public static function type(int $type):  ? string {
+
         if (isset(self::$types[$type])) {
             return self::$types[$type];
         }
@@ -52,8 +52,8 @@ class DataValidationHelper
         return null;
     }
 
-    public static function errorStyle(int $errorStyle): ?string
-    {
+    public static function errorStyle(int $errorStyle) :  ? string {
+
         if (isset(self::$errorStyles[$errorStyle])) {
             return self::$errorStyles[$errorStyle];
         }
@@ -61,12 +61,13 @@ class DataValidationHelper
         return null;
     }
 
-    public static function operator(int $operator): ?string
-    {
+    public static function operator(int $operator) :  ? string {
+
         if (isset(self::$operators[$operator])) {
             return self::$operators[$operator];
         }
 
         return null;
     }
+
 }

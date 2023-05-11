@@ -2,8 +2,8 @@
 
 namespace phenyxDigitale\digitalSpreadSheet\Shared\Trend;
 
-class Trend
-{
+class Trend {
+
     const TREND_LINEAR = 'Linear';
     const TREND_LOGARITHMIC = 'Logarithmic';
     const TREND_EXPONENTIAL = 'Exponential';
@@ -56,76 +56,89 @@ class Trend
      *
      * @return mixed
      */
-    public static function calculate($trendType = self::TREND_BEST_FIT, $yValues = [], $xValues = [], $const = true)
-    {
+    public static function calculate($trendType = self::TREND_BEST_FIT, $yValues = [], $xValues = [], $const = true) {
+
         //    Calculate number of points in each dataset
         $nY = count($yValues);
         $nX = count($xValues);
 
         //    Define X Values if necessary
+
         if ($nX === 0) {
             $xValues = range(1, $nY);
-        } elseif ($nY !== $nX) {
+        } else if ($nY !== $nX) {
             //    Ensure both arrays of points are the same size
             trigger_error('Trend(): Number of elements in coordinate arrays do not match.', E_USER_ERROR);
         }
 
         $key = md5($trendType . $const . serialize($yValues) . serialize($xValues));
         //    Determine which Trend method has been requested
+
         switch ($trendType) {
-            //    Instantiate and return the class for the requested Trend method
-            case self::TREND_LINEAR:
-            case self::TREND_LOGARITHMIC:
-            case self::TREND_EXPONENTIAL:
-            case self::TREND_POWER:
-                if (!isset(self::$trendCache[$key])) {
-                    $className = '\phenyxDigitale\digitalSpreadSheet\Shared\Trend\\' . $trendType . 'BestFit';
-                    self::$trendCache[$key] = new $className($yValues, $xValues, $const);
-                }
+        //    Instantiate and return the class for the requested Trend method
+        case self::TREND_LINEAR:
+        case self::TREND_LOGARITHMIC:
+        case self::TREND_EXPONENTIAL:
+        case self::TREND_POWER:
 
-                return self::$trendCache[$key];
-            case self::TREND_POLYNOMIAL_2:
-            case self::TREND_POLYNOMIAL_3:
-            case self::TREND_POLYNOMIAL_4:
-            case self::TREND_POLYNOMIAL_5:
-            case self::TREND_POLYNOMIAL_6:
-                if (!isset(self::$trendCache[$key])) {
-                    $order = (int) substr($trendType, -1);
-                    self::$trendCache[$key] = new PolynomialBestFit($order, $yValues, $xValues);
-                }
+            if (!isset(self::$trendCache[$key])) {
+                $className = '\phenyxDigitale\digitalSpreadSheet\Shared\Trend\\' . $trendType . 'BestFit';
+                self::$trendCache[$key] = new $className($yValues, $xValues, $const);
+            }
 
-                return self::$trendCache[$key];
-            case self::TREND_BEST_FIT:
-            case self::TREND_BEST_FIT_NO_POLY:
-                //    If the request is to determine the best fit regression, then we test each Trend line in turn
-                //    Start by generating an instance of each available Trend method
-                $bestFit = [];
-                $bestFitValue = [];
-                foreach (self::$trendTypes as $trendMethod) {
-                    $className = '\phenyxDigitale\digitalSpreadSheet\Shared\Trend\\' . $trendType . 'BestFit';
-                    //* @phpstan-ignore-next-line
-                    $bestFit[$trendMethod] = new $className($yValues, $xValues, $const);
-                    //* @phpstan-ignore-next-line
-                    $bestFitValue[$trendMethod] = $bestFit[$trendMethod]->getGoodnessOfFit();
-                }
-                if ($trendType != self::TREND_BEST_FIT_NO_POLY) {
-                    foreach (self::$trendTypePolynomialOrders as $trendMethod) {
-                        $order = (int) substr($trendMethod, -1);
-                        $bestFit[$trendMethod] = new PolynomialBestFit($order, $yValues, $xValues);
-                        if ($bestFit[$trendMethod]->getError()) {
-                            unset($bestFit[$trendMethod]);
-                        } else {
-                            $bestFitValue[$trendMethod] = $bestFit[$trendMethod]->getGoodnessOfFit();
-                        }
+            return self::$trendCache[$key];
+        case self::TREND_POLYNOMIAL_2:
+        case self::TREND_POLYNOMIAL_3:
+        case self::TREND_POLYNOMIAL_4:
+        case self::TREND_POLYNOMIAL_5:
+        case self::TREND_POLYNOMIAL_6:
+
+            if (!isset(self::$trendCache[$key])) {
+                $order = (int) substr($trendType, -1);
+                self::$trendCache[$key] = new PolynomialBestFit($order, $yValues, $xValues);
+            }
+
+            return self::$trendCache[$key];
+        case self::TREND_BEST_FIT:
+        case self::TREND_BEST_FIT_NO_POLY:
+            //    If the request is to determine the best fit regression, then we test each Trend line in turn
+            //    Start by generating an instance of each available Trend method
+            $bestFit = [];
+            $bestFitValue = [];
+
+            foreach (self::$trendTypes as $trendMethod) {
+                $className = '\phenyxDigitale\digitalSpreadSheet\Shared\Trend\\' . $trendType . 'BestFit';
+                //* @phpstan-ignore-next-line
+                $bestFit[$trendMethod] = new $className($yValues, $xValues, $const);
+                //* @phpstan-ignore-next-line
+                $bestFitValue[$trendMethod] = $bestFit[$trendMethod]->getGoodnessOfFit();
+            }
+
+            if ($trendType != self::TREND_BEST_FIT_NO_POLY) {
+
+                foreach (self::$trendTypePolynomialOrders as $trendMethod) {
+                    $order = (int) substr($trendMethod, -1);
+                    $bestFit[$trendMethod] = new PolynomialBestFit($order, $yValues, $xValues);
+
+                    if ($bestFit[$trendMethod]->getError()) {
+                        unset($bestFit[$trendMethod]);
+                    } else {
+                        $bestFitValue[$trendMethod] = $bestFit[$trendMethod]->getGoodnessOfFit();
                     }
-                }
-                //    Determine which of our Trend lines is the best fit, and then we return the instance of that Trend class
-                arsort($bestFitValue);
-                $bestFitType = key($bestFitValue);
 
-                return $bestFit[$bestFitType];
-            default:
-                return false;
+                }
+
+            }
+
+            //    Determine which of our Trend lines is the best fit, and then we return the instance of that Trend class
+            arsort($bestFitValue);
+            $bestFitType = key($bestFitValue);
+
+            return $bestFit[$bestFitType];
+        default:
+            return false;
         }
+
     }
+
 }

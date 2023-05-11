@@ -6,8 +6,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\ArrayEnabled;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class Fisher
-{
+class Fisher {
+
     use ArrayEnabled;
 
     /**
@@ -24,8 +24,8 @@ class Fisher
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function distribution($value)
-    {
+    public static function distribution($value) {
+
         if (is_array($value)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $value);
         }
@@ -57,8 +57,8 @@ class Fisher
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function inverse($probability)
-    {
+    public static function inverse($probability) {
+
         if (is_array($probability)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $probability);
         }
@@ -71,4 +71,5 @@ class Fisher
 
         return (exp(2 * $probability) - 1) / (exp(2 * $probability) + 1);
     }
+
 }

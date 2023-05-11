@@ -2,8 +2,8 @@
 
 namespace phenyxDigitale\digitalSpreadSheet\Calculation\Financial;
 
-class Constants
-{
+class Constants {
+
     public const BASIS_DAYS_PER_YEAR_NASD = 0;
     public const BASIS_DAYS_PER_YEAR_ACTUAL = 1;
     public const BASIS_DAYS_PER_YEAR_360 = 2;

@@ -4,10 +4,10 @@ namespace phenyxDigitale\digitalSpreadSheet\Reader\Ods;
 
 use phenyxDigitale\digitalSpreadSheet\Calculation\Calculation;
 
-class FormulaTranslator
-{
-    public static function convertToExcelAddressValue(string $openOfficeAddress): string
-    {
+class FormulaTranslator {
+
+    public static function convertToExcelAddressValue(string $openOfficeAddress): string{
+
         $excelAddress = $openOfficeAddress;
 
         // Cell range 3-d reference
@@ -34,17 +34,19 @@ class FormulaTranslator
         return $excelAddress;
     }
 
-    public static function convertToExcelFormulaValue(string $openOfficeFormula): string
-    {
+    public static function convertToExcelFormulaValue(string $openOfficeFormula): string{
+
         $temp = explode(Calculation::FORMULA_STRING_QUOTE, $openOfficeFormula);
         $tKey = false;
         $inMatrixBracesLevel = 0;
         $inFunctionBracesLevel = 0;
+
         foreach ($temp as &$value) {
             // @var string $value
             // Only replace in alternate array entries (i.e. non-quoted blocks)
             //      so that conversion isn't done in string values
             $tKey = $tKey === false;
+
             if ($tKey) {
                 $value = (string) preg_replace(
                     [
@@ -87,6 +89,7 @@ class FormulaTranslator
 
                 $value = (string) preg_replace('/COM\.MICROSOFT\./ui', '', $value);
             }
+
         }
 
         // Then rebuild the formula string
@@ -94,4 +97,5 @@ class FormulaTranslator
 
         return $excelFormula;
     }
+
 }

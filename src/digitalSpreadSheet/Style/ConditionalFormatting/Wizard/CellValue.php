@@ -19,17 +19,17 @@ use phenyxDigitale\digitalSpreadSheet\Style\ConditionalFormatting\Wizard;
  * @method CellValue notBetween($value, string $operandValueType = Wizard::VALUE_TYPE_LITERAL)
  * @method CellValue and($value, string $operandValueType = Wizard::VALUE_TYPE_LITERAL)
  */
-class CellValue extends WizardAbstract implements WizardInterface
-{
+class CellValue extends WizardAbstract implements WizardInterface {
+
     protected const MAGIC_OPERATIONS = [
-        'equals' => Conditional::OPERATOR_EQUAL,
-        'notEquals' => Conditional::OPERATOR_NOTEQUAL,
-        'greaterThan' => Conditional::OPERATOR_GREATERTHAN,
+        'equals'             => Conditional::OPERATOR_EQUAL,
+        'notEquals'          => Conditional::OPERATOR_NOTEQUAL,
+        'greaterThan'        => Conditional::OPERATOR_GREATERTHAN,
         'greaterThanOrEqual' => Conditional::OPERATOR_GREATERTHANOREQUAL,
-        'lessThan' => Conditional::OPERATOR_LESSTHAN,
-        'lessThanOrEqual' => Conditional::OPERATOR_LESSTHANOREQUAL,
-        'between' => Conditional::OPERATOR_BETWEEN,
-        'notBetween' => Conditional::OPERATOR_NOTBETWEEN,
+        'lessThan'           => Conditional::OPERATOR_LESSTHAN,
+        'lessThanOrEqual'    => Conditional::OPERATOR_LESSTHANOREQUAL,
+        'between'            => Conditional::OPERATOR_BETWEEN,
+        'notBetween'         => Conditional::OPERATOR_NOTBETWEEN,
     ];
 
     protected const SINGLE_OPERATORS = CellMatcher::COMPARISON_OPERATORS;
@@ -47,13 +47,13 @@ class CellValue extends WizardAbstract implements WizardInterface
      */
     protected $operandValueType = [];
 
-    public function __construct(string $cellRange)
-    {
+    public function __construct(string $cellRange) {
+
         parent::__construct($cellRange);
     }
 
-    protected function operator(string $operator): void
-    {
+    protected function operator(string $operator): void {
+
         if ((!isset(self::SINGLE_OPERATORS[$operator])) && (!isset(self::RANGE_OPERATORS[$operator]))) {
             throw new Exception('Invalid Operator for Cell Value CF Rule Wizard');
         }
@@ -64,8 +64,8 @@ class CellValue extends WizardAbstract implements WizardInterface
     /**
      * @param mixed $operand
      */
-    protected function operand(int $index, $operand, string $operandValueType = Wizard::VALUE_TYPE_LITERAL): void
-    {
+    protected function operand(int $index, $operand, string $operandValueType = Wizard::VALUE_TYPE_LITERAL): void {
+
         if (is_string($operand)) {
             $operand = $this->validateOperand($operand, $operandValueType);
         }
@@ -79,9 +79,10 @@ class CellValue extends WizardAbstract implements WizardInterface
      *
      * @return float|int|string
      */
-    protected function wrapValue($value, string $operandValueType)
-    {
+    protected function wrapValue($value, string $operandValueType) {
+
         if (!is_numeric($value) && !is_bool($value) && null !== $value) {
+
             if ($operandValueType === Wizard::VALUE_TYPE_LITERAL) {
                 return '"' . str_replace('"', '""', $value) . '"';
             }
@@ -91,18 +92,19 @@ class CellValue extends WizardAbstract implements WizardInterface
 
         if (null === $value) {
             $value = 'NULL';
-        } elseif (is_bool($value)) {
+        } else if (is_bool($value)) {
             $value = $value ? 'TRUE' : 'FALSE';
         }
 
         return $value;
     }
 
-    public function getConditional(): Conditional
-    {
+    public function getConditional(): Conditional {
+
         if (!isset(self::RANGE_OPERATORS[$this->operator])) {
             unset($this->operand[1], $this->operandValueType[1]);
         }
+
         $values = array_map([$this, 'wrapValue'], $this->operand, $this->operandValueType);
 
         $conditional = new Conditional();
@@ -115,8 +117,8 @@ class CellValue extends WizardAbstract implements WizardInterface
         return $conditional;
     }
 
-    protected static function unwrapString(string $condition): string
-    {
+    protected static function unwrapString(string $condition): string {
+
         if ((strpos($condition, '"') === 0) && (strpos(strrev($condition), '"') === 0)) {
             $condition = substr($condition, 1, -1);
         }
@@ -124,8 +126,8 @@ class CellValue extends WizardAbstract implements WizardInterface
         return str_replace('""', '"', $condition);
     }
 
-    public static function fromConditional(Conditional $conditional, string $cellRange = 'A1'): WizardInterface
-    {
+    public static function fromConditional(Conditional $conditional, string $cellRange = 'A1'): WizardInterface {
+
         if ($conditional->getConditionType() !== Conditional::CONDITION_CELLIS) {
             throw new Exception('Conditional is not a Cell Value CF Rule conditional');
         }
@@ -136,16 +138,19 @@ class CellValue extends WizardAbstract implements WizardInterface
 
         $wizard->operator = $conditional->getOperatorType();
         $conditions = $conditional->getConditions();
+
         foreach ($conditions as $index => $condition) {
             // Best-guess to try and identify if the text is a string literal, a cell reference or a formula?
             $operandValueType = Wizard::VALUE_TYPE_LITERAL;
+
             if (is_string($condition)) {
+
                 if (Calculation::keyInExcelConstants($condition)) {
                     $condition = Calculation::getExcelConstants($condition);
-                } elseif (preg_match('/^' . Calculation::CALCULATION_REGEXP_CELLREF_RELATIVE . '$/i', $condition)) {
+                } else if (preg_match('/^' . Calculation::CALCULATION_REGEXP_CELLREF_RELATIVE . '$/i', $condition)) {
                     $operandValueType = Wizard::VALUE_TYPE_CELL;
                     $condition = self::reverseAdjustCellRef($condition, $cellRange);
-                } elseif (
+                } else if (
                     preg_match('/\(\)/', $condition) ||
                     preg_match('/' . Calculation::CALCULATION_REGEXP_CELLREF_RELATIVE . '/i', $condition)
                 ) {
@@ -154,7 +159,9 @@ class CellValue extends WizardAbstract implements WizardInterface
                 } else {
                     $condition = self::unwrapString($condition);
                 }
+
             }
+
             $wizard->operand($index, $condition, $operandValueType);
         }
 
@@ -165,19 +172,21 @@ class CellValue extends WizardAbstract implements WizardInterface
      * @param string $methodName
      * @param mixed[] $arguments
      */
-    public function __call($methodName, $arguments): self
-    {
+    public function __call($methodName, $arguments): self {
+
         if (!isset(self::MAGIC_OPERATIONS[$methodName]) && $methodName !== 'and') {
             throw new Exception('Invalid Operator for Cell Value CF Rule Wizard');
         }
 
         if ($methodName === 'and') {
+
             if (!isset(self::RANGE_OPERATORS[$this->operator])) {
                 throw new Exception('AND Value is only appropriate for range operators');
             }
 
             // Scrutinizer ignores its own suggested workaround.
             //$this->operand(1, /** @scrutinizer ignore-type */ ...$arguments);
+
             if (count($arguments) < 2) {
                 $this->operand(1, $arguments[0]);
             } else {
@@ -189,6 +198,7 @@ class CellValue extends WizardAbstract implements WizardInterface
 
         $this->operator(self::MAGIC_OPERATIONS[$methodName]);
         //$this->operand(0, ...$arguments);
+
         if (count($arguments) < 2) {
             $this->operand(0, $arguments[0]);
         } else {
@@ -197,4 +207,5 @@ class CellValue extends WizardAbstract implements WizardInterface
 
         return $this;
     }
+
 }

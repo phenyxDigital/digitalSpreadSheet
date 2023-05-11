@@ -4,8 +4,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Chart;
 
 use phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet;
 
-class PlotArea
-{
+class PlotArea {
+
     /**
      * No fill in plot area (show Excel gridlines through chart).
      *
@@ -49,22 +49,22 @@ class PlotArea
      *
      * @param DataSeries[] $plotSeries
      */
-    public function __construct(?Layout $layout = null, array $plotSeries = [])
-    {
+    public function __construct( ? Layout $layout = null, array $plotSeries = []) {
+
         $this->layout = $layout;
         $this->plotSeries = $plotSeries;
     }
 
-    public function getLayout(): ?Layout
-    {
+    public function getLayout() :  ? Layout {
+
         return $this->layout;
     }
 
     /**
      * Get Number of Plot Groups.
      */
-    public function getPlotGroupCount(): int
-    {
+    public function getPlotGroupCount() : int {
+
         return count($this->plotSeries);
     }
 
@@ -73,9 +73,10 @@ class PlotArea
      *
      * @return int
      */
-    public function getPlotSeriesCount()
-    {
+    public function getPlotSeriesCount() {
+
         $seriesCount = 0;
+
         foreach ($this->plotSeries as $plot) {
             $seriesCount += $plot->getPlotSeriesCount();
         }
@@ -88,8 +89,8 @@ class PlotArea
      *
      * @return DataSeries[]
      */
-    public function getPlotGroup()
-    {
+    public function getPlotGroup() {
+
         return $this->plotSeries;
     }
 
@@ -100,8 +101,8 @@ class PlotArea
      *
      * @return DataSeries
      */
-    public function getPlotGroupByIndex($index)
-    {
+    public function getPlotGroupByIndex($index) {
+
         return $this->plotSeries[$index];
     }
 
@@ -112,34 +113,35 @@ class PlotArea
      *
      * @return $this
      */
-    public function setPlotSeries(array $plotSeries)
-    {
+    public function setPlotSeries(array $plotSeries) {
+
         $this->plotSeries = $plotSeries;
 
         return $this;
     }
 
-    public function refresh(Worksheet $worksheet): void
-    {
+    public function refresh(Worksheet $worksheet): void {
+
         foreach ($this->plotSeries as $plotSeries) {
             $plotSeries->refresh($worksheet);
         }
+
     }
 
-    public function setNoFill(bool $noFill): self
-    {
+    public function setNoFill(bool $noFill): self{
+
         $this->noFill = $noFill;
 
         return $this;
     }
 
-    public function getNoFill(): bool
-    {
+    public function getNoFill(): bool {
+
         return $this->noFill;
     }
 
-    public function setGradientFillProperties(array $gradientFillStops, ?float $gradientFillAngle): self
-    {
+    public function setGradientFillProperties(array $gradientFillStops,  ? float $gradientFillAngle) : self{
+
         $this->gradientFillStops = $gradientFillStops;
         $this->gradientFillAngle = $gradientFillAngle;
 
@@ -149,8 +151,8 @@ class PlotArea
     /**
      * Get gradientFillAngle.
      */
-    public function getGradientFillAngle(): ?float
-    {
+    public function getGradientFillAngle():  ? float {
+
         return $this->gradientFillAngle;
     }
 
@@ -159,8 +161,9 @@ class PlotArea
      *
      * @return array
      */
-    public function getGradientFillStops()
-    {
+    public function getGradientFillStops() {
+
         return $this->gradientFillStops;
     }
+
 }

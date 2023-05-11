@@ -6,8 +6,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\ArrayEnabled;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class Exponential
-{
+class Exponential {
+
     use ArrayEnabled;
 
     /**
@@ -28,8 +28,8 @@ class Exponential
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function distribution($value, $lambda, $cumulative)
-    {
+    public static function distribution($value, $lambda, $cumulative) {
+
         if (is_array($value) || is_array($lambda) || is_array($cumulative)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $value, $lambda, $cumulative);
         }
@@ -52,4 +52,5 @@ class Exponential
 
         return $lambda * exp(0 - $value * $lambda);
     }
+
 }

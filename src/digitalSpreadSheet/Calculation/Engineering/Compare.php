@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Calculation\Engineering;
 use phenyxDigitale\digitalSpreadSheet\Calculation\ArrayEnabled;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 
-class Compare
-{
+class Compare {
+
     use ArrayEnabled;
 
     /**
@@ -29,10 +29,10 @@ class Compare
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function DELTA($a, $b = 0.0)
-    {
+    public static function DELTA($a, $b = 0.0) {
+
         if (is_array($a) || is_array($b)) {
-            return self::evaluateArrayArguments([self::class, __FUNCTION__], $a, $b);
+            return evaluateArrayArguments([self::class, __FUNCTION__], $a, $b);
         }
 
         try {
@@ -64,10 +64,10 @@ class Compare
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function GESTEP($number, $step = 0.0)
-    {
+    public static function GESTEP($number, $step = 0.0) {
+
         if (is_array($number) || is_array($step)) {
-            return self::evaluateArrayArguments([self::class, __FUNCTION__], $number, $step);
+            return evaluateArrayArguments([self::class, __FUNCTION__], $number, $step);
         }
 
         try {
@@ -79,4 +79,5 @@ class Compare
 
         return (int) ($number >= $step);
     }
+
 }

@@ -4,8 +4,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Reader\Xls\Style;
 
 use phenyxDigitale\digitalSpreadSheet\Style\Border as StyleBorder;
 
-class Border
-{
+class Border {
+
     /**
      * @var array<int, string>
      */
@@ -26,12 +26,13 @@ class Border
         0x0D => StyleBorder::BORDER_SLANTDASHDOT,
     ];
 
-    public static function lookup(int $index): string
-    {
+    public static function lookup(int $index): string {
+
         if (isset(self::$borderStyleMap[$index])) {
             return self::$borderStyleMap[$index];
         }
 
         return StyleBorder::BORDER_NONE;
     }
+
 }

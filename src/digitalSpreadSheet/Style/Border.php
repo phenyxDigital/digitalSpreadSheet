@@ -4,8 +4,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Style;
 
 use phenyxDigitale\digitalSpreadSheet\Exception as PhenyxXlsException;
 
-class Border extends Supervisor
-{
+class Border extends Supervisor {
+
     // Border style
     const BORDER_NONE = 'none';
     const BORDER_DASHDOT = 'dashDot';
@@ -48,8 +48,8 @@ class Border extends Supervisor
      *                                    Leave this value at default unless you understand exactly what
      *                                        its ramifications are
      */
-    public function __construct($isSupervisor = false)
-    {
+    public function __construct($isSupervisor = false) {
+
         // Supervisor?
         parent::__construct($isSupervisor);
 
@@ -57,9 +57,11 @@ class Border extends Supervisor
         $this->color = new Color(Color::COLOR_BLACK, $isSupervisor);
 
         // bind parent if we are a supervisor
+
         if ($isSupervisor) {
             $this->color->bindParent($this, 'color');
         }
+
     }
 
     /**
@@ -68,24 +70,25 @@ class Border extends Supervisor
      *
      * @return Border
      */
-    public function getSharedComponent()
-    {
+    public function getSharedComponent() {
+
         /** @var Style */
         $parent = $this->parent;
 
         /** @var Borders $sharedComponent */
         $sharedComponent = $parent->getSharedComponent();
+
         switch ($this->parentPropertyName) {
-            case 'bottom':
-                return $sharedComponent->getBottom();
-            case 'diagonal':
-                return $sharedComponent->getDiagonal();
-            case 'left':
-                return $sharedComponent->getLeft();
-            case 'right':
-                return $sharedComponent->getRight();
-            case 'top':
-                return $sharedComponent->getTop();
+        case 'bottom':
+            return $sharedComponent->getBottom();
+        case 'diagonal':
+            return $sharedComponent->getDiagonal();
+        case 'left':
+            return $sharedComponent->getLeft();
+        case 'right':
+            return $sharedComponent->getRight();
+        case 'top':
+            return $sharedComponent->getTop();
         }
 
         throw new PhenyxXlsException('Cannot get shared component for a pseudo-border.');
@@ -98,12 +101,12 @@ class Border extends Supervisor
      *
      * @return array
      */
-    public function getStyleArray($array)
-    {
+    public function getStyleArray($array) {
+
         /** @var Style */
         $parent = $this->parent;
 
-        return $parent->/** @scrutinizer ignore-call */ getStyleArray([$this->parentPropertyName => $array]);
+        return $parent->/** @scrutinizer ignore-call */getStyleArray([$this->parentPropertyName => $array]);
     }
 
     /**
@@ -124,17 +127,20 @@ class Border extends Supervisor
      *
      * @return $this
      */
-    public function applyFromArray(array $styleArray)
-    {
+    public function applyFromArray(array $styleArray) {
+
         if ($this->isSupervisor) {
             $this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($this->getStyleArray($styleArray));
         } else {
+
             if (isset($styleArray['borderStyle'])) {
                 $this->setBorderStyle($styleArray['borderStyle']);
             }
+
             if (isset($styleArray['color'])) {
                 $this->getColor()->applyFromArray($styleArray['color']);
             }
+
         }
 
         return $this;
@@ -145,8 +151,8 @@ class Border extends Supervisor
      *
      * @return string
      */
-    public function getBorderStyle()
-    {
+    public function getBorderStyle() {
+
         if ($this->isSupervisor) {
             return $this->getSharedComponent()->getBorderStyle();
         }
@@ -163,11 +169,11 @@ class Border extends Supervisor
      *
      * @return $this
      */
-    public function setBorderStyle($style)
-    {
+    public function setBorderStyle($style) {
+
         if (empty($style)) {
             $style = self::BORDER_NONE;
-        } elseif (is_bool($style)) {
+        } else if (is_bool($style)) {
             $style = self::BORDER_MEDIUM;
         }
 
@@ -186,8 +192,8 @@ class Border extends Supervisor
      *
      * @return Color
      */
-    public function getColor()
-    {
+    public function getColor() {
+
         return $this->color;
     }
 
@@ -196,8 +202,8 @@ class Border extends Supervisor
      *
      * @return $this
      */
-    public function setColor(Color $color)
-    {
+    public function setColor(Color $color) {
+
         // make sure parameter is a real color and not a supervisor
         $color = $color->getIsSupervisor() ? $color->getSharedComponent() : $color;
 
@@ -216,8 +222,8 @@ class Border extends Supervisor
      *
      * @return string Hash code
      */
-    public function getHashCode()
-    {
+    public function getHashCode() {
+
         if ($this->isSupervisor) {
             return $this->getSharedComponent()->getHashCode();
         }
@@ -231,10 +237,12 @@ class Border extends Supervisor
 
     protected function exportArray1(): array
     {
+
         $exportedArray = [];
         $this->exportArray2($exportedArray, 'borderStyle', $this->getBorderStyle());
         $this->exportArray2($exportedArray, 'color', $this->getColor());
 
         return $exportedArray;
     }
+
 }

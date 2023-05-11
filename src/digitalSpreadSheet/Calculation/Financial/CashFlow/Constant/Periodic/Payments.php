@@ -8,8 +8,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Financial\Constants as Financi
 use phenyxDigitale\digitalSpreadSheet\Calculation\Functions;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class Payments
-{
+class Payments {
+
     /**
      * PMT.
      *
@@ -30,6 +30,7 @@ class Payments
         $futureValue = 0,
         $type = FinancialConstants::PAYMENT_END_OF_PERIOD
     ) {
+
         $interestRate = Functions::flattenSingleValue($interestRate);
         $numberOfPeriods = Functions::flattenSingleValue($numberOfPeriods);
         $presentValue = Functions::flattenSingleValue($presentValue);
@@ -47,6 +48,7 @@ class Payments
         }
 
         // Calculate
+
         if ($interestRate != 0.0) {
             return (-$futureValue - $presentValue * (1 + $interestRate) ** $numberOfPeriods) /
                 (1 + $interestRate * $type) / (((1 + $interestRate) ** $numberOfPeriods - 1) / $interestRate);
@@ -78,6 +80,7 @@ class Payments
         $futureValue = 0,
         $type = FinancialConstants::PAYMENT_END_OF_PERIOD
     ) {
+
         $interestRate = Functions::flattenSingleValue($interestRate);
         $period = Functions::flattenSingleValue($period);
         $numberOfPeriods = Functions::flattenSingleValue($numberOfPeriods);
@@ -97,6 +100,7 @@ class Payments
         }
 
         // Validate parameters
+
         if ($period <= 0 || $period > $numberOfPeriods) {
             return ExcelError::NAN();
         }
@@ -113,4 +117,5 @@ class Payments
 
         return $interestAndPrincipal->principal();
     }
+
 }

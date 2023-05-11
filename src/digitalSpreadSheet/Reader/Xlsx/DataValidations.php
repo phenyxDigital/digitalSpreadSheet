@@ -6,30 +6,32 @@ use phenyxDigitale\digitalSpreadSheet\Cell\Coordinate;
 use phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet;
 use SimpleXMLElement;
 
-class DataValidations
-{
+class DataValidations {
+
     /** @var Worksheet */
     private $worksheet;
 
     /** @var SimpleXMLElement */
     private $worksheetXml;
 
-    public function __construct(Worksheet $workSheet, SimpleXMLElement $worksheetXml)
-    {
+    public function __construct(Worksheet $workSheet, SimpleXMLElement $worksheetXml) {
+
         $this->worksheet = $workSheet;
         $this->worksheetXml = $worksheetXml;
     }
 
-    public function load(): void
-    {
+    public function load(): void {
+
         foreach ($this->worksheetXml->dataValidations->dataValidation as $dataValidation) {
             // Uppercase coordinate
             $range = strtoupper((string) $dataValidation['sqref']);
             $rangeSet = explode(' ', $range);
+
             foreach ($rangeSet as $range) {
                 $stRange = $this->worksheet->shrinkRangeToFit($range);
 
                 // Extract all cell references in $range
+
                 foreach (Coordinate::extractAllCellReferencesInRange($stRange) as $reference) {
                     // Create validation
                     $docValidation = $this->worksheet->getCell($reference)->getDataValidation();
@@ -49,7 +51,11 @@ class DataValidations
                     $docValidation->setFormula2((string) $dataValidation->formula2);
                     $docValidation->setSqref($range);
                 }
+
             }
+
         }
+
     }
+
 }

@@ -4,8 +4,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Reader\Xls\Style;
 
 use phenyxDigitale\digitalSpreadSheet\Style\Alignment;
 
-class CellAlignment
-{
+class CellAlignment {
+
     /**
      * @var array<int, string>
      */
@@ -29,22 +29,25 @@ class CellAlignment
         3 => Alignment::VERTICAL_JUSTIFY,
     ];
 
-    public static function horizontal(Alignment $alignment, int $horizontal): void
-    {
+    public static function horizontal(Alignment $alignment, int $horizontal): void {
+
         if (array_key_exists($horizontal, self::$horizontalAlignmentMap)) {
             $alignment->setHorizontal(self::$horizontalAlignmentMap[$horizontal]);
         }
+
     }
 
-    public static function vertical(Alignment $alignment, int $vertical): void
-    {
+    public static function vertical(Alignment $alignment, int $vertical): void {
+
         if (array_key_exists($vertical, self::$verticalAlignmentMap)) {
             $alignment->setVertical(self::$verticalAlignmentMap[$vertical]);
         }
+
     }
 
-    public static function wrap(Alignment $alignment, int $wrap): void
-    {
+    public static function wrap(Alignment $alignment, int $wrap): void{
+
         $alignment->setWrapText((bool) $wrap);
     }
+
 }

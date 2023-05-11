@@ -5,23 +5,24 @@ namespace phenyxDigitale\digitalSpreadSheet\Writer\Ods;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Calculation;
 use phenyxDigitale\digitalSpreadSheet\DefinedName;
 
-class Formula
-{
+class Formula {
+
     /** @var array */
     private $definedNames = [];
 
     /**
      * @param DefinedName[] $definedNames
      */
-    public function __construct(array $definedNames)
-    {
+    public function __construct(array $definedNames) {
+
         foreach ($definedNames as $definedName) {
             $this->definedNames[] = $definedName->getName();
         }
+
     }
 
-    public function convertFormula(string $formula, string $worksheetName = ''): string
-    {
+    public function convertFormula(string $formula, string $worksheetName = ''): string{
+
         $formula = $this->convertCellReferences($formula, $worksheetName);
         $formula = $this->convertDefinedNames($formula);
 
@@ -32,8 +33,8 @@ class Formula
         return 'of:' . $formula;
     }
 
-    private function convertDefinedNames(string $formula): string
-    {
+    private function convertDefinedNames(string $formula): string{
+
         $splitCount = preg_match_all(
             '/' . Calculation::CALCULATION_REGEXP_DEFINEDNAME . '/mui',
             $formula,
@@ -54,13 +55,14 @@ class Formula
             if (in_array($value, $this->definedNames, true)) {
                 $formula = substr($formula, 0, $offset) . '$$' . $value . substr($formula, $offset + $length);
             }
+
         }
 
         return $formula;
     }
 
-    private function convertCellReferences(string $formula, string $worksheetName): string
-    {
+    private function convertCellReferences(string $formula, string $worksheetName): string{
+
         $splitCount = preg_match_all(
             '/' . Calculation::CALCULATION_REGEXP_CELLREF_RELATIVE . '/mui',
             $formula,
@@ -79,6 +81,7 @@ class Formula
         // If by chance there are commas in worksheet names, then they will be "fixed" again in the loop
         //    because we've already extracted worksheet names with our preg_match_all()
         $formula = str_replace(',', ';', $formula);
+
         while ($splitCount > 0) {
             --$splitCount;
             $length = $lengths[$splitCount];
@@ -88,27 +91,34 @@ class Formula
             $row = $rows[$splitCount][0];
 
             $newRange = '';
+
             if (empty($worksheet)) {
+
                 if (($offset === 0) || ($formula[$offset - 1] !== ':')) {
                     // We need a worksheet
                     $worksheet = $worksheetName;
                 }
+
             } else {
                 $worksheet = str_replace("''", "'", trim($worksheet, "'"));
             }
+
             if (!empty($worksheet)) {
                 $newRange = "['" . str_replace("'", "''", $worksheet) . "'";
-            } elseif (substr($formula, $offset - 1, 1) !== ':') {
+            } else if (substr($formula, $offset - 1, 1) !== ':') {
                 $newRange = '[';
             }
+
             $newRange .= '.';
 
             if (!empty($column)) {
                 $newRange .= $column;
             }
+
             if (!empty($row)) {
                 $newRange .= $row;
             }
+
             // close the wrapping [] unless this is the first part of a range
             $newRange .= substr($formula, $offset + $length, 1) !== ':' ? ']' : '';
 
@@ -117,4 +127,5 @@ class Formula
 
         return $formula;
     }
+
 }

@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Shared;
 use DateTimeZone;
 use phenyxDigitale\digitalSpreadSheet\Exception as PhenyxXlsException;
 
-class TimeZone
-{
+class TimeZone {
+
     /**
      * Default Timezone used for date/time conversions.
      *
@@ -21,8 +21,8 @@ class TimeZone
      *
      * @return bool Success or failure
      */
-    private static function validateTimeZone(string $timezoneName): bool
-    {
+    private static function validateTimeZone(string $timezoneName): bool {
+
         return in_array($timezoneName, DateTimeZone::listIdentifiers(DateTimeZone::ALL_WITH_BC), true);
     }
 
@@ -33,8 +33,8 @@ class TimeZone
      *
      * @return bool Success or failure
      */
-    public static function setTimeZone(string $timezoneName): bool
-    {
+    public static function setTimeZone(string $timezoneName): bool {
+
         if (self::validateTimeZone($timezoneName)) {
             self::$timezone = $timezoneName;
 
@@ -49,8 +49,8 @@ class TimeZone
      *
      * @return string Timezone (e.g. 'Europe/London')
      */
-    public static function getTimeZone(): string
-    {
+    public static function getTimeZone(): string {
+
         return self::$timezone;
     }
 
@@ -63,15 +63,18 @@ class TimeZone
      *
      * @return int Number of seconds for timezone adjustment
      */
-    public static function getTimeZoneAdjustment(?string $timezoneName, $timestamp): int
-    {
+    public static function getTimeZoneAdjustment( ? string $timezoneName, $timestamp) : int{
+
         $timezoneName = $timezoneName ?? self::$timezone;
         $dtobj = Date::dateTimeFromTimestamp("$timestamp");
+
         if (!self::validateTimeZone($timezoneName)) {
             throw new PhenyxXlsException("Invalid timezone $timezoneName");
         }
+
         $dtobj->setTimeZone(new DateTimeZone($timezoneName));
 
         return $dtobj->getOffset();
     }
+
 }

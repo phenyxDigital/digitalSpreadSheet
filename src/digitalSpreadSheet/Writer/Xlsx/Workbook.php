@@ -9,8 +9,8 @@ use phenyxDigitale\digitalSpreadSheet\Spreadsheet;
 use phenyxDigitale\digitalSpreadSheet\Writer\Exception as WriterException;
 use phenyxDigitale\digitalSpreadSheet\Writer\Xlsx\DefinedNames as DefinedNamesWriter;
 
-class Workbook extends WriterPart
-{
+class Workbook extends WriterPart {
+
     /**
      * Write workbook to XML format.
      *
@@ -18,9 +18,10 @@ class Workbook extends WriterPart
      *
      * @return string XML Output
      */
-    public function writeWorkbook(Spreadsheet $spreadsheet, $recalcRequired = false)
-    {
+    public function writeWorkbook(Spreadsheet $spreadsheet, $recalcRequired = false) {
+
         // Create XML writer
+
         if ($this->getParentWriter()->getUseDiskCaching()) {
             $objWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
@@ -46,6 +47,7 @@ class Workbook extends WriterPart
         $this->writeWorkbookProtection($objWriter, $spreadsheet);
 
         // bookViews
+
         if ($this->getParentWriter()->getOffice2003Compatibility() === false) {
             $this->writeBookViews($objWriter, $spreadsheet);
         }
@@ -68,8 +70,8 @@ class Workbook extends WriterPart
     /**
      * Write file version.
      */
-    private function writeFileVersion(XMLWriter $objWriter): void
-    {
+    private function writeFileVersion(XMLWriter $objWriter): void{
+
         $objWriter->startElement('fileVersion');
         $objWriter->writeAttribute('appName', 'xl');
         $objWriter->writeAttribute('lastEdited', '4');
@@ -81,8 +83,8 @@ class Workbook extends WriterPart
     /**
      * Write WorkbookPr.
      */
-    private function writeWorkbookPr(XMLWriter $objWriter): void
-    {
+    private function writeWorkbookPr(XMLWriter $objWriter): void{
+
         $objWriter->startElement('workbookPr');
 
         if (Date::getExcelCalendar() === Date::CALENDAR_MAC_1904) {
@@ -97,8 +99,8 @@ class Workbook extends WriterPart
     /**
      * Write BookViews.
      */
-    private function writeBookViews(XMLWriter $objWriter, Spreadsheet $spreadsheet): void
-    {
+    private function writeBookViews(XMLWriter $objWriter, Spreadsheet $spreadsheet): void{
+
         // bookViews
         $objWriter->startElement('bookViews');
 
@@ -123,8 +125,8 @@ class Workbook extends WriterPart
     /**
      * Write WorkbookProtection.
      */
-    private function writeWorkbookProtection(XMLWriter $objWriter, Spreadsheet $spreadsheet): void
-    {
+    private function writeWorkbookProtection(XMLWriter $objWriter, Spreadsheet $spreadsheet): void {
+
         if ($spreadsheet->getSecurity()->isSecurityEnabled()) {
             $objWriter->startElement('workbookProtection');
             $objWriter->writeAttribute('lockRevision', ($spreadsheet->getSecurity()->getLockRevision() ? 'true' : 'false'));
@@ -141,6 +143,7 @@ class Workbook extends WriterPart
 
             $objWriter->endElement();
         }
+
     }
 
     /**
@@ -148,8 +151,8 @@ class Workbook extends WriterPart
      *
      * @param bool $recalcRequired Indicate whether formulas should be recalculated before writing
      */
-    private function writeCalcPr(XMLWriter $objWriter, $recalcRequired = true): void
-    {
+    private function writeCalcPr(XMLWriter $objWriter, $recalcRequired = true): void{
+
         $objWriter->startElement('calcPr');
 
         //    Set the calcid to a higher value than Excel itself will use, otherwise Excel will always recalc
@@ -168,11 +171,12 @@ class Workbook extends WriterPart
     /**
      * Write sheets.
      */
-    private function writeSheets(XMLWriter $objWriter, Spreadsheet $spreadsheet): void
-    {
+    private function writeSheets(XMLWriter $objWriter, Spreadsheet $spreadsheet): void{
+
         // Write sheets
         $objWriter->startElement('sheets');
         $sheetCount = $spreadsheet->getSheetCount();
+
         for ($i = 0; $i < $sheetCount; ++$i) {
             // sheet
             $this->writeSheet(
@@ -195,20 +199,24 @@ class Workbook extends WriterPart
      * @param int $relId Relationship ID
      * @param string $sheetState Sheet state (visible, hidden, veryHidden)
      */
-    private function writeSheet(XMLWriter $objWriter, $worksheetName, $worksheetId = 1, $relId = 1, $sheetState = 'visible'): void
-    {
+    private function writeSheet(XMLWriter $objWriter, $worksheetName, $worksheetId = 1, $relId = 1, $sheetState = 'visible'): void {
+
         if ($worksheetName != '') {
             // Write sheet
             $objWriter->startElement('sheet');
             $objWriter->writeAttribute('name', $worksheetName);
             $objWriter->writeAttribute('sheetId', (string) $worksheetId);
+
             if ($sheetState !== 'visible' && $sheetState != '') {
                 $objWriter->writeAttribute('state', $sheetState);
             }
+
             $objWriter->writeAttribute('r:id', 'rId' . $relId);
             $objWriter->endElement();
         } else {
             throw new WriterException('Invalid parameters passed.');
         }
+
     }
+
 }

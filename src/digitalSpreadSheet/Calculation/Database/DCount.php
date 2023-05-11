@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Calculation\Database;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Statistical\Counts;
 
-class DCount extends DatabaseAbstract
-{
+class DCount extends DatabaseAbstract {
+
     /**
      * DCOUNT.
      *
@@ -33,9 +33,10 @@ class DCount extends DatabaseAbstract
      *
      * @return int|string
      */
-    public static function evaluate($database, $field, $criteria, bool $returnError = true)
-    {
+    public static function evaluate($database, $field, $criteria, bool $returnError = true) {
+
         $field = self::fieldExtract($database, $field);
+
         if ($returnError && $field === null) {
             return ExcelError::VALUE();
         }
@@ -44,4 +45,5 @@ class DCount extends DatabaseAbstract
             self::getFilteredColumn($database, $field, $criteria)
         );
     }
+
 }

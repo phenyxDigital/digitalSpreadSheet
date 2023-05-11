@@ -7,8 +7,8 @@ use Complex\Exception as ComplexException;
 use phenyxDigitale\digitalSpreadSheet\Calculation\ArrayEnabled;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class ComplexFunctions
-{
+class ComplexFunctions {
+
     use ArrayEnabled;
 
     /**
@@ -26,10 +26,10 @@ class ComplexFunctions
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function IMABS($complexNumber)
-    {
+    public static function IMABS($complexNumber) {
+
         if (is_array($complexNumber)) {
-            return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
+            return evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
         }
 
         try {
@@ -57,10 +57,10 @@ class ComplexFunctions
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function IMARGUMENT($complexNumber)
-    {
+    public static function IMARGUMENT($complexNumber) {
+
         if (is_array($complexNumber)) {
-            return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
+            return evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
         }
 
         try {
@@ -91,10 +91,10 @@ class ComplexFunctions
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function IMCONJUGATE($complexNumber)
-    {
+    public static function IMCONJUGATE($complexNumber) {
+
         if (is_array($complexNumber)) {
-            return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
+            return evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
         }
 
         try {
@@ -121,10 +121,10 @@ class ComplexFunctions
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function IMCOS($complexNumber)
-    {
+    public static function IMCOS($complexNumber) {
+
         if (is_array($complexNumber)) {
-            return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
+            return evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
         }
 
         try {
@@ -151,10 +151,10 @@ class ComplexFunctions
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function IMCOSH($complexNumber)
-    {
+    public static function IMCOSH($complexNumber) {
+
         if (is_array($complexNumber)) {
-            return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
+            return evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
         }
 
         try {
@@ -181,10 +181,10 @@ class ComplexFunctions
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function IMCOT($complexNumber)
-    {
+    public static function IMCOT($complexNumber) {
+
         if (is_array($complexNumber)) {
-            return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
+            return evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
         }
 
         try {
@@ -211,10 +211,10 @@ class ComplexFunctions
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function IMCSC($complexNumber)
-    {
+    public static function IMCSC($complexNumber) {
+
         if (is_array($complexNumber)) {
-            return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
+            return evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
         }
 
         try {
@@ -241,10 +241,10 @@ class ComplexFunctions
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function IMCSCH($complexNumber)
-    {
+    public static function IMCSCH($complexNumber) {
+
         if (is_array($complexNumber)) {
-            return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
+            return evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
         }
 
         try {
@@ -271,10 +271,10 @@ class ComplexFunctions
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function IMSIN($complexNumber)
-    {
+    public static function IMSIN($complexNumber) {
+
         if (is_array($complexNumber)) {
-            return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
+            return evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
         }
 
         try {
@@ -301,10 +301,10 @@ class ComplexFunctions
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function IMSINH($complexNumber)
-    {
+    public static function IMSINH($complexNumber) {
+
         if (is_array($complexNumber)) {
-            return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
+            return evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
         }
 
         try {
@@ -331,10 +331,10 @@ class ComplexFunctions
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function IMSEC($complexNumber)
-    {
+    public static function IMSEC($complexNumber) {
+
         if (is_array($complexNumber)) {
-            return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
+            return evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
         }
 
         try {
@@ -361,10 +361,10 @@ class ComplexFunctions
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function IMSECH($complexNumber)
-    {
+    public static function IMSECH($complexNumber) {
+
         if (is_array($complexNumber)) {
-            return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
+            return evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
         }
 
         try {
@@ -391,10 +391,10 @@ class ComplexFunctions
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function IMTAN($complexNumber)
-    {
+    public static function IMTAN($complexNumber) {
+
         if (is_array($complexNumber)) {
-            return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
+            return evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
         }
 
         try {
@@ -421,10 +421,10 @@ class ComplexFunctions
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function IMSQRT($complexNumber)
-    {
+    public static function IMSQRT($complexNumber) {
+
         if (is_array($complexNumber)) {
-            return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
+            return evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
         }
 
         try {
@@ -433,7 +433,8 @@ class ComplexFunctions
             return ExcelError::NAN();
         }
 
-        $theta = self::IMARGUMENT($complexNumber);
+        $theta = IMARGUMENT($complexNumber);
+
         if ($theta === ExcelError::DIV0()) {
             return '0';
         }
@@ -456,10 +457,10 @@ class ComplexFunctions
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function IMLN($complexNumber)
-    {
+    public static function IMLN($complexNumber) {
+
         if (is_array($complexNumber)) {
-            return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
+            return evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
         }
 
         try {
@@ -490,10 +491,10 @@ class ComplexFunctions
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function IMLOG10($complexNumber)
-    {
+    public static function IMLOG10($complexNumber) {
+
         if (is_array($complexNumber)) {
-            return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
+            return evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
         }
 
         try {
@@ -524,10 +525,10 @@ class ComplexFunctions
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function IMLOG2($complexNumber)
-    {
+    public static function IMLOG2($complexNumber) {
+
         if (is_array($complexNumber)) {
-            return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
+            return evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
         }
 
         try {
@@ -558,10 +559,10 @@ class ComplexFunctions
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function IMEXP($complexNumber)
-    {
+    public static function IMEXP($complexNumber) {
+
         if (is_array($complexNumber)) {
-            return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
+            return evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
         }
 
         try {
@@ -590,10 +591,10 @@ class ComplexFunctions
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function IMPOWER($complexNumber, $realNumber)
-    {
+    public static function IMPOWER($complexNumber, $realNumber) {
+
         if (is_array($complexNumber) || is_array($realNumber)) {
-            return self::evaluateArrayArguments([self::class, __FUNCTION__], $complexNumber, $realNumber);
+            return evaluateArrayArguments([self::class, __FUNCTION__], $complexNumber, $realNumber);
         }
 
         try {
@@ -608,4 +609,5 @@ class ComplexFunctions
 
         return (string) $complex->pow((float) $realNumber);
     }
+
 }

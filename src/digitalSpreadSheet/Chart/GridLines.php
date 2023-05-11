@@ -8,6 +8,6 @@ namespace phenyxDigitale\digitalSpreadSheet\Chart;
  * Date: 7/2/14
  * Time: 2:36 PM.
  */
-class GridLines extends Properties
-{
+class GridLines extends Properties {
+
 }

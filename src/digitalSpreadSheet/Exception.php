@@ -2,6 +2,6 @@
 
 namespace phenyxDigitale\digitalSpreadSheet;
 
-class Exception extends \Exception
-{
+class Exception extends \Exception {
+
 }

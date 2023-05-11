@@ -2,8 +2,8 @@
 
 namespace phenyxDigitale\digitalSpreadSheet\Shared;
 
-class Escher
-{
+class Escher {
+
     /**
      * Drawing Group Container.
      *
@@ -23,8 +23,8 @@ class Escher
      *
      * @return ?Escher\DggContainer
      */
-    public function getDggContainer()
-    {
+    public function getDggContainer() {
+
         return $this->dggContainer;
     }
 
@@ -35,8 +35,8 @@ class Escher
      *
      * @return Escher\DggContainer
      */
-    public function setDggContainer($dggContainer)
-    {
+    public function setDggContainer($dggContainer) {
+
         return $this->dggContainer = $dggContainer;
     }
 
@@ -45,8 +45,8 @@ class Escher
      *
      * @return ?Escher\DgContainer
      */
-    public function getDgContainer()
-    {
+    public function getDgContainer() {
+
         return $this->dgContainer;
     }
 
@@ -57,8 +57,8 @@ class Escher
      *
      * @return Escher\DgContainer
      */
-    public function setDgContainer($dgContainer)
-    {
+    public function setDgContainer($dgContainer) {
+
         return $this->dgContainer = $dgContainer;
     }
 }

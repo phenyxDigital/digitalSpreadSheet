@@ -9,17 +9,18 @@ use phenyxDigitale\digitalSpreadSheet\Worksheet\BaseDrawing;
 use phenyxDigitale\digitalSpreadSheet\Worksheet\MemoryDrawing;
 use phenyxDigitale\digitalSpreadSheet\Writer\Exception as WriterException;
 
-class Rels extends WriterPart
-{
+class Rels extends WriterPart {
+
     /**
      * Write relationships to XML format.
      *
      * @return string XML Output
      */
-    public function writeRelationships(Spreadsheet $spreadsheet)
-    {
+    public function writeRelationships(Spreadsheet $spreadsheet) {
+
         // Create XML writer
         $objWriter = null;
+
         if ($this->getParentWriter()->getUseDiskCaching()) {
             $objWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
@@ -34,6 +35,7 @@ class Rels extends WriterPart
         $objWriter->writeAttribute('xmlns', Namespaces::RELATIONSHIPS);
 
         $customPropertyList = $spreadsheet->getProperties()->getCustomProperties();
+
         if (!empty($customPropertyList)) {
             // Relationship docProps/app.xml
             $this->writeRelationship(
@@ -69,6 +71,7 @@ class Rels extends WriterPart
         );
         // a custom UI in workbook ?
         $target = $spreadsheet->getRibbonXMLData('target');
+
         if ($spreadsheet->hasRibbon()) {
             $this->writeRelationShip(
                 $objWriter,
@@ -88,10 +91,11 @@ class Rels extends WriterPart
      *
      * @return string XML Output
      */
-    public function writeWorkbookRelationships(Spreadsheet $spreadsheet)
-    {
+    public function writeWorkbookRelationships(Spreadsheet $spreadsheet) {
+
         // Create XML writer
         $objWriter = null;
+
         if ($this->getParentWriter()->getUseDiskCaching()) {
             $objWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
@@ -131,6 +135,7 @@ class Rels extends WriterPart
 
         // Relationships with sheets
         $sheetCount = $spreadsheet->getSheetCount();
+
         for ($i = 0; $i < $sheetCount; ++$i) {
             $this->writeRelationship(
                 $objWriter,
@@ -139,8 +144,10 @@ class Rels extends WriterPart
                 'worksheets/sheet' . ($i + 1) . '.xml'
             );
         }
+
         // Relationships for vbaProject if needed
         // id : just after the last sheet
+
         if ($spreadsheet->hasMacros()) {
             $this->writeRelationShip(
                 $objWriter,
@@ -169,10 +176,11 @@ class Rels extends WriterPart
      *
      * @return string XML Output
      */
-    public function writeWorksheetRelationships(\phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet $worksheet, $worksheetId = 1, $includeCharts = false, $tableRef = 1)
-    {
+    public function writeWorksheetRelationships(\phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet $worksheet, $worksheetId = 1, $includeCharts = false, $tableRef = 1) {
+
         // Create XML writer
         $objWriter = null;
+
         if ($this->getParentWriter()->getUseDiskCaching()) {
             $objWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
@@ -189,6 +197,7 @@ class Rels extends WriterPart
         // Write drawing relationships?
         $drawingOriginalIds = [];
         $unparsedLoadedData = $worksheet->getParentOrThrow()->getUnparsedLoadedData();
+
         if (isset($unparsedLoadedData['sheets'][$worksheet->getCodeName()]['drawingOriginalIds'])) {
             $drawingOriginalIds = $unparsedLoadedData['sheets'][$worksheet->getCodeName()]['drawingOriginalIds'];
         }
@@ -207,6 +216,7 @@ class Rels extends WriterPart
             // (! synchronize with \phenyxDigitale\digitalSpreadSheet\Writer\Xlsx\Worksheet::writeDrawings)
             reset($drawingOriginalIds);
             $relPath = key($drawingOriginalIds);
+
             if (isset($drawingOriginalIds[$relPath])) {
                 $rId = (int) (substr($drawingOriginalIds[$relPath], 3));
             }
@@ -223,7 +233,9 @@ class Rels extends WriterPart
 
         // Write hyperlink relationships?
         $i = 1;
+
         foreach ($worksheet->getHyperlinkCollection() as $hyperlink) {
+
             if (!$hyperlink->isInternal()) {
                 $this->writeRelationship(
                     $objWriter,
@@ -235,10 +247,12 @@ class Rels extends WriterPart
 
                 ++$i;
             }
+
         }
 
         // Write comments relationship?
         $i = 1;
+
         if (count($worksheet->getComments()) > 0 || isset($unparsedLoadedData['sheets'][$worksheet->getCodeName()]['legacyDrawing'])) {
             $this->writeRelationship(
                 $objWriter,
@@ -259,6 +273,7 @@ class Rels extends WriterPart
 
         // Write Table
         $tableCount = $worksheet->getTableCollection()->count();
+
         for ($i = 1; $i <= $tableCount; ++$i) {
             $this->writeRelationship(
                 $objWriter,
@@ -270,6 +285,7 @@ class Rels extends WriterPart
 
         // Write header/footer relationship?
         $i = 1;
+
         if (count($worksheet->getHeaderFooter()->getImages()) > 0) {
             $this->writeRelationship(
                 $objWriter,
@@ -288,14 +304,16 @@ class Rels extends WriterPart
         return $objWriter->getData();
     }
 
-    private function writeUnparsedRelationship(\phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet $worksheet, XMLWriter $objWriter, string $relationship, string $type): void
-    {
+    private function writeUnparsedRelationship(\phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet $worksheet, XMLWriter $objWriter, string $relationship, string $type): void{
+
         $unparsedLoadedData = $worksheet->getParentOrThrow()->getUnparsedLoadedData();
+
         if (!isset($unparsedLoadedData['sheets'][$worksheet->getCodeName()][$relationship])) {
             return;
         }
 
         foreach ($unparsedLoadedData['sheets'][$worksheet->getCodeName()][$relationship] as $rId => $value) {
+
             if (substr($rId, 0, 17) !== '_headerfooter_vml') {
                 $this->writeRelationship(
                     $objWriter,
@@ -304,7 +322,9 @@ class Rels extends WriterPart
                     $value['relFilePath']
                 );
             }
+
         }
+
     }
 
     /**
@@ -315,10 +335,11 @@ class Rels extends WriterPart
      *
      * @return string XML Output
      */
-    public function writeDrawingRelationships(\phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet $worksheet, &$chartRef, $includeCharts = false)
-    {
+    public function writeDrawingRelationships(\phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet $worksheet, &$chartRef, $includeCharts = false) {
+
         // Create XML writer
         $objWriter = null;
+
         if ($this->getParentWriter()->getUseDiskCaching()) {
             $objWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
@@ -335,8 +356,10 @@ class Rels extends WriterPart
         // Loop through images and write relationships
         $i = 1;
         $iterator = $worksheet->getDrawingCollection()->getIterator();
+
         while ($iterator->valid()) {
             $drawing = $iterator->current();
+
             if (
                 $drawing instanceof \phenyxDigitale\digitalSpreadSheet\Worksheet\Drawing
                 || $drawing instanceof MemoryDrawing
@@ -359,7 +382,9 @@ class Rels extends WriterPart
         if ($includeCharts) {
             // Loop through charts and write relationships
             $chartCount = $worksheet->getChartCount();
+
             if ($chartCount > 0) {
+
                 for ($c = 0; $c < $chartCount; ++$c) {
                     $this->writeRelationship(
                         $objWriter,
@@ -368,7 +393,9 @@ class Rels extends WriterPart
                         '../charts/chart' . ++$chartRef . '.xml'
                     );
                 }
+
             }
+
         }
 
         $objWriter->endElement();
@@ -381,10 +408,11 @@ class Rels extends WriterPart
      *
      * @return string XML Output
      */
-    public function writeHeaderFooterDrawingRelationships(\phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet $worksheet)
-    {
+    public function writeHeaderFooterDrawingRelationships(\phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet $worksheet) {
+
         // Create XML writer
         $objWriter = null;
+
         if ($this->getParentWriter()->getUseDiskCaching()) {
             $objWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
@@ -399,6 +427,7 @@ class Rels extends WriterPart
         $objWriter->writeAttribute('xmlns', Namespaces::RELATIONSHIPS);
 
         // Loop through images and write relationships
+
         foreach ($worksheet->getHeaderFooter()->getImages() as $key => $value) {
             // Write relationship for image drawing
             $this->writeRelationship(
@@ -414,10 +443,11 @@ class Rels extends WriterPart
         return $objWriter->getData();
     }
 
-    public function writeVMLDrawingRelationships(\phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet $worksheet): string
-    {
+    public function writeVMLDrawingRelationships(\phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet $worksheet): string{
+
         // Create XML writer
         $objWriter = null;
+
         if ($this->getParentWriter()->getUseDiskCaching()) {
             $objWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
@@ -432,7 +462,9 @@ class Rels extends WriterPart
         $objWriter->writeAttribute('xmlns', Namespaces::RELATIONSHIPS);
 
         // Loop through images and write relationships
+
         foreach ($worksheet->getComments() as $comment) {
+
             if (!$comment->hasBackgroundImage()) {
                 continue;
             }
@@ -459,8 +491,8 @@ class Rels extends WriterPart
      * @param string $target Relationship target
      * @param string $targetMode Relationship target mode
      */
-    private function writeRelationship(XMLWriter $objWriter, $id, $type, $target, $targetMode = ''): void
-    {
+    private function writeRelationship(XMLWriter $objWriter, $id, $type, $target, $targetMode = ''): void {
+
         if ($type != '' && $target != '') {
             // Write relationship
             $objWriter->startElement('Relationship');
@@ -476,10 +508,11 @@ class Rels extends WriterPart
         } else {
             throw new WriterException('Invalid parameters passed.');
         }
+
     }
 
-    private function writeDrawingHyperLink(XMLWriter $objWriter, BaseDrawing $drawing, int $i): int
-    {
+    private function writeDrawingHyperLink(XMLWriter $objWriter, BaseDrawing $drawing, int $i): int {
+
         if ($drawing->getHyperlink() === null) {
             return $i;
         }
@@ -495,4 +528,5 @@ class Rels extends WriterPart
 
         return $i;
     }
+
 }

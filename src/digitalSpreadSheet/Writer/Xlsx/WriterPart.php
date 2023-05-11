@@ -4,8 +4,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Writer\Xlsx;
 
 use phenyxDigitale\digitalSpreadSheet\Writer\Xlsx;
 
-abstract class WriterPart
-{
+abstract class WriterPart {
+
     /**
      * Parent Xlsx object.
      *
@@ -18,16 +18,16 @@ abstract class WriterPart
      *
      * @return Xlsx
      */
-    public function getParentWriter()
-    {
+    public function getParentWriter() {
+
         return $this->parentWriter;
     }
 
     /**
      * Set parent Xlsx object.
      */
-    public function __construct(Xlsx $writer)
-    {
+    public function __construct(Xlsx $writer) {
+
         $this->parentWriter = $writer;
     }
 }

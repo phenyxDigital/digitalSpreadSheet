@@ -5,8 +5,7 @@ namespace phenyxDigitale\digitalSpreadSheet\Style\ConditionalFormatting\Wizard;
 use phenyxDigitale\digitalSpreadSheet\Style\Conditional;
 use phenyxDigitale\digitalSpreadSheet\Style\Style;
 
-interface WizardInterface
-{
+interface WizardInterface {
     public function getCellRange(): string;
 
     public function setCellRange(string $cellRange): void;

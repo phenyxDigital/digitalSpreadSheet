@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Calculation\Database;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Statistical\Averages;
 
-class DAverage extends DatabaseAbstract
-{
+class DAverage extends DatabaseAbstract {
+
     /**
      * DAVERAGE.
      *
@@ -32,9 +32,10 @@ class DAverage extends DatabaseAbstract
      *
      * @return float|string
      */
-    public static function evaluate($database, $field, $criteria)
-    {
+    public static function evaluate($database, $field, $criteria) {
+
         $field = self::fieldExtract($database, $field);
+
         if ($field === null) {
             return ExcelError::VALUE();
         }
@@ -43,4 +44,5 @@ class DAverage extends DatabaseAbstract
             self::getFilteredColumn($database, $field, $criteria)
         );
     }
+
 }

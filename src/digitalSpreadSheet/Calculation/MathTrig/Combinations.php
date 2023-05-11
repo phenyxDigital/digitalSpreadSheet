@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Calculation\MathTrig;
 use phenyxDigitale\digitalSpreadSheet\Calculation\ArrayEnabled;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 
-class Combinations
-{
+class Combinations {
+
     use ArrayEnabled;
 
     /**
@@ -25,8 +25,8 @@ class Combinations
      *         If an array of numbers is passed as the argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function withoutRepetition($numObjs, $numInSet)
-    {
+    public static function withoutRepetition($numObjs, $numInSet) {
+
         if (is_array($numObjs) || is_array($numInSet)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $numObjs, $numInSet);
         }
@@ -59,8 +59,8 @@ class Combinations
      *         If an array of numbers is passed as the argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function withRepetition($numObjs, $numInSet)
-    {
+    public static function withRepetition($numObjs, $numInSet) {
+
         if (is_array($numObjs) || is_array($numInSet)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $numObjs, $numInSet);
         }
@@ -75,11 +75,13 @@ class Combinations
             // Microsoft documentation says following is true, but Excel
             //  does not enforce this restriction.
             //Helpers::validateNotNegative($numObjs - $numInSet);
+
             if ($numObjs === 0) {
                 Helpers::validateNotNegative(-$numInSet);
 
                 return 1;
             }
+
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -88,4 +90,5 @@ class Combinations
             Factorial::fact($numObjs + $numInSet - 1) / Factorial::fact($numObjs - 1) // @phpstan-ignore-line
         ) / Factorial::fact($numInSet);
     }
+
 }

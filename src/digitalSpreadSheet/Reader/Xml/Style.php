@@ -4,8 +4,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Reader\Xml;
 
 use SimpleXMLElement;
 
-class Style
-{
+class Style {
+
     /**
      * Formats.
      *
@@ -15,6 +15,7 @@ class Style
 
     public function parseStyles(SimpleXMLElement $xml, array $namespaces): array
     {
+
         if (!isset($xml->Styles) || !is_iterable($xml->Styles[0])) {
             return [];
         }
@@ -37,35 +38,40 @@ class Style
                 $styleAttributes = $styleData->attributes($namespaces['ss']);
 
                 switch ($styleType) {
-                    case 'Alignment':
-                        if ($styleAttributes) {
-                            $alignment = $alignmentStyleParser->parseStyle($styleAttributes);
-                        }
+                case 'Alignment' :
 
-                        break;
-                    case 'Borders':
-                        $border = $borderStyleParser->parseStyle($styleData, $namespaces);
+                    if ($styleAttributes) {
+                        $alignment = $alignmentStyleParser->parseStyle($styleAttributes);
+                    }
 
-                        break;
-                    case 'Font':
-                        if ($styleAttributes) {
-                            $font = $fontStyleParser->parseStyle($styleAttributes);
-                        }
+                    break;
+                case 'Borders' :
+                    $border = $borderStyleParser->parseStyle($styleData, $namespaces);
 
-                        break;
-                    case 'Interior':
-                        if ($styleAttributes) {
-                            $fill = $fillStyleParser->parseStyle($styleAttributes);
-                        }
+                    break;
+                case 'Font':
 
-                        break;
-                    case 'NumberFormat':
-                        if ($styleAttributes) {
-                            $numberFormat = $numberFormatStyleParser->parseStyle($styleAttributes);
-                        }
+                    if ($styleAttributes) {
+                        $font = $fontStyleParser->parseStyle($styleAttributes);
+                    }
 
-                        break;
+                    break;
+                case 'Interior':
+
+                    if ($styleAttributes) {
+                        $fill = $fillStyleParser->parseStyle($styleAttributes);
+                    }
+
+                    break;
+                case 'NumberFormat':
+
+                    if ($styleAttributes) {
+                        $numberFormat = $numberFormatStyleParser->parseStyle($styleAttributes);
+                    }
+
+                    break;
                 }
+
             }
 
             $this->styles[$styleID] = array_merge($alignment, $border, $font, $fill, $numberFormat);
@@ -74,13 +80,14 @@ class Style
         return $this->styles;
     }
 
-    private static function getAttributes(?SimpleXMLElement $simple, string $node): SimpleXMLElement
-    {
+    private static function getAttributes( ? SimpleXMLElement $simple, string $node) : SimpleXMLElement {
+
         return ($simple === null) ? new SimpleXMLElement('<xml></xml>') : ($simple->attributes($node) ?? new SimpleXMLElement('<xml></xml>'));
     }
 
-    private static function getSxml(?SimpleXMLElement $simple): SimpleXMLElement
-    {
+    private static function getSxml( ? SimpleXMLElement $simple) : SimpleXMLElement {
+
         return ($simple !== null) ? $simple : new SimpleXMLElement('<xml></xml>');
     }
+
 }

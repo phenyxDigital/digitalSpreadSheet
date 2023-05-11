@@ -6,8 +6,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Functions;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class Depreciation
-{
+class Depreciation {
+
     /** @var float */
     private static $zeroPointZero = 0.0;
 
@@ -36,8 +36,8 @@ class Depreciation
      *
      * @return float|string
      */
-    public static function DB($cost, $salvage, $life, $period, $month = 12)
-    {
+    public static function DB($cost, $salvage, $life, $period, $month = 12) {
+
         $cost = Functions::flattenSingleValue($cost);
         $salvage = Functions::flattenSingleValue($salvage);
         $life = Functions::flattenSingleValue($life);
@@ -66,14 +66,17 @@ class Depreciation
         // TODO Handle period value between 0 and 1 (e.g. 0.5)
         $previousDepreciation = 0;
         $depreciation = 0;
+
         for ($per = 1; $per <= $period; ++$per) {
+
             if ($per == 1) {
                 $depreciation = $cost * $fixedDepreciationRate * $month / 12;
-            } elseif ($per == ($life + 1)) {
+            } else if ($per == ($life + 1)) {
                 $depreciation = ($cost - $previousDepreciation) * $fixedDepreciationRate * (12 - $month) / 12;
             } else {
                 $depreciation = ($cost - $previousDepreciation) * $fixedDepreciationRate;
             }
+
             $previousDepreciation += $depreciation;
         }
 
@@ -102,8 +105,8 @@ class Depreciation
      *
      * @return float|string
      */
-    public static function DDB($cost, $salvage, $life, $period, $factor = 2.0)
-    {
+    public static function DDB($cost, $salvage, $life, $period, $factor = 2.0) {
+
         $cost = Functions::flattenSingleValue($cost);
         $salvage = Functions::flattenSingleValue($salvage);
         $life = Functions::flattenSingleValue($life);
@@ -128,6 +131,7 @@ class Depreciation
         // TODO Handling for fractional $period values
         $previousDepreciation = 0;
         $depreciation = 0;
+
         for ($per = 1; $per <= $period; ++$per) {
             $depreciation = min(
                 ($cost - $previousDepreciation) * ($factor / $life),
@@ -150,8 +154,8 @@ class Depreciation
      *
      * @return float|string Result, or a string containing an error
      */
-    public static function SLN($cost, $salvage, $life)
-    {
+    public static function SLN($cost, $salvage, $life) {
+
         $cost = Functions::flattenSingleValue($cost);
         $salvage = Functions::flattenSingleValue($salvage);
         $life = Functions::flattenSingleValue($life);
@@ -183,8 +187,8 @@ class Depreciation
      *
      * @return float|string Result, or a string containing an error
      */
-    public static function SYD($cost, $salvage, $life, $period)
-    {
+    public static function SYD($cost, $salvage, $life, $period) {
+
         $cost = Functions::flattenSingleValue($cost);
         $salvage = Functions::flattenSingleValue($salvage);
         $life = Functions::flattenSingleValue($life);
@@ -209,9 +213,10 @@ class Depreciation
     }
 
     /** @param mixed $cost */
-    private static function validateCost($cost, bool $negativeValueAllowed = false): float
-    {
+    private static function validateCost($cost, bool $negativeValueAllowed = false): float{
+
         $cost = FinancialValidations::validateFloat($cost);
+
         if ($cost < 0.0 && $negativeValueAllowed === false) {
             throw new Exception(ExcelError::NAN());
         }
@@ -220,9 +225,10 @@ class Depreciation
     }
 
     /** @param mixed $salvage */
-    private static function validateSalvage($salvage, bool $negativeValueAllowed = false): float
-    {
+    private static function validateSalvage($salvage, bool $negativeValueAllowed = false): float{
+
         $salvage = FinancialValidations::validateFloat($salvage);
+
         if ($salvage < 0.0 && $negativeValueAllowed === false) {
             throw new Exception(ExcelError::NAN());
         }
@@ -231,9 +237,10 @@ class Depreciation
     }
 
     /** @param mixed $life */
-    private static function validateLife($life, bool $negativeValueAllowed = false): float
-    {
+    private static function validateLife($life, bool $negativeValueAllowed = false): float{
+
         $life = FinancialValidations::validateFloat($life);
+
         if ($life < 0.0 && $negativeValueAllowed === false) {
             throw new Exception(ExcelError::NAN());
         }
@@ -242,9 +249,10 @@ class Depreciation
     }
 
     /** @param mixed $period */
-    private static function validatePeriod($period, bool $negativeValueAllowed = false): float
-    {
+    private static function validatePeriod($period, bool $negativeValueAllowed = false): float{
+
         $period = FinancialValidations::validateFloat($period);
+
         if ($period <= 0.0 && $negativeValueAllowed === false) {
             throw new Exception(ExcelError::NAN());
         }
@@ -253,9 +261,10 @@ class Depreciation
     }
 
     /** @param mixed $month */
-    private static function validateMonth($month): int
-    {
+    private static function validateMonth($month): int{
+
         $month = FinancialValidations::validateInt($month);
+
         if ($month < 1) {
             throw new Exception(ExcelError::NAN());
         }
@@ -264,13 +273,15 @@ class Depreciation
     }
 
     /** @param mixed $factor */
-    private static function validateFactor($factor): float
-    {
+    private static function validateFactor($factor): float{
+
         $factor = FinancialValidations::validateFloat($factor);
+
         if ($factor <= 0.0) {
             throw new Exception(ExcelError::NAN());
         }
 
         return $factor;
     }
+
 }

@@ -2,8 +2,8 @@
 
 namespace phenyxDigitale\digitalSpreadSheet\Reader\Xls\Color;
 
-class BuiltIn
-{
+class BuiltIn {
+
     private const BUILTIN_COLOR_MAP = [
         0x00 => '000000',
         0x01 => 'FFFFFF',
@@ -24,8 +24,8 @@ class BuiltIn
      *
      * @return array
      */
-    public static function lookup($color)
-    {
+    public static function lookup($color) {
+
         return ['rgb' => self::BUILTIN_COLOR_MAP[$color] ?? '000000'];
     }
 }

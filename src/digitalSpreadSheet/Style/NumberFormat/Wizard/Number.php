@@ -4,8 +4,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Style\NumberFormat\Wizard;
 
 use phenyxDigitale\digitalSpreadSheet\Exception;
 
-class Number extends NumberBase implements Wizard
-{
+class Number extends NumberBase implements Wizard {
+
     public const WITH_THOUSANDS_SEPARATOR = true;
 
     public const WITHOUT_THOUSANDS_SEPARATOR = false;
@@ -25,15 +25,16 @@ class Number extends NumberBase implements Wizard
     public function __construct(
         int $decimals = 2,
         bool $thousandsSeparator = self::WITH_THOUSANDS_SEPARATOR,
-        ?string $locale = null
+        ? string $locale = null
     ) {
+
         $this->setDecimals($decimals);
         $this->setThousandsSeparator($thousandsSeparator);
         $this->setLocale($locale);
     }
 
-    public function setThousandsSeparator(bool $thousandsSeparator = self::WITH_THOUSANDS_SEPARATOR): void
-    {
+    public function setThousandsSeparator(bool $thousandsSeparator = self::WITH_THOUSANDS_SEPARATOR) : void{
+
         $this->thousandsSeparator = $thousandsSeparator;
     }
 
@@ -41,13 +42,13 @@ class Number extends NumberBase implements Wizard
      * As MS Excel cannot easily handle Lakh, which is the only locale-specific Number format variant,
      *       we don't use locale with Numbers.
      */
-    protected function getLocaleFormat(): string
-    {
+    protected function getLocaleFormat(): string {
+
         return $this->format();
     }
 
-    public function format(): string
-    {
+    public function format(): string {
+
         return sprintf(
             '%s0%s',
             $this->thousandsSeparator ? '#,##' : null,

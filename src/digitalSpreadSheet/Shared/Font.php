@@ -7,8 +7,8 @@ use phenyxDigitale\digitalSpreadSheet\RichText\RichText;
 use phenyxDigitale\digitalSpreadSheet\Style\Alignment;
 use phenyxDigitale\digitalSpreadSheet\Style\Font as FontStyle;
 
-class Font
-{
+class Font {
+
     // Methods for resolving autosize value
     const AUTOSIZE_METHOD_APPROX = 'approx';
     const AUTOSIZE_METHOD_EXACT = 'exact';
@@ -102,100 +102,100 @@ class Font
     const VERDANA_BOLD_ITALIC = 'verdanaz.ttf';
 
     const FONT_FILE_NAMES = [
-        'Arial' => [
-            'x' => self::ARIAL,
-            'xb' => self::ARIAL_BOLD,
-            'xi' => self::ARIAL_ITALIC,
+        'Arial'                => [
+            'x'   => self::ARIAL,
+            'xb'  => self::ARIAL_BOLD,
+            'xi'  => self::ARIAL_ITALIC,
             'xbi' => self::ARIAL_BOLD_ITALIC,
         ],
-        'Calibri' => [
-            'x' => self::CALIBRI,
-            'xb' => self::CALIBRI_BOLD,
-            'xi' => self::CALIBRI_ITALIC,
+        'Calibri'              => [
+            'x'   => self::CALIBRI,
+            'xb'  => self::CALIBRI_BOLD,
+            'xi'  => self::CALIBRI_ITALIC,
             'xbi' => self::CALIBRI_BOLD_ITALIC,
         ],
-        'Comic Sans MS' => [
-            'x' => self::COMIC_SANS_MS,
-            'xb' => self::COMIC_SANS_MS_BOLD,
-            'xi' => self::COMIC_SANS_MS,
+        'Comic Sans MS'        => [
+            'x'   => self::COMIC_SANS_MS,
+            'xb'  => self::COMIC_SANS_MS_BOLD,
+            'xi'  => self::COMIC_SANS_MS,
             'xbi' => self::COMIC_SANS_MS_BOLD,
         ],
-        'Courier New' => [
-            'x' => self::COURIER_NEW,
-            'xb' => self::COURIER_NEW_BOLD,
-            'xi' => self::COURIER_NEW_ITALIC,
+        'Courier New'          => [
+            'x'   => self::COURIER_NEW,
+            'xb'  => self::COURIER_NEW_BOLD,
+            'xi'  => self::COURIER_NEW_ITALIC,
             'xbi' => self::COURIER_NEW_BOLD_ITALIC,
         ],
-        'Georgia' => [
-            'x' => self::GEORGIA,
-            'xb' => self::GEORGIA_BOLD,
-            'xi' => self::GEORGIA_ITALIC,
+        'Georgia'              => [
+            'x'   => self::GEORGIA,
+            'xb'  => self::GEORGIA_BOLD,
+            'xi'  => self::GEORGIA_ITALIC,
             'xbi' => self::GEORGIA_BOLD_ITALIC,
         ],
-        'Impact' => [
-            'x' => self::IMPACT,
-            'xb' => self::IMPACT,
-            'xi' => self::IMPACT,
+        'Impact'               => [
+            'x'   => self::IMPACT,
+            'xb'  => self::IMPACT,
+            'xi'  => self::IMPACT,
             'xbi' => self::IMPACT,
         ],
-        'Liberation Sans' => [
-            'x' => self::LIBERATION_SANS,
-            'xb' => self::LIBERATION_SANS_BOLD,
-            'xi' => self::LIBERATION_SANS_ITALIC,
+        'Liberation Sans'      => [
+            'x'   => self::LIBERATION_SANS,
+            'xb'  => self::LIBERATION_SANS_BOLD,
+            'xi'  => self::LIBERATION_SANS_ITALIC,
             'xbi' => self::LIBERATION_SANS_BOLD_ITALIC,
         ],
-        'Lucida Console' => [
-            'x' => self::LUCIDA_CONSOLE,
-            'xb' => self::LUCIDA_CONSOLE,
-            'xi' => self::LUCIDA_CONSOLE,
+        'Lucida Console'       => [
+            'x'   => self::LUCIDA_CONSOLE,
+            'xb'  => self::LUCIDA_CONSOLE,
+            'xi'  => self::LUCIDA_CONSOLE,
             'xbi' => self::LUCIDA_CONSOLE,
         ],
-        'Lucida Sans Unicode' => [
-            'x' => self::LUCIDA_SANS_UNICODE,
-            'xb' => self::LUCIDA_SANS_UNICODE,
-            'xi' => self::LUCIDA_SANS_UNICODE,
+        'Lucida Sans Unicode'  => [
+            'x'   => self::LUCIDA_SANS_UNICODE,
+            'xb'  => self::LUCIDA_SANS_UNICODE,
+            'xi'  => self::LUCIDA_SANS_UNICODE,
             'xbi' => self::LUCIDA_SANS_UNICODE,
         ],
         'Microsoft Sans Serif' => [
-            'x' => self::MICROSOFT_SANS_SERIF,
-            'xb' => self::MICROSOFT_SANS_SERIF,
-            'xi' => self::MICROSOFT_SANS_SERIF,
+            'x'   => self::MICROSOFT_SANS_SERIF,
+            'xb'  => self::MICROSOFT_SANS_SERIF,
+            'xi'  => self::MICROSOFT_SANS_SERIF,
             'xbi' => self::MICROSOFT_SANS_SERIF,
         ],
-        'Palatino Linotype' => [
-            'x' => self::PALATINO_LINOTYPE,
-            'xb' => self::PALATINO_LINOTYPE_BOLD,
-            'xi' => self::PALATINO_LINOTYPE_ITALIC,
+        'Palatino Linotype'    => [
+            'x'   => self::PALATINO_LINOTYPE,
+            'xb'  => self::PALATINO_LINOTYPE_BOLD,
+            'xi'  => self::PALATINO_LINOTYPE_ITALIC,
             'xbi' => self::PALATINO_LINOTYPE_BOLD_ITALIC,
         ],
-        'Symbol' => [
-            'x' => self::SYMBOL,
-            'xb' => self::SYMBOL,
-            'xi' => self::SYMBOL,
+        'Symbol'               => [
+            'x'   => self::SYMBOL,
+            'xb'  => self::SYMBOL,
+            'xi'  => self::SYMBOL,
             'xbi' => self::SYMBOL,
         ],
-        'Tahoma' => [
-            'x' => self::TAHOMA,
-            'xb' => self::TAHOMA_BOLD,
-            'xi' => self::TAHOMA,
+        'Tahoma'               => [
+            'x'   => self::TAHOMA,
+            'xb'  => self::TAHOMA_BOLD,
+            'xi'  => self::TAHOMA,
             'xbi' => self::TAHOMA_BOLD,
         ],
-        'Times New Roman' => [
-            'x' => self::TIMES_NEW_ROMAN,
-            'xb' => self::TIMES_NEW_ROMAN_BOLD,
-            'xi' => self::TIMES_NEW_ROMAN_ITALIC,
+        'Times New Roman'      => [
+            'x'   => self::TIMES_NEW_ROMAN,
+            'xb'  => self::TIMES_NEW_ROMAN_BOLD,
+            'xi'  => self::TIMES_NEW_ROMAN_ITALIC,
             'xbi' => self::TIMES_NEW_ROMAN_BOLD_ITALIC,
         ],
-        'Trebuchet MS' => [
-            'x' => self::TREBUCHET_MS,
-            'xb' => self::TREBUCHET_MS_BOLD,
-            'xi' => self::TREBUCHET_MS_ITALIC,
+        'Trebuchet MS'         => [
+            'x'   => self::TREBUCHET_MS,
+            'xb'  => self::TREBUCHET_MS_BOLD,
+            'xi'  => self::TREBUCHET_MS_ITALIC,
             'xbi' => self::TREBUCHET_MS_BOLD_ITALIC,
         ],
-        'Verdana' => [
-            'x' => self::VERDANA,
-            'xb' => self::VERDANA_BOLD,
-            'xi' => self::VERDANA_ITALIC,
+        'Verdana'              => [
+            'x'   => self::VERDANA,
+            'xb'  => self::VERDANA_BOLD,
+            'xi'  => self::VERDANA_ITALIC,
             'xbi' => self::VERDANA_BOLD_ITALIC,
         ],
     ];
@@ -207,13 +207,14 @@ class Font
      */
     private static $extraFontArray = [];
 
-    public static function setExtraFontArray(array $extraFontArray): void
-    {
+    public static function setExtraFontArray(array $extraFontArray): void{
+
         self::$extraFontArray = $extraFontArray;
     }
 
     public static function getExtraFontArray(): array
     {
+
         return self::$extraFontArray;
     }
 
@@ -238,42 +239,42 @@ class Font
      * Added height in points.
      */
     public const DEFAULT_COLUMN_WIDTHS = [
-        'Arial' => [
-            1 => ['px' => 24, 'width' => 12.00000000, 'height' => 5.25],
-            2 => ['px' => 24, 'width' => 12.00000000, 'height' => 5.25],
-            3 => ['px' => 32, 'width' => 10.66406250, 'height' => 6.0],
+        'Arial'   => [
+            1  => ['px' => 24, 'width' => 12.00000000, 'height' => 5.25],
+            2  => ['px' => 24, 'width' => 12.00000000, 'height' => 5.25],
+            3  => ['px' => 32, 'width' => 10.66406250, 'height' => 6.0],
 
-            4 => ['px' => 32, 'width' => 10.66406250, 'height' => 6.75],
-            5 => ['px' => 40, 'width' => 10.00000000, 'height' => 8.25],
-            6 => ['px' => 48, 'width' => 9.59765625, 'height' => 8.25],
-            7 => ['px' => 48, 'width' => 9.59765625, 'height' => 9.0],
-            8 => ['px' => 56, 'width' => 9.33203125, 'height' => 11.25],
-            9 => ['px' => 64, 'width' => 9.14062500, 'height' => 12.0],
+            4  => ['px' => 32, 'width' => 10.66406250, 'height' => 6.75],
+            5  => ['px' => 40, 'width' => 10.00000000, 'height' => 8.25],
+            6  => ['px' => 48, 'width' => 9.59765625, 'height' => 8.25],
+            7  => ['px' => 48, 'width' => 9.59765625, 'height' => 9.0],
+            8  => ['px' => 56, 'width' => 9.33203125, 'height' => 11.25],
+            9  => ['px' => 64, 'width' => 9.14062500, 'height' => 12.0],
             10 => ['px' => 64, 'width' => 9.14062500, 'height' => 12.75],
         ],
         'Calibri' => [
-            1 => ['px' => 24, 'width' => 12.00000000, 'height' => 5.25],
-            2 => ['px' => 24, 'width' => 12.00000000, 'height' => 5.25],
-            3 => ['px' => 32, 'width' => 10.66406250, 'height' => 6.00],
-            4 => ['px' => 32, 'width' => 10.66406250, 'height' => 6.75],
-            5 => ['px' => 40, 'width' => 10.00000000, 'height' => 8.25],
-            6 => ['px' => 48, 'width' => 9.59765625, 'height' => 8.25],
-            7 => ['px' => 48, 'width' => 9.59765625, 'height' => 9.0],
-            8 => ['px' => 56, 'width' => 9.33203125, 'height' => 11.25],
-            9 => ['px' => 56, 'width' => 9.33203125, 'height' => 12.0],
+            1  => ['px' => 24, 'width' => 12.00000000, 'height' => 5.25],
+            2  => ['px' => 24, 'width' => 12.00000000, 'height' => 5.25],
+            3  => ['px' => 32, 'width' => 10.66406250, 'height' => 6.00],
+            4  => ['px' => 32, 'width' => 10.66406250, 'height' => 6.75],
+            5  => ['px' => 40, 'width' => 10.00000000, 'height' => 8.25],
+            6  => ['px' => 48, 'width' => 9.59765625, 'height' => 8.25],
+            7  => ['px' => 48, 'width' => 9.59765625, 'height' => 9.0],
+            8  => ['px' => 56, 'width' => 9.33203125, 'height' => 11.25],
+            9  => ['px' => 56, 'width' => 9.33203125, 'height' => 12.0],
             10 => ['px' => 64, 'width' => 9.14062500, 'height' => 12.75],
             11 => ['px' => 64, 'width' => 9.14062500, 'height' => 15.0],
         ],
         'Verdana' => [
-            1 => ['px' => 24, 'width' => 12.00000000, 'height' => 5.25],
-            2 => ['px' => 24, 'width' => 12.00000000, 'height' => 5.25],
-            3 => ['px' => 32, 'width' => 10.66406250, 'height' => 6.0],
-            4 => ['px' => 32, 'width' => 10.66406250, 'height' => 6.75],
-            5 => ['px' => 40, 'width' => 10.00000000, 'height' => 8.25],
-            6 => ['px' => 48, 'width' => 9.59765625, 'height' => 8.25],
-            7 => ['px' => 48, 'width' => 9.59765625, 'height' => 9.0],
-            8 => ['px' => 64, 'width' => 9.14062500, 'height' => 10.5],
-            9 => ['px' => 72, 'width' => 9.00000000, 'height' => 11.25],
+            1  => ['px' => 24, 'width' => 12.00000000, 'height' => 5.25],
+            2  => ['px' => 24, 'width' => 12.00000000, 'height' => 5.25],
+            3  => ['px' => 32, 'width' => 10.66406250, 'height' => 6.0],
+            4  => ['px' => 32, 'width' => 10.66406250, 'height' => 6.75],
+            5  => ['px' => 40, 'width' => 10.00000000, 'height' => 8.25],
+            6  => ['px' => 48, 'width' => 9.59765625, 'height' => 8.25],
+            7  => ['px' => 48, 'width' => 9.59765625, 'height' => 9.0],
+            8  => ['px' => 64, 'width' => 9.14062500, 'height' => 10.5],
+            9  => ['px' => 72, 'width' => 9.00000000, 'height' => 11.25],
             10 => ['px' => 72, 'width' => 9.00000000, 'height' => 12.75],
         ],
     ];
@@ -296,11 +297,12 @@ class Font
      *
      * @return bool Success or failure
      */
-    public static function setAutoSizeMethod($method)
-    {
+    public static function setAutoSizeMethod($method) {
+
         if (!in_array($method, self::AUTOSIZE_METHODS)) {
             return false;
         }
+
         self::$autoSizeMethod = $method;
 
         return true;
@@ -311,8 +313,8 @@ class Font
      *
      * @return string
      */
-    public static function getAutoSizeMethod()
-    {
+    public static function getAutoSizeMethod() {
+
         return self::$autoSizeMethod;
     }
 
@@ -327,8 +329,8 @@ class Font
      *
      * @param string $folderPath
      */
-    public static function setTrueTypeFontPath($folderPath): void
-    {
+    public static function setTrueTypeFontPath($folderPath): void{
+
         self::$trueTypeFontPath = $folderPath;
     }
 
@@ -337,8 +339,8 @@ class Font
      *
      * @return string
      */
-    public static function getTrueTypeFontPath()
-    {
+    public static function getTrueTypeFontPath() {
+
         return self::$trueTypeFontPath;
     }
 
@@ -355,20 +357,24 @@ class Font
         FontStyle $font,
         $cellText = '',
         $rotation = 0,
-        ?FontStyle $defaultFont = null,
+        ? FontStyle $defaultFont = null,
         bool $filterAdjustment = false,
         int $indentAdjustment = 0
-    ): float {
+    ) : float {
+
         // If it is rich text, use plain text
+
         if ($cellText instanceof RichText) {
             $cellText = $cellText->getPlainText();
         }
 
         // Special case if there are one or more newline characters ("\n")
         $cellText = (string) $cellText;
+
         if (strpos($cellText, "\n") !== false) {
             $lineTexts = explode("\n", $cellText);
             $lineWidths = [];
+
             foreach ($lineTexts as $lineText) {
                 $lineWidths[] = self::calculateColumnWidth($font, $lineText, $rotation = 0, $defaultFont, $filterAdjustment);
             }
@@ -379,6 +385,7 @@ class Font
         // Try to get the exact text width in pixels
         $approximate = self::$autoSizeMethod === self::AUTOSIZE_METHOD_APPROX;
         $columnWidth = 0;
+
         if (!$approximate) {
             $columnWidthAdjust = ceil(
                 self::getTextWidthPixelsExact(
@@ -395,6 +402,7 @@ class Font
             } catch (PhenyxXlsException $e) {
                 $approximate = true;
             }
+
         }
 
         if ($approximate) {
@@ -418,12 +426,13 @@ class Font
     /**
      * Get GD text width in pixels for a string of text in a certain font at a certain rotation angle.
      */
-    public static function getTextWidthPixelsExact(string $text, FontStyle $font, int $rotation = 0): float
-    {
+    public static function getTextWidthPixelsExact(string $text, FontStyle $font, int $rotation = 0) : float{
+
         // font size should really be supplied in pixels in GD2,
         // but since GD2 seems to assume 72dpi, pixels and points are the same
         $fontFile = self::getTrueTypeFontFileFromFont($font);
         $textBox = imagettfbbox($font->getSize() ?? 10.0, $rotation, $fontFile, $text);
+
         if ($textBox === false) {
             // @codeCoverageIgnoreStart
             throw new PhenyxXlsException('imagettfbbox failed');
@@ -448,49 +457,53 @@ class Font
      *
      * @return int Text width in pixels (no padding added)
      */
-    public static function getTextWidthPixelsApprox($columnText, FontStyle $font, $rotation = 0)
-    {
+    public static function getTextWidthPixelsApprox($columnText, FontStyle $font, $rotation = 0) {
+
         $fontName = $font->getName();
         $fontSize = $font->getSize();
 
         // Calculate column width in pixels. We assume fixed glyph width. Result varies with font name and size.
+
         switch ($fontName) {
-            case 'Calibri':
-                // value 8.26 was found via interpolation by inspecting real Excel files with Calibri 11 font.
-                $columnWidth = (int) (8.26 * StringHelper::countCharacters($columnText));
-                $columnWidth = $columnWidth * $fontSize / 11; // extrapolate from font size
+        case 'Calibri' :
+            // value 8.26 was found via interpolation by inspecting real Excel files with Calibri 11 font.
+            $columnWidth = (int) (8.26 * StringHelper::countCharacters($columnText));
+            $columnWidth = $columnWidth * $fontSize / 11; // extrapolate from font size
 
-                break;
-            case 'Arial':
-                // value 8 was set because of experience in different exports at Arial 10 font.
-                $columnWidth = (int) (8 * StringHelper::countCharacters($columnText));
-                $columnWidth = $columnWidth * $fontSize / 10; // extrapolate from font size
+            break;
+        case 'Arial' :
+            // value 8 was set because of experience in different exports at Arial 10 font.
+            $columnWidth = (int) (8 * StringHelper::countCharacters($columnText));
+            $columnWidth = $columnWidth * $fontSize / 10; // extrapolate from font size
 
-                break;
-            case 'Verdana':
-                // value 8 was found via interpolation by inspecting real Excel files with Verdana 10 font.
-                $columnWidth = (int) (8 * StringHelper::countCharacters($columnText));
-                $columnWidth = $columnWidth * $fontSize / 10; // extrapolate from font size
+            break;
+        case 'Verdana' :
+            // value 8 was found via interpolation by inspecting real Excel files with Verdana 10 font.
+            $columnWidth = (int) (8 * StringHelper::countCharacters($columnText));
+            $columnWidth = $columnWidth * $fontSize / 10; // extrapolate from font size
 
-                break;
-            default:
-                // just assume Calibri
-                $columnWidth = (int) (8.26 * StringHelper::countCharacters($columnText));
-                $columnWidth = $columnWidth * $fontSize / 11; // extrapolate from font size
+            break;
+        default:
+            // just assume Calibri
+            $columnWidth = (int) (8.26 * StringHelper::countCharacters($columnText));
+            $columnWidth = $columnWidth * $fontSize / 11; // extrapolate from font size
 
-                break;
+            break;
         }
 
         // Calculate approximate rotated column width
+
         if ($rotation !== 0) {
+
             if ($rotation == Alignment::TEXTROTATION_STACK_PHPSPREADSHEET) {
                 // stacked text
                 $columnWidth = 4; // approximation
             } else {
                 // rotated text
                 $columnWidth = $columnWidth * cos(deg2rad($rotation))
-                                + $fontSize * abs(sin(deg2rad($rotation))) / 5; // approximation
+                 + $fontSize * abs(sin(deg2rad($rotation))) / 5; // approximation
             }
+
         }
 
         // pixel width is an integer
@@ -504,8 +517,8 @@ class Font
      *
      * @return int Font size (in pixels)
      */
-    public static function fontSizeToPixels($fontSizeInPoints)
-    {
+    public static function fontSizeToPixels($fontSizeInPoints) {
+
         return (int) ((4 / 3) * $fontSizeInPoints);
     }
 
@@ -516,8 +529,8 @@ class Font
      *
      * @return int Size (in pixels)
      */
-    public static function inchSizeToPixels($sizeInInch)
-    {
+    public static function inchSizeToPixels($sizeInInch) {
+
         return $sizeInInch * 96;
     }
 
@@ -528,8 +541,8 @@ class Font
      *
      * @return float Size (in pixels)
      */
-    public static function centimeterSizeToPixels($sizeInCm)
-    {
+    public static function centimeterSizeToPixels($sizeInCm) {
+
         return $sizeInCm * 37.795275591;
     }
 
@@ -538,37 +551,46 @@ class Font
      *
      * @return string Path to TrueType font file
      */
-    public static function getTrueTypeFontFileFromFont(FontStyle $font, bool $checkPath = true)
-    {
+    public static function getTrueTypeFontFileFromFont(FontStyle $font, bool $checkPath = true) {
+
         if ($checkPath && (!file_exists(self::$trueTypeFontPath) || !is_dir(self::$trueTypeFontPath))) {
             throw new PhenyxXlsException('Valid directory to TrueType Font files not specified');
         }
 
         $name = $font->getName();
         $fontArray = array_merge(self::FONT_FILE_NAMES, self::$extraFontArray);
+
         if (!isset($fontArray[$name])) {
             throw new PhenyxXlsException('Unknown font name "' . $name . '". Cannot map to TrueType font file');
         }
+
         $bold = $font->getBold();
         $italic = $font->getItalic();
         $index = 'x';
+
         if ($bold) {
             $index .= 'b';
         }
+
         if ($italic) {
             $index .= 'i';
         }
+
         $fontFile = $fontArray[$name][$index];
 
         $separator = '';
+
         if (mb_strlen(self::$trueTypeFontPath) > 1 && mb_substr(self::$trueTypeFontPath, -1) !== '/' && mb_substr(self::$trueTypeFontPath, -1) !== '\\') {
             $separator = DIRECTORY_SEPARATOR;
         }
+
         $fontFile = self::$trueTypeFontPath . $separator . $fontFile;
 
         // Check if file actually exists
+
         if ($checkPath && !file_exists($fontFile)) {
             $alternateName = $name;
+
             if ($index !== 'x' && $fontArray[$name][$index] !== $fontArray[$name]['x']) {
                 // Bold but no italic:
                 //   Comic Sans
@@ -579,20 +601,25 @@ class Font
                 //   Lucida Sans Unicode
                 //   Microsoft Sans Serif
                 //   Symbol
+
                 if ($index === 'xb') {
                     $alternateName .= ' Bold';
-                } elseif ($index === 'xi') {
+                } else if ($index === 'xi') {
                     $alternateName .= ' Italic';
-                } elseif ($fontArray[$name]['xb'] === $fontArray[$name]['xbi']) {
+                } else if ($fontArray[$name]['xb'] === $fontArray[$name]['xbi']) {
                     $alternateName .= ' Bold';
                 } else {
                     $alternateName .= ' Bold Italic';
                 }
+
             }
+
             $fontFile = self::$trueTypeFontPath . $separator . $alternateName . '.ttf';
+
             if (!file_exists($fontFile)) {
                 throw new PhenyxXlsException('TrueType Font file not found');
             }
+
         }
 
         return $fontFile;
@@ -600,7 +627,7 @@ class Font
 
     public const CHARSET_FROM_FONT_NAME = [
         'EucrosiaUPC' => self::CHARSET_ANSI_THAI,
-        'Wingdings' => self::CHARSET_SYMBOL,
+        'Wingdings'   => self::CHARSET_SYMBOL,
         'Wingdings 2' => self::CHARSET_SYMBOL,
         'Wingdings 3' => self::CHARSET_SYMBOL,
     ];
@@ -612,8 +639,8 @@ class Font
      *
      * @return int Character set code
      */
-    public static function getCharsetFromFontName($fontName)
-    {
+    public static function getCharsetFromFontName($fontName) {
+
         return self::CHARSET_FROM_FONT_NAME[$fontName] ?? self::CHARSET_ANSI_LATIN;
     }
 
@@ -626,25 +653,27 @@ class Font
      *
      * @return mixed Column width
      */
-    public static function getDefaultColumnWidthByFont(FontStyle $font, $returnAsPixels = false)
-    {
+    public static function getDefaultColumnWidthByFont(FontStyle $font, $returnAsPixels = false) {
+
         if (isset(self::DEFAULT_COLUMN_WIDTHS[$font->getName()][$font->getSize()])) {
             // Exact width can be determined
             $columnWidth = $returnAsPixels ?
-                self::DEFAULT_COLUMN_WIDTHS[$font->getName()][$font->getSize()]['px']
-                    : self::DEFAULT_COLUMN_WIDTHS[$font->getName()][$font->getSize()]['width'];
+            self::DEFAULT_COLUMN_WIDTHS[$font->getName()][$font->getSize()]['px']
+            : self::DEFAULT_COLUMN_WIDTHS[$font->getName()][$font->getSize()]['width'];
         } else {
             // We don't have data for this particular font and size, use approximation by
             // extrapolating from Calibri 11
             $columnWidth = $returnAsPixels ?
-                self::DEFAULT_COLUMN_WIDTHS['Calibri'][11]['px']
-                    : self::DEFAULT_COLUMN_WIDTHS['Calibri'][11]['width'];
+            self::DEFAULT_COLUMN_WIDTHS['Calibri'][11]['px']
+            : self::DEFAULT_COLUMN_WIDTHS['Calibri'][11]['width'];
             $columnWidth = $columnWidth * $font->getSize() / 11;
 
             // Round pixels to closest integer
+
             if ($returnAsPixels) {
                 $columnWidth = (int) round($columnWidth);
             }
+
         }
 
         return $columnWidth;
@@ -658,13 +687,14 @@ class Font
      *
      * @return float Row height in points
      */
-    public static function getDefaultRowHeightByFont(FontStyle $font)
-    {
+    public static function getDefaultRowHeightByFont(FontStyle $font) {
+
         $name = $font->getName();
         $size = $font->getSize();
+
         if (isset(self::DEFAULT_COLUMN_WIDTHS[$name][$size])) {
             $rowHeight = self::DEFAULT_COLUMN_WIDTHS[$name][$size]['height'];
-        } elseif ($name === 'Arial' || $name === 'Verdana') {
+        } else if ($name === 'Arial' || $name === 'Verdana') {
             $rowHeight = self::DEFAULT_COLUMN_WIDTHS[$name][10]['height'] * $size / 10.0;
         } else {
             $rowHeight = self::DEFAULT_COLUMN_WIDTHS['Calibri'][11]['height'] * $size / 11.0;
@@ -672,4 +702,5 @@ class Font
 
         return $rowHeight;
     }
+
 }

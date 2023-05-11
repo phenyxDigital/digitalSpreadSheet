@@ -6,15 +6,15 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Functions;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class Helpers
-{
+class Helpers {
+
     /**
      * Many functions accept null/false/true argument treated as 0/0/1.
      *
      * @return float|string quotient or DIV0 if denominator is too small
      */
-    public static function verySmallDenominator(float $numerator, float $denominator)
-    {
+    public static function verySmallDenominator(float $numerator, float $denominator) {
+
         return (abs($denominator) < 1.0E-12) ? ExcelError::DIV0() : ($numerator / $denominator);
     }
 
@@ -25,15 +25,18 @@ class Helpers
      *
      * @return float|int
      */
-    public static function validateNumericNullBool($number)
-    {
+    public static function validateNumericNullBool($number) {
+
         $number = Functions::flattenSingleValue($number);
+
         if ($number === null) {
             return 0;
         }
+
         if (is_bool($number)) {
             return (int) $number;
         }
+
         if (is_numeric($number)) {
             return 0 + $number;
         }
@@ -49,12 +52,14 @@ class Helpers
      *
      * @return float|int
      */
-    public static function validateNumericNullSubstitution($number, $substitute)
-    {
+    public static function validateNumericNullSubstitution($number, $substitute) {
+
         $number = Functions::flattenSingleValue($number);
+
         if ($number === null && $substitute !== null) {
             return $substitute;
         }
+
         if (is_numeric($number)) {
             return 0 + $number;
         }
@@ -67,8 +72,8 @@ class Helpers
      *
      * @param float|int $number
      */
-    public static function validateNotNegative($number, ?string $except = null): void
-    {
+    public static function validateNotNegative($number,  ? string $except = null) : void {
+
         if ($number >= 0) {
             return;
         }
@@ -81,8 +86,8 @@ class Helpers
      *
      * @param float|int $number
      */
-    public static function validatePositive($number, ?string $except = null): void
-    {
+    public static function validatePositive($number,  ? string $except = null) : void {
+
         if ($number > 0) {
             return;
         }
@@ -95,8 +100,8 @@ class Helpers
      *
      * @param float|int $number
      */
-    public static function validateNotZero($number): void
-    {
+    public static function validateNotZero($number) : void {
+
         if ($number) {
             return;
         }
@@ -104,13 +109,13 @@ class Helpers
         throw new Exception(ExcelError::DIV0());
     }
 
-    public static function returnSign(float $number): int
-    {
+    public static function returnSign(float $number) : int {
+
         return $number ? (($number > 0) ? 1 : -1) : 0;
     }
 
-    public static function getEven(float $number): float
-    {
+    public static function getEven(float $number) : float{
+
         $significance = 2 * self::returnSign($number);
 
         return $significance ? (ceil($number / $significance) * $significance) : 0;
@@ -123,8 +128,9 @@ class Helpers
      *
      * @return float|string
      */
-    public static function numberOrNan($result)
-    {
+    public static function numberOrNan($result) {
+
         return is_nan($result) ? ExcelError::NAN() : $result;
     }
+
 }

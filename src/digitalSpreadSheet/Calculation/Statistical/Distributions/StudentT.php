@@ -7,8 +7,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Functions;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class StudentT
-{
+class StudentT {
+
     use ArrayEnabled;
 
     /**
@@ -27,8 +27,8 @@ class StudentT
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function distribution($value, $degrees, $tails)
-    {
+    public static function distribution($value, $degrees, $tails) {
+
         if (is_array($value) || is_array($degrees) || is_array($tails)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $value, $degrees, $tails);
         }
@@ -62,8 +62,8 @@ class StudentT
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function inverse($probability, $degrees)
-    {
+    public static function inverse($probability, $degrees) {
+
         if (is_array($probability) || is_array($degrees)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $probability, $degrees);
         }
@@ -80,6 +80,7 @@ class StudentT
         }
 
         $callback = function ($value) use ($degrees) {
+
             return self::distribution($value, $degrees, 2);
         };
 
@@ -91,8 +92,8 @@ class StudentT
     /**
      * @return float
      */
-    private static function calculateDistribution(float $value, int $degrees, int $tails)
-    {
+    private static function calculateDistribution(float $value, int $degrees, int $tails) {
+
         //    tdist, which finds the probability that corresponds to a given value
         //    of t with k degrees of freedom. This algorithm is translated from a
         //    pascal function on p81 of "Statistical Computing in Pascal" by D
@@ -116,6 +117,7 @@ class StudentT
         }
 
         $tsum = $tterm;
+
         while ($ti < $degrees) {
             $tterm *= $tc * $tc * ($ti - 1) / $ti;
             $tsum += $tterm;
@@ -123,15 +125,18 @@ class StudentT
         }
 
         $tsum *= $ts;
+
         if (($degrees % 2) == 1) {
             $tsum = Functions::M_2DIVPI * ($tsum + $ttheta);
         }
 
         $tValue = 0.5 * (1 + $tsum);
+
         if ($tails == 1) {
             return 1 - abs($tValue);
         }
 
         return 1 - abs((1 - $tValue) - $tValue);
     }
+
 }

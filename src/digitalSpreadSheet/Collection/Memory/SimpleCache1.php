@@ -11,8 +11,8 @@ use Psr\SimpleCache\CacheInterface;
  * Alternatives implementation should leverage off-memory, non-volatile storage
  * to reduce overall memory usage.
  */
-class SimpleCache1 implements CacheInterface
-{
+class SimpleCache1 implements CacheInterface {
+
     /**
      * @var array Cell Cache
      */
@@ -21,8 +21,8 @@ class SimpleCache1 implements CacheInterface
     /**
      * @return bool
      */
-    public function clear()
-    {
+    public function clear() {
+
         $this->cache = [];
 
         return true;
@@ -33,8 +33,8 @@ class SimpleCache1 implements CacheInterface
      *
      * @return bool
      */
-    public function delete($key)
-    {
+    public function delete($key) {
+
         unset($this->cache[$key]);
 
         return true;
@@ -45,8 +45,8 @@ class SimpleCache1 implements CacheInterface
      *
      * @return bool
      */
-    public function deleteMultiple($keys)
-    {
+    public function deleteMultiple($keys) {
+
         foreach ($keys as $key) {
             $this->delete($key);
         }
@@ -60,8 +60,8 @@ class SimpleCache1 implements CacheInterface
      *
      * @return mixed
      */
-    public function get($key, $default = null)
-    {
+    public function get($key, $default = null) {
+
         if ($this->has($key)) {
             return $this->cache[$key];
         }
@@ -75,9 +75,10 @@ class SimpleCache1 implements CacheInterface
      *
      * @return iterable
      */
-    public function getMultiple($keys, $default = null)
-    {
+    public function getMultiple($keys, $default = null) {
+
         $results = [];
+
         foreach ($keys as $key) {
             $results[$key] = $this->get($key, $default);
         }
@@ -90,8 +91,8 @@ class SimpleCache1 implements CacheInterface
      *
      * @return bool
      */
-    public function has($key)
-    {
+    public function has($key) {
+
         return array_key_exists($key, $this->cache);
     }
 
@@ -102,8 +103,8 @@ class SimpleCache1 implements CacheInterface
      *
      * @return bool
      */
-    public function set($key, $value, $ttl = null)
-    {
+    public function set($key, $value, $ttl = null) {
+
         $this->cache[$key] = $value;
 
         return true;
@@ -115,12 +116,13 @@ class SimpleCache1 implements CacheInterface
      *
      * @return bool
      */
-    public function setMultiple($values, $ttl = null)
-    {
+    public function setMultiple($values, $ttl = null) {
+
         foreach ($values as $key => $value) {
             $this->set($key, $value);
         }
 
         return true;
     }
+
 }

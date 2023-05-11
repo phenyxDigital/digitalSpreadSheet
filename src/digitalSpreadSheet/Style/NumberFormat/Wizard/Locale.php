@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Style\NumberFormat\Wizard;
 use NumberFormatter;
 use phenyxDigitale\digitalSpreadSheet\Exception;
 
-final class Locale
-{
+final class Locale {
+
     /**
      * Language code: ISO-639 2 character, alpha.
      * Optional script code: ISO-15924 4 alpha.
@@ -17,21 +17,24 @@ final class Locale
 
     private NumberFormatter $formatter;
 
-    public function __construct(?string $locale, int $style)
-    {
-        if (class_exists(NumberFormatter::class) === false) {
+    public function __construct( ? string $locale, int $style) {
+
+        if (class_exists(NumberFormatter::) === false) {
             throw new Exception();
         }
 
         $formatterLocale = str_replace('-', '_', $locale ?? '');
         $this->formatter = new NumberFormatter($formatterLocale, $style);
+
         if ($this->formatter->getLocale() !== $formatterLocale) {
             throw new Exception("Unable to read locale data for '{$locale}'");
         }
+
     }
 
-    public function format(): string
-    {
+    public function format() : string {
+
         return $this->formatter->getPattern();
     }
+
 }

@@ -4,8 +4,7 @@ namespace phenyxDigitale\digitalSpreadSheet\Writer;
 
 use phenyxDigitale\digitalSpreadSheet\Spreadsheet;
 
-interface IWriter
-{
+interface IWriter {
     public const SAVE_WITH_CHARTS = 1;
 
     public const DISABLE_PRECALCULATE_FORMULAE = 2;

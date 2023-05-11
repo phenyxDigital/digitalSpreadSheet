@@ -7,8 +7,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Logical\Boolean;
 /**
  * @deprecated 1.17.0
  */
-class Logical
-{
+class Logical {
+
     /**
      * TRUE.
      *
@@ -23,8 +23,8 @@ class Logical
      *
      * @return bool True
      */
-    public static function true(): bool
-    {
+    public static function true(): bool {
+
         return Boolean::true();
     }
 
@@ -42,8 +42,8 @@ class Logical
      *
      * @return bool False
      */
-    public static function false(): bool
-    {
+    public static function false(): bool {
+
         return Boolean::false();
     }
 
@@ -71,8 +71,8 @@ class Logical
      *
      * @return bool|string the logical AND of the arguments
      */
-    public static function logicalAnd(...$args)
-    {
+    public static function logicalAnd(...$args) {
+
         return Logical\Operations::logicalAnd(...$args);
     }
 
@@ -100,8 +100,8 @@ class Logical
      *
      * @return bool|string the logical OR of the arguments
      */
-    public static function logicalOr(...$args)
-    {
+    public static function logicalOr(...$args) {
+
         return Logical\Operations::logicalOr(...$args);
     }
 
@@ -131,8 +131,8 @@ class Logical
      *
      * @return bool|string the logical XOR of the arguments
      */
-    public static function logicalXor(...$args)
-    {
+    public static function logicalXor(...$args) {
+
         return Logical\Operations::logicalXor(...$args);
     }
 
@@ -159,8 +159,8 @@ class Logical
      *
      * @return array|bool|string the boolean inverse of the argument
      */
-    public static function NOT($logical = false)
-    {
+    public static function NOT($logical = false) {
+
         return Logical\Operations::NOT($logical);
     }
 
@@ -199,8 +199,8 @@ class Logical
      *
      * @return mixed The value of returnIfTrue or returnIfFalse determined by condition
      */
-    public static function statementIf($condition = true, $returnIfTrue = 0, $returnIfFalse = false)
-    {
+    public static function statementIf($condition = true, $returnIfTrue = 0, $returnIfFalse = false) {
+
         return Logical\Conditional::statementIf($condition, $returnIfTrue, $returnIfFalse);
     }
 
@@ -232,8 +232,8 @@ class Logical
      *
      * @return mixed The value of matched expression
      */
-    public static function statementSwitch(...$arguments)
-    {
+    public static function statementSwitch(...$arguments) {
+
         return Logical\Conditional::statementSwitch(...$arguments);
     }
 
@@ -252,8 +252,8 @@ class Logical
      *
      * @return mixed The value of errorpart or testValue determined by error condition
      */
-    public static function IFERROR($testValue = '', $errorpart = '')
-    {
+    public static function IFERROR($testValue = '', $errorpart = '') {
+
         return Logical\Conditional::IFERROR($testValue, $errorpart);
     }
 
@@ -272,8 +272,8 @@ class Logical
      *
      * @return mixed The value of errorpart or testValue determined by error condition
      */
-    public static function IFNA($testValue = '', $napart = '')
-    {
+    public static function IFNA($testValue = '', $napart = '') {
+
         return Logical\Conditional::IFNA($testValue, $napart);
     }
 
@@ -296,8 +296,8 @@ class Logical
      *
      * @return mixed|string The value of returnIfTrue_n, if testValue_n was true. #N/A if none of testValues was true
      */
-    public static function IFS(...$arguments)
-    {
+    public static function IFS(...$arguments) {
+
         return Logical\Conditional::IFS(...$arguments);
     }
 }

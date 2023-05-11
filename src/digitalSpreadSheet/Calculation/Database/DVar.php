@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Calculation\Database;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Statistical\Variances;
 
-class DVar extends DatabaseAbstract
-{
+class DVar extends DatabaseAbstract {
+
     /**
      * DVAR.
      *
@@ -33,15 +33,17 @@ class DVar extends DatabaseAbstract
      *
      * @return float|string (string if result is an error)
      */
-    public static function evaluate($database, $field, $criteria)
-    {
+    public static function evaluate($database, $field, $criteria) {
+
         $field = self::fieldExtract($database, $field);
+
         if ($field === null) {
             return ExcelError::VALUE();
         }
 
-        return Variances::VAR(
+        return Variances::VAR (
             self::getFilteredColumn($database, $field, $criteria)
         );
     }
+
 }

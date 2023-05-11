@@ -2,8 +2,8 @@
 
 namespace phenyxDigitale\digitalSpreadSheet\Style;
 
-class NumberFormat extends Supervisor
-{
+class NumberFormat extends Supervisor {
+
     // Pre-defined formats
     const FORMAT_GENERAL = 'General';
 
@@ -128,8 +128,8 @@ class NumberFormat extends Supervisor
      *                                    Leave this value at default unless you understand exactly what
      *                                        its ramifications are
      */
-    public function __construct($isSupervisor = false, $isConditional = false)
-    {
+    public function __construct($isSupervisor = false, $isConditional = false) {
+
         // Supervisor?
         parent::__construct($isSupervisor);
 
@@ -137,6 +137,7 @@ class NumberFormat extends Supervisor
             $this->formatCode = null;
             $this->builtInFormatCode = false;
         }
+
     }
 
     /**
@@ -145,8 +146,8 @@ class NumberFormat extends Supervisor
      *
      * @return NumberFormat
      */
-    public function getSharedComponent()
-    {
+    public function getSharedComponent() {
+
         /** @var Style */
         $parent = $this->parent;
 
@@ -160,8 +161,8 @@ class NumberFormat extends Supervisor
      *
      * @return array
      */
-    public function getStyleArray($array)
-    {
+    public function getStyleArray($array) {
+
         return ['numberFormat' => $array];
     }
 
@@ -180,14 +181,16 @@ class NumberFormat extends Supervisor
      *
      * @return $this
      */
-    public function applyFromArray(array $styleArray)
-    {
+    public function applyFromArray(array $styleArray) {
+
         if ($this->isSupervisor) {
             $this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($this->getStyleArray($styleArray));
         } else {
+
             if (isset($styleArray['formatCode'])) {
                 $this->setFormatCode($styleArray['formatCode']);
             }
+
         }
 
         return $this;
@@ -198,11 +201,12 @@ class NumberFormat extends Supervisor
      *
      * @return null|string
      */
-    public function getFormatCode()
-    {
+    public function getFormatCode() {
+
         if ($this->isSupervisor) {
             return $this->getSharedComponent()->getFormatCode();
         }
+
         if (is_int($this->builtInFormatCode)) {
             return self::builtInFormatCode($this->builtInFormatCode);
         }
@@ -217,11 +221,12 @@ class NumberFormat extends Supervisor
      *
      * @return $this
      */
-    public function setFormatCode(string $formatCode)
-    {
+    public function setFormatCode(string $formatCode) {
+
         if ($formatCode == '') {
             $formatCode = self::FORMAT_GENERAL;
         }
+
         if ($this->isSupervisor) {
             $styleArray = $this->getStyleArray(['formatCode' => $formatCode]);
             $this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
@@ -238,8 +243,8 @@ class NumberFormat extends Supervisor
      *
      * @return false|int
      */
-    public function getBuiltInFormatCode()
-    {
+    public function getBuiltInFormatCode() {
+
         if ($this->isSupervisor) {
             return $this->getSharedComponent()->getBuiltInFormatCode();
         }
@@ -255,8 +260,8 @@ class NumberFormat extends Supervisor
      *
      * @return $this
      */
-    public function setBuiltInFormatCode(int $formatCodeIndex)
-    {
+    public function setBuiltInFormatCode(int $formatCodeIndex) {
+
         if ($this->isSupervisor) {
             $styleArray = $this->getStyleArray(['formatCode' => self::builtInFormatCode($formatCodeIndex)]);
             $this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
@@ -271,8 +276,8 @@ class NumberFormat extends Supervisor
     /**
      * Fill built-in format codes.
      */
-    private static function fillBuiltInFormatCodes(): void
-    {
+    private static function fillBuiltInFormatCodes(): void {
+
         //  [MS-OI29500: Microsoft Office Implementation Information for ISO/IEC-29500 Standard Compliance]
         //  18.8.30. numFmt (Number Format)
         //
@@ -296,6 +301,7 @@ class NumberFormat extends Supervisor
         //      KOR fmt 55: "yyyy/mm/dd"
 
         // Built-in format codes
+
         if (empty(self::$builtInFormats)) {
             self::$builtInFormats = [];
 
@@ -369,6 +375,7 @@ class NumberFormat extends Supervisor
             // Flip array (for faster lookups)
             self::$flippedBuiltInFormats = array_flip(self::$builtInFormats);
         }
+
     }
 
     /**
@@ -378,8 +385,8 @@ class NumberFormat extends Supervisor
      *
      * @return string
      */
-    public static function builtInFormatCode($index)
-    {
+    public static function builtInFormatCode($index) {
+
         // Clean parameter
         $index = (int) $index;
 
@@ -387,6 +394,7 @@ class NumberFormat extends Supervisor
         self::fillBuiltInFormatCodes();
 
         // Lookup format code
+
         if (isset(self::$builtInFormats[$index])) {
             return self::$builtInFormats[$index];
         }
@@ -401,12 +409,13 @@ class NumberFormat extends Supervisor
      *
      * @return false|int
      */
-    public static function builtInFormatCodeIndex($formatCodeIndex)
-    {
+    public static function builtInFormatCodeIndex($formatCodeIndex) {
+
         // Ensure built-in format codes are available
         self::fillBuiltInFormatCodes();
 
         // Lookup format code
+
         if (array_key_exists($formatCodeIndex, self::$flippedBuiltInFormats)) {
             return self::$flippedBuiltInFormats[$formatCodeIndex];
         }
@@ -419,8 +428,8 @@ class NumberFormat extends Supervisor
      *
      * @return string Hash code
      */
-    public function getHashCode()
-    {
+    public function getHashCode() {
+
         if ($this->isSupervisor) {
             return $this->getSharedComponent()->getHashCode();
         }
@@ -442,16 +451,18 @@ class NumberFormat extends Supervisor
      *
      * @return string Formatted string
      */
-    public static function toFormattedString($value, $format, $callBack = null)
-    {
+    public static function toFormattedString($value, $format, $callBack = null) {
+
         return NumberFormat\Formatter::toFormattedString($value, $format, $callBack);
     }
 
     protected function exportArray1(): array
     {
+
         $exportedArray = [];
         $this->exportArray2($exportedArray, 'formatCode', $this->getFormatCode());
 
         return $exportedArray;
     }
+
 }

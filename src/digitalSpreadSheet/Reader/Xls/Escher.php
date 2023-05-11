@@ -12,8 +12,8 @@ use phenyxDigitale\digitalSpreadSheet\Shared\Escher\DggContainer\BstoreContainer
 use phenyxDigitale\digitalSpreadSheet\Shared\Escher\DggContainer\BstoreContainer\BSE;
 use phenyxDigitale\digitalSpreadSheet\Shared\Escher\DggContainer\BstoreContainer\BSE\Blip;
 
-class Escher
-{
+class Escher {
+
     const DGGCONTAINER = 0xF000;
     const BSTORECONTAINER = 0xF001;
     const DGCONTAINER = 0xF002;
@@ -66,30 +66,30 @@ class Escher
      *
      * @param mixed $object
      */
-    public function __construct($object)
-    {
+    public function __construct($object) {
+
         $this->object = $object;
     }
 
     private const WHICH_ROUTINE = [
-        self::DGGCONTAINER => 'readDggContainer',
-        self::DGG => 'readDgg',
+        self::DGGCONTAINER    => 'readDggContainer',
+        self::DGG             => 'readDgg',
         self::BSTORECONTAINER => 'readBstoreContainer',
-        self::BSE => 'readBSE',
-        self::BLIPJPEG => 'readBlipJPEG',
-        self::BLIPPNG => 'readBlipPNG',
-        self::OPT => 'readOPT',
-        self::TERTIARYOPT => 'readTertiaryOPT',
+        self::BSE             => 'readBSE',
+        self::BLIPJPEG        => 'readBlipJPEG',
+        self::BLIPPNG         => 'readBlipPNG',
+        self::OPT             => 'readOPT',
+        self::TERTIARYOPT     => 'readTertiaryOPT',
         self::SPLITMENUCOLORS => 'readSplitMenuColors',
-        self::DGCONTAINER => 'readDgContainer',
-        self::DG => 'readDg',
-        self::SPGRCONTAINER => 'readSpgrContainer',
-        self::SPCONTAINER => 'readSpContainer',
-        self::SPGR => 'readSpgr',
-        self::SP => 'readSp',
-        self::CLIENTTEXTBOX => 'readClientTextbox',
-        self::CLIENTANCHOR => 'readClientAnchor',
-        self::CLIENTDATA => 'readClientData',
+        self::DGCONTAINER     => 'readDgContainer',
+        self::DG              => 'readDg',
+        self::SPGRCONTAINER   => 'readSpgrContainer',
+        self::SPCONTAINER     => 'readSpContainer',
+        self::SPGR            => 'readSpgr',
+        self::SP              => 'readSp',
+        self::CLIENTTEXTBOX   => 'readClientTextbox',
+        self::CLIENTANCHOR    => 'readClientAnchor',
+        self::CLIENTDATA      => 'readClientData',
     ];
 
     /**
@@ -99,8 +99,8 @@ class Escher
      *
      * @return BSE|BstoreContainer|DgContainer|DggContainer|\phenyxDigitale\digitalSpreadSheet\Shared\Escher|SpContainer|SpgrContainer
      */
-    public function load($data)
-    {
+    public function load($data) {
+
         $this->data = $data;
 
         // total byte size of Excel data (workbook global substream + sheet substreams)
@@ -109,13 +109,16 @@ class Escher
         $this->pos = 0;
 
         // Parse Escher stream
+
         while ($this->pos < $this->dataSize) {
             // offset: 2; size: 2: Record Type
             $fbt = Xls::getUInt2d($this->data, $this->pos + 2);
             $routine = self::WHICH_ROUTINE[$fbt] ?? 'readDefault';
+
             if (method_exists($this, $routine)) {
                 $this->$routine();
             }
+
         }
 
         return $this->object;
@@ -124,8 +127,8 @@ class Escher
     /**
      * Read a generic record.
      */
-    private function readDefault(): void
-    {
+    private function readDefault() : void{
+
         // offset 0; size: 2; recVer and recInstance
         //$verInstance = Xls::getUInt2d($this->data, $this->pos);
 
@@ -145,8 +148,8 @@ class Escher
     /**
      * Read DggContainer record (Drawing Group Container).
      */
-    private function readDggContainer(): void
-    {
+    private function readDggContainer() : void{
+
         $length = Xls::getInt4d($this->data, $this->pos + 4);
         $recordData = substr($this->data, $this->pos + 8, $length);
 
@@ -163,8 +166,8 @@ class Escher
     /**
      * Read Dgg record (Drawing Group).
      */
-    private function readDgg(): void
-    {
+    private function readDgg(): void{
+
         $length = Xls::getInt4d($this->data, $this->pos + 4);
         //$recordData = substr($this->data, $this->pos + 8, $length);
 
@@ -175,8 +178,8 @@ class Escher
     /**
      * Read BstoreContainer record (Blip Store Container).
      */
-    private function readBstoreContainer(): void
-    {
+    private function readBstoreContainer(): void{
+
         $length = Xls::getInt4d($this->data, $this->pos + 4);
         $recordData = substr($this->data, $this->pos + 8, $length);
 
@@ -193,8 +196,8 @@ class Escher
     /**
      * Read BSE record.
      */
-    private function readBSE(): void
-    {
+    private function readBSE(): void{
+
         // offset: 0; size: 2; recVer and recInstance
 
         // bit: 4-15; mask: 0xFFF0; recInstance
@@ -259,8 +262,8 @@ class Escher
     /**
      * Read BlipJPEG record. Holds raw JPEG image data.
      */
-    private function readBlipJPEG(): void
-    {
+    private function readBlipJPEG(): void{
+
         // offset: 0; size: 2; recVer and recInstance
 
         // bit: 4-15; mask: 0xFFF0; recInstance
@@ -279,6 +282,7 @@ class Escher
         $pos += 16;
 
         // offset: 16; size: 16; rgbUid2 (MD4 digest), only if $recInstance = 0x46B or 0x6E3
+
         if (in_array($recInstance, [0x046B, 0x06E3])) {
             //$rgbUid2 = substr($recordData, 16, 16);
             $pos += 16;
@@ -300,8 +304,8 @@ class Escher
     /**
      * Read BlipPNG record. Holds raw PNG image data.
      */
-    private function readBlipPNG(): void
-    {
+    private function readBlipPNG(): void{
+
         // offset: 0; size: 2; recVer and recInstance
 
         // bit: 4-15; mask: 0xFFF0; recInstance
@@ -320,6 +324,7 @@ class Escher
         $pos += 16;
 
         // offset: 16; size: 16; rgbUid2 (MD4 digest), only if $recInstance = 0x46B or 0x6E3
+
         if ($recInstance == 0x06E1) {
             //$rgbUid2 = substr($recordData, 16, 16);
             $pos += 16;
@@ -341,8 +346,8 @@ class Escher
     /**
      * Read OPT record. This record may occur within DggContainer record or SpContainer.
      */
-    private function readOPT(): void
-    {
+    private function readOPT(): void{
+
         // offset: 0; size: 2; recVer and recInstance
 
         // bit: 4-15; mask: 0xFFF0; recInstance
@@ -360,8 +365,8 @@ class Escher
     /**
      * Read TertiaryOPT record.
      */
-    private function readTertiaryOPT(): void
-    {
+    private function readTertiaryOPT(): void{
+
         // offset: 0; size: 2; recVer and recInstance
 
         // bit: 4-15; mask: 0xFFF0; recInstance
@@ -377,8 +382,8 @@ class Escher
     /**
      * Read SplitMenuColors record.
      */
-    private function readSplitMenuColors(): void
-    {
+    private function readSplitMenuColors(): void{
+
         $length = Xls::getInt4d($this->data, $this->pos + 4);
         //$recordData = substr($this->data, $this->pos + 8, $length);
 
@@ -389,8 +394,8 @@ class Escher
     /**
      * Read DgContainer record (Drawing Container).
      */
-    private function readDgContainer(): void
-    {
+    private function readDgContainer(): void{
+
         $length = Xls::getInt4d($this->data, $this->pos + 4);
         $recordData = substr($this->data, $this->pos + 8, $length);
 
@@ -407,8 +412,8 @@ class Escher
     /**
      * Read Dg record (Drawing).
      */
-    private function readDg(): void
-    {
+    private function readDg(): void{
+
         $length = Xls::getInt4d($this->data, $this->pos + 4);
         //$recordData = substr($this->data, $this->pos + 8, $length);
 
@@ -419,8 +424,8 @@ class Escher
     /**
      * Read SpgrContainer record (Shape Group Container).
      */
-    private function readSpgrContainer(): void
-    {
+    private function readSpgrContainer(): void{
+
         // context is either context DgContainer or SpgrContainer
 
         $length = Xls::getInt4d($this->data, $this->pos + 4);
@@ -435,7 +440,7 @@ class Escher
         if ($this->object instanceof DgContainer) {
             // DgContainer
             $this->object->setSpgrContainer($spgrContainer);
-        } elseif ($this->object instanceof SpgrContainer) {
+        } else if ($this->object instanceof SpgrContainer) {
             // SpgrContainer
             $this->object->addChild($spgrContainer);
         }
@@ -447,8 +452,8 @@ class Escher
     /**
      * Read SpContainer record (Shape Container).
      */
-    private function readSpContainer(): void
-    {
+    private function readSpContainer(): void{
+
         $length = Xls::getInt4d($this->data, $this->pos + 4);
         $recordData = substr($this->data, $this->pos + 8, $length);
 
@@ -467,8 +472,8 @@ class Escher
     /**
      * Read Spgr record (Shape Group).
      */
-    private function readSpgr(): void
-    {
+    private function readSpgr(): void{
+
         $length = Xls::getInt4d($this->data, $this->pos + 4);
         //$recordData = substr($this->data, $this->pos + 8, $length);
 
@@ -479,8 +484,8 @@ class Escher
     /**
      * Read Sp record (Shape).
      */
-    private function readSp(): void
-    {
+    private function readSp(): void{
+
         // offset: 0; size: 2; recVer and recInstance
 
         // bit: 4-15; mask: 0xFFF0; recInstance
@@ -496,8 +501,8 @@ class Escher
     /**
      * Read ClientTextbox record.
      */
-    private function readClientTextbox(): void
-    {
+    private function readClientTextbox(): void{
+
         // offset: 0; size: 2; recVer and recInstance
 
         // bit: 4-15; mask: 0xFFF0; recInstance
@@ -513,8 +518,8 @@ class Escher
     /**
      * Read ClientAnchor record. This record holds information about where the shape is anchored in worksheet.
      */
-    private function readClientAnchor(): void
-    {
+    private function readClientAnchor(): void{
+
         $length = Xls::getInt4d($this->data, $this->pos + 4);
         $recordData = substr($this->data, $this->pos + 8, $length);
 
@@ -556,18 +561,19 @@ class Escher
     /**
      * @param mixed $value
      */
-    private function applyAttribute(string $name, $value): void
-    {
+    private function applyAttribute(string $name, $value): void {
+
         if (method_exists($this->object, $name)) {
             $this->object->$name($value);
         }
+
     }
 
     /**
      * Read ClientData record.
      */
-    private function readClientData(): void
-    {
+    private function readClientData(): void{
+
         $length = Xls::getInt4d($this->data, $this->pos + 4);
         //$recordData = substr($this->data, $this->pos + 8, $length);
 
@@ -581,11 +587,12 @@ class Escher
      * @param string $data Binary data
      * @param int $n Number of properties
      */
-    private function readOfficeArtRGFOPTE($data, $n): void
-    {
+    private function readOfficeArtRGFOPTE($data, $n): void{
+
         $splicedComplexData = substr($data, 6 * $n);
 
         // loop through property-value pairs
+
         for ($i = 0; $i < $n; ++$i) {
             // read 6 bytes at a time
             $fopte = substr($data, 6 * $i, 6);
@@ -619,6 +626,9 @@ class Escher
             if (method_exists($this->object, 'setOPT')) {
                 $this->object->setOPT($opidOpid, $value);
             }
+
         }
+
     }
+
 }

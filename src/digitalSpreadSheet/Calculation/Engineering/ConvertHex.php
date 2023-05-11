@@ -5,15 +5,15 @@ namespace phenyxDigitale\digitalSpreadSheet\Calculation\Engineering;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class ConvertHex extends ConvertBase
-{
+class ConvertHex extends ConvertBase {
+
     /**
      * toBinary.
      *
      * Return a hex value as binary.
      *
      * Excel Function:
-     *        HEX2BIN(x[,places])
+     *        HEX2BIN(x[self::class,places])
      *
      * @param array|string $value The hexadecimal number you want to convert.
      *                      Number cannot contain more than 10 characters.
@@ -38,21 +38,21 @@ class ConvertHex extends ConvertBase
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function toBinary($value, $places = null)
-    {
+    public static function toBinary($value, $places = null) {
+
         if (is_array($value) || is_array($places)) {
-            return self::evaluateArrayArguments([self::class, __FUNCTION__], $value, $places);
+            return evaluateArrayArguments([self::class, __FUNCTION__], $value, $places);
         }
 
         try {
-            $value = self::validateValue($value);
-            $value = self::validateHex($value);
-            $places = self::validatePlaces($places);
+            $value = validateValue($value);
+            $value = validateHex($value);
+            $places = validatePlaces($places);
         } catch (Exception $e) {
             return $e->getMessage();
         }
 
-        $dec = self::toDecimal($value);
+        $dec = toDecimal($value);
 
         return ConvertDecimal::toBinary($dec, $places);
     }
@@ -78,15 +78,15 @@ class ConvertHex extends ConvertBase
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function toDecimal($value)
-    {
+    public static function toDecimal($value) {
+
         if (is_array($value)) {
-            return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $value);
+            return evaluateSingleArgumentArray([self::class, __FUNCTION__], $value);
         }
 
         try {
-            $value = self::validateValue($value);
-            $value = self::validateHex($value);
+            $value = validateValue($value);
+            $value = validateHex($value);
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -96,10 +96,13 @@ class ConvertHex extends ConvertBase
         }
 
         $binX = '';
+
         foreach (str_split($value) as $char) {
             $binX .= str_pad(base_convert($char, 16, 2), 4, '0', STR_PAD_LEFT);
         }
+
         if (strlen($binX) == 40 && $binX[0] == '1') {
+
             for ($i = 0; $i < 40; ++$i) {
                 $binX[$i] = ($binX[$i] == '1' ? '0' : '1');
             }
@@ -116,7 +119,7 @@ class ConvertHex extends ConvertBase
      * Return a hex value as octal.
      *
      * Excel Function:
-     *        HEX2OCT(x[,places])
+     *        HEX2OCT(x[self::class,places])
      *
      * @param array|string $value The hexadecimal number you want to convert. Number cannot
      *                                    contain more than 10 characters. The most significant bit of
@@ -145,31 +148,32 @@ class ConvertHex extends ConvertBase
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function toOctal($value, $places = null)
-    {
+    public static function toOctal($value, $places = null) {
+
         if (is_array($value) || is_array($places)) {
-            return self::evaluateArrayArguments([self::class, __FUNCTION__], $value, $places);
+            return evaluateArrayArguments([self::class, __FUNCTION__], $value, $places);
         }
 
         try {
-            $value = self::validateValue($value);
-            $value = self::validateHex($value);
-            $places = self::validatePlaces($places);
+            $value = validateValue($value);
+            $value = validateHex($value);
+            $places = validatePlaces($places);
         } catch (Exception $e) {
             return $e->getMessage();
         }
 
-        $decimal = self::toDecimal($value);
+        $decimal = toDecimal($value);
 
         return ConvertDecimal::toOctal($decimal, $places);
     }
 
-    protected static function validateHex(string $value): string
-    {
+    protected static function validateHex(string $value): string {
+
         if (strlen($value) > preg_match_all('/[0123456789ABCDEF]/', $value)) {
             throw new Exception(ExcelError::NAN());
         }
 
         return $value;
     }
+
 }

@@ -4,8 +4,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Document;
 
 use phenyxDigitale\digitalSpreadSheet\Shared\PasswordHasher;
 
-class Security
-{
+class Security {
+
     /**
      * LockRevision.
      *
@@ -44,27 +44,25 @@ class Security
     /**
      * Create a new Document Security instance.
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * Is some sort of document security enabled?
      */
-    public function isSecurityEnabled(): bool
-    {
-        return  $this->lockRevision ||
-                $this->lockStructure ||
-                $this->lockWindows;
+    public function isSecurityEnabled(): bool {
+
+        return $this->lockRevision ||
+        $this->lockStructure ||
+        $this->lockWindows;
     }
 
-    public function getLockRevision(): bool
-    {
+    public function getLockRevision(): bool {
+
         return $this->lockRevision;
     }
 
-    public function setLockRevision(?bool $locked): self
-    {
+    public function setLockRevision( ? bool $locked) : self {
+
         if ($locked !== null) {
             $this->lockRevision = $locked;
         }
@@ -72,13 +70,13 @@ class Security
         return $this;
     }
 
-    public function getLockStructure(): bool
-    {
+    public function getLockStructure(): bool {
+
         return $this->lockStructure;
     }
 
-    public function setLockStructure(?bool $locked): self
-    {
+    public function setLockStructure( ? bool $locked) : self {
+
         if ($locked !== null) {
             $this->lockStructure = $locked;
         }
@@ -86,13 +84,13 @@ class Security
         return $this;
     }
 
-    public function getLockWindows(): bool
-    {
+    public function getLockWindows(): bool {
+
         return $this->lockWindows;
     }
 
-    public function setLockWindows(?bool $locked): self
-    {
+    public function setLockWindows( ? bool $locked) : self {
+
         if ($locked !== null) {
             $this->lockWindows = $locked;
         }
@@ -100,8 +98,8 @@ class Security
         return $this;
     }
 
-    public function getRevisionsPassword(): string
-    {
+    public function getRevisionsPassword(): string {
+
         return $this->revisionsPassword;
     }
 
@@ -113,20 +111,22 @@ class Security
      *
      * @return $this
      */
-    public function setRevisionsPassword(?string $password, bool $alreadyHashed = false)
-    {
+    public function setRevisionsPassword( ? string $password, bool $alreadyHashed = false) {
+
         if ($password !== null) {
+
             if (!$alreadyHashed) {
                 $password = PasswordHasher::hashPassword($password);
             }
+
             $this->revisionsPassword = $password;
         }
 
         return $this;
     }
 
-    public function getWorkbookPassword(): string
-    {
+    public function getWorkbookPassword() : string {
+
         return $this->workbookPassword;
     }
 
@@ -138,15 +138,18 @@ class Security
      *
      * @return $this
      */
-    public function setWorkbookPassword(?string $password, bool $alreadyHashed = false)
-    {
+    public function setWorkbookPassword( ? string $password, bool $alreadyHashed = false) {
+
         if ($password !== null) {
+
             if (!$alreadyHashed) {
                 $password = PasswordHasher::hashPassword($password);
             }
+
             $this->workbookPassword = $password;
         }
 
         return $this;
     }
+
 }

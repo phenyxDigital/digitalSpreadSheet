@@ -6,8 +6,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Functions;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class Gcd
-{
+class Gcd {
+
     /**
      * Recursively determine GCD.
      *
@@ -23,8 +23,8 @@ class Gcd
      *
      * @return float|int
      */
-    private static function evaluateGCD($a, $b)
-    {
+    private static function evaluateGCD($a, $b) {
+
         return $b ? self::evaluateGCD($b, $a % $b) : $a;
     }
 
@@ -42,17 +42,21 @@ class Gcd
      *
      * @return float|int|string Greatest Common Divisor, or a string containing an error
      */
-    public static function evaluate(...$args)
-    {
+    public static function evaluate(...$args) {
+
         try {
             $arrayArgs = [];
+
             foreach (Functions::flattenArray($args) as $value1) {
+
                 if ($value1 !== null) {
                     $value = Helpers::validateNumericNullSubstitution($value1, 1);
                     Helpers::validateNotNegative($value);
                     $arrayArgs[] = (int) $value;
                 }
+
             }
+
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -60,11 +64,14 @@ class Gcd
         if (count($arrayArgs) <= 0) {
             return ExcelError::VALUE();
         }
+
         $gcd = (int) array_pop($arrayArgs);
+
         do {
             $gcd = self::evaluateGCD($gcd, (int) array_pop($arrayArgs));
         } while (!empty($arrayArgs));
 
         return $gcd;
     }
+
 }

@@ -2,8 +2,7 @@
 
 namespace phenyxDigitale\digitalSpreadSheet\Reader;
 
-interface IReader
-{
+interface IReader {
     public const LOAD_WITH_CHARTS = 1;
 
     public const READ_DATA_ONLY = 2;

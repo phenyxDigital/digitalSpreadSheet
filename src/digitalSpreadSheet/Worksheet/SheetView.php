@@ -4,8 +4,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Worksheet;
 
 use phenyxDigitale\digitalSpreadSheet\Exception as PhenyxXlsException;
 
-class SheetView
-{
+class SheetView {
+
     // Sheet View types
     const SHEETVIEW_NORMAL = 'normal';
     const SHEETVIEW_PAGE_LAYOUT = 'pageLayout';
@@ -57,17 +57,15 @@ class SheetView
     /**
      * Create a new SheetView.
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * Get ZoomScale.
      *
      * @return ?int
      */
-    public function getZoomScale()
-    {
+    public function getZoomScale() {
+
         return $this->zoomScale;
     }
 
@@ -79,10 +77,11 @@ class SheetView
      *
      * @return $this
      */
-    public function setZoomScale($zoomScale)
-    {
+    public function setZoomScale($zoomScale) {
+
         // Microsoft Office Excel 2007 only allows setting a scale between 10 and 400 via the user interface,
         // but it is apparently still able to handle any scale >= 1
+
         if ($zoomScale === null || $zoomScale >= 1) {
             $this->zoomScale = $zoomScale;
         } else {
@@ -97,8 +96,8 @@ class SheetView
      *
      * @return ?int
      */
-    public function getZoomScaleNormal()
-    {
+    public function getZoomScaleNormal() {
+
         return $this->zoomScaleNormal;
     }
 
@@ -110,8 +109,8 @@ class SheetView
      *
      * @return $this
      */
-    public function setZoomScaleNormal($zoomScaleNormal)
-    {
+    public function setZoomScaleNormal($zoomScaleNormal) {
+
         if ($zoomScaleNormal === null || $zoomScaleNormal >= 1) {
             $this->zoomScaleNormal = $zoomScaleNormal;
         } else {
@@ -126,16 +125,16 @@ class SheetView
      *
      * @param bool $showZeros
      */
-    public function setShowZeros($showZeros): void
-    {
+    public function setShowZeros($showZeros): void{
+
         $this->showZeros = $showZeros;
     }
 
     /**
      * @return bool
      */
-    public function getShowZeros()
-    {
+    public function getShowZeros() {
+
         return $this->showZeros;
     }
 
@@ -144,8 +143,8 @@ class SheetView
      *
      * @return string
      */
-    public function getView()
-    {
+    public function getView() {
+
         return $this->sheetviewType;
     }
 
@@ -161,12 +160,14 @@ class SheetView
      *
      * @return $this
      */
-    public function setView($sheetViewType)
-    {
+    public function setView($sheetViewType) {
+
         // MS Excel 2007 allows setting the view to 'normal', 'pageLayout' or 'pageBreakPreview' via the user interface
+
         if ($sheetViewType === null) {
             $sheetViewType = self::SHEETVIEW_NORMAL;
         }
+
         if (in_array($sheetViewType, self::SHEET_VIEW_TYPES)) {
             $this->sheetviewType = $sheetViewType;
         } else {
@@ -179,15 +180,20 @@ class SheetView
     /**
      * Implement PHP __clone to create a deep clone, not just a shallow copy.
      */
-    public function __clone()
-    {
+    public function __clone() {
+
         $vars = get_object_vars($this);
+
         foreach ($vars as $key => $value) {
+
             if (is_object($value)) {
                 $this->$key = clone $value;
             } else {
                 $this->$key = $value;
             }
+
         }
+
     }
+
 }

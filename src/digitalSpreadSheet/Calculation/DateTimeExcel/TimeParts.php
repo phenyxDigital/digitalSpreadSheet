@@ -6,8 +6,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\ArrayEnabled;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 use phenyxDigitale\digitalSpreadSheet\Shared\Date as SharedDateHelper;
 
-class TimeParts
-{
+class TimeParts {
+
     use ArrayEnabled;
 
     /**
@@ -27,17 +27,19 @@ class TimeParts
      *         If an array of numbers is passed as the argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function hour($timeValue)
-    {
+    public static function hour($timeValue) {
+
         if (is_array($timeValue)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $timeValue);
         }
 
         try {
             Helpers::nullFalseTrueToNumber($timeValue);
+
             if (!is_numeric($timeValue)) {
                 $timeValue = Helpers::getTimeValue($timeValue);
             }
+
             Helpers::validateNotNegative($timeValue);
         } catch (Exception $e) {
             return $e->getMessage();
@@ -67,17 +69,19 @@ class TimeParts
      *         If an array of numbers is passed as the argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function minute($timeValue)
-    {
+    public static function minute($timeValue) {
+
         if (is_array($timeValue)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $timeValue);
         }
 
         try {
             Helpers::nullFalseTrueToNumber($timeValue);
+
             if (!is_numeric($timeValue)) {
                 $timeValue = Helpers::getTimeValue($timeValue);
             }
+
             Helpers::validateNotNegative($timeValue);
         } catch (Exception $e) {
             return $e->getMessage();
@@ -107,17 +111,19 @@ class TimeParts
      *         If an array of numbers is passed as the argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function second($timeValue)
-    {
+    public static function second($timeValue) {
+
         if (is_array($timeValue)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $timeValue);
         }
 
         try {
             Helpers::nullFalseTrueToNumber($timeValue);
+
             if (!is_numeric($timeValue)) {
                 $timeValue = Helpers::getTimeValue($timeValue);
             }
+
             Helpers::validateNotNegative($timeValue);
         } catch (Exception $e) {
             return $e->getMessage();
@@ -129,4 +135,5 @@ class TimeParts
 
         return (int) $timeValue->format('s');
     }
+
 }

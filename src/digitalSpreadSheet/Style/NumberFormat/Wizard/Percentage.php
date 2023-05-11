@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Style\NumberFormat\Wizard;
 use NumberFormatter;
 use phenyxDigitale\digitalSpreadSheet\Exception;
 
-class Percentage extends NumberBase implements Wizard
-{
+class Percentage extends NumberBase implements Wizard {
+
     /**
      * @param int $decimals number of decimal places to display, in the range 0-30
      * @param ?string $locale Set the locale for the percentage format; or leave as the default null.
@@ -14,27 +14,28 @@ class Percentage extends NumberBase implements Wizard
      *
      * @throws Exception If a provided locale code is not a valid format
      */
-    public function __construct(int $decimals = 2, ?string $locale = null)
-    {
+    public function __construct(int $decimals = 2,  ? string $locale = null) {
+
         $this->setDecimals($decimals);
         $this->setLocale($locale);
     }
 
-    protected function getLocaleFormat(): string
-    {
+    protected function getLocaleFormat() : string{
+
         $formatter = new Locale($this->fullLocale, NumberFormatter::PERCENT);
 
         return $this->decimals > 0
-            ? str_replace('0', '0.' . str_repeat('0', $this->decimals), $formatter->format())
-            : $formatter->format();
+        ? str_replace('0', '0.' . str_repeat('0', $this->decimals), $formatter->format())
+        : $formatter->format();
     }
 
-    public function format(): string
-    {
+    public function format(): string {
+
         if ($this->localeFormat !== null) {
             return $this->localeFormat;
         }
 
         return sprintf('0%s%%', $this->decimals > 0 ? '.' . str_repeat('0', $this->decimals) : null);
     }
+
 }

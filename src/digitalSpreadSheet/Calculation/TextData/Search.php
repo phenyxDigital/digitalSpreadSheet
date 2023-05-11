@@ -7,8 +7,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Exception as CalcExp;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 use phenyxDigitale\digitalSpreadSheet\Shared\StringHelper;
 
-class Search
-{
+class Search {
+
     use ArrayEnabled;
 
     /**
@@ -25,8 +25,8 @@ class Search
      *         If an array of values is passed for the $value or $chars arguments, then the returned result
      *            will also be an array with matching dimensions
      */
-    public static function sensitive($needle, $haystack, $offset = 1)
-    {
+    public static function sensitive($needle, $haystack, $offset = 1) {
+
         if (is_array($needle) || is_array($haystack) || is_array($offset)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $needle, $haystack, $offset);
         }
@@ -40,14 +40,17 @@ class Search
         }
 
         if (StringHelper::countCharacters($haystack) >= $offset) {
+
             if (StringHelper::countCharacters($needle) === 0) {
                 return $offset;
             }
 
             $pos = mb_strpos($haystack, $needle, --$offset, 'UTF-8');
+
             if ($pos !== false) {
                 return ++$pos;
             }
+
         }
 
         return ExcelError::VALUE();
@@ -67,8 +70,8 @@ class Search
      *         If an array of values is passed for the $value or $chars arguments, then the returned result
      *            will also be an array with matching dimensions
      */
-    public static function insensitive($needle, $haystack, $offset = 1)
-    {
+    public static function insensitive($needle, $haystack, $offset = 1) {
+
         if (is_array($needle) || is_array($haystack) || is_array($offset)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $needle, $haystack, $offset);
         }
@@ -82,16 +85,20 @@ class Search
         }
 
         if (StringHelper::countCharacters($haystack) >= $offset) {
+
             if (StringHelper::countCharacters($needle) === 0) {
                 return $offset;
             }
 
             $pos = mb_stripos($haystack, $needle, --$offset, 'UTF-8');
+
             if ($pos !== false) {
                 return ++$pos;
             }
+
         }
 
         return ExcelError::VALUE();
     }
+
 }

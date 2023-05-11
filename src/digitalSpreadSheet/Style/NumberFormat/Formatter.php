@@ -7,8 +7,8 @@ use phenyxDigitale\digitalSpreadSheet\RichText\RichText;
 use phenyxDigitale\digitalSpreadSheet\Style\Color;
 use phenyxDigitale\digitalSpreadSheet\Style\NumberFormat;
 
-class Formatter
-{
+class Formatter {
+
     /**
      * Matches any @ symbol that isn't enclosed in quotes.
      */
@@ -26,31 +26,32 @@ class Formatter
      */
     private static function splitFormatComparison(
         $value,
-        ?string $condition,
+        ? string $condition,
         $comparisonValue,
         string $defaultCondition,
         $defaultComparisonValue
-    ): bool {
+    ) : bool {
+
         if (!$condition) {
             $condition = $defaultCondition;
             $comparisonValue = $defaultComparisonValue;
         }
 
         switch ($condition) {
-            case '>':
-                return $value > $comparisonValue;
+        case '>':
+            return $value > $comparisonValue;
 
-            case '<':
-                return $value < $comparisonValue;
+        case '<':
+            return $value < $comparisonValue;
 
-            case '<=':
-                return $value <= $comparisonValue;
+        case '<=':
+            return $value <= $comparisonValue;
 
-            case '<>':
-                return $value != $comparisonValue;
+        case '<>':
+            return $value != $comparisonValue;
 
-            case '=':
-                return $value == $comparisonValue;
+        case '=':
+            return $value == $comparisonValue;
         }
 
         return $value >= $comparisonValue;
@@ -59,6 +60,7 @@ class Formatter
     /** @param mixed $value */
     private static function splitFormatForSectionSelection(array $sections, $value): array
     {
+
         // Extract the relevant section depending on whether number is positive, negative, or zero?
         // Text not supported yet.
         // Here is how the sections apply to various values in Excel:
@@ -72,43 +74,53 @@ class Formatter
         $colors = ['', '', '', '', ''];
         $conditionOperations = ['', '', '', '', ''];
         $conditionComparisonValues = [0, 0, 0, 0, 0];
+
         for ($idx = 0; $idx < $sectionCount; ++$idx) {
+
             if (preg_match($color_regex, $sections[$idx], $matches)) {
                 $colors[$idx] = $matches[0];
                 $sections[$idx] = (string) preg_replace($color_regex, '', $sections[$idx]);
             }
+
             if (preg_match($cond_regex, $sections[$idx], $matches)) {
                 $conditionOperations[$idx] = $matches[1];
                 $conditionComparisonValues[$idx] = $matches[2];
                 $sections[$idx] = (string) preg_replace($cond_regex, '', $sections[$idx]);
             }
+
         }
+
         $color = $colors[0];
         $format = $sections[0];
         $absval = $value;
+
         switch ($sectionCount) {
-            case 2:
-                $absval = abs($value);
-                if (!self::splitFormatComparison($value, $conditionOperations[0], $conditionComparisonValues[0], '>=', 0)) {
+        case 2:
+            $absval = abs($value);
+
+            if (!self::splitFormatComparison($value, $conditionOperations[0], $conditionComparisonValues[0], '>=', 0)) {
+                $color = $colors[1];
+                $format = $sections[1];
+            }
+
+            break;
+        case 3:
+        case 4:
+            $absval = abs($value);
+
+            if (!self::splitFormatComparison($value, $conditionOperations[0], $conditionComparisonValues[0], '>', 0)) {
+
+                if (self::splitFormatComparison($value, $conditionOperations[1], $conditionComparisonValues[1], '<', 0)) {
                     $color = $colors[1];
                     $format = $sections[1];
+                } else {
+                    $color = $colors[2];
+                    $format = $sections[2];
                 }
 
-                break;
-            case 3:
-            case 4:
-                $absval = abs($value);
-                if (!self::splitFormatComparison($value, $conditionOperations[0], $conditionComparisonValues[0], '>', 0)) {
-                    if (self::splitFormatComparison($value, $conditionOperations[1], $conditionComparisonValues[1], '<', 0)) {
-                        $color = $colors[1];
-                        $format = $sections[1];
-                    } else {
-                        $color = $colors[2];
-                        $format = $sections[2];
-                    }
-                }
+            }
 
-                break;
+            break;
         }
 
         return [$color, $format, $absval];
@@ -124,24 +136,28 @@ class Formatter
      *
      * @return string Formatted string
      */
-    public static function toFormattedString($value, $format, $callBack = null)
-    {
+    public static function toFormattedString($value, $format, $callBack = null) {
+
         if (is_bool($value)) {
             return $value ? Calculation::getTRUE() : Calculation::getFALSE();
         }
+
         // For now we do not treat strings in sections, although section 4 of a format code affects strings
         // Process a single block format code containing @ for text substitution
+
         if (preg_match(self::SECTION_SPLIT, $format) === 0 && preg_match(self::SYMBOL_AT, $format) === 1) {
             return str_replace('"', '', preg_replace(self::SYMBOL_AT, (string) $value, $format) ?? '');
         }
 
         // If we have a text value, return it "as is"
+
         if (!is_numeric($value)) {
             return (string) $value;
         }
 
         // For 'General' format code, we just pass the value although this is not entirely the way Excel does it,
         // it seems to round numbers to a total of 10 digits.
+
         if (($format === NumberFormat::FORMAT_GENERAL) || ($format === NumberFormat::FORMAT_TEXT)) {
             return (string) $value;
         }
@@ -152,6 +168,7 @@ class Formatter
         $format = (string) preg_replace_callback(
             '/(["])(?:(?=(\\\\?))\\2.)*?\\1/u',
             function ($matches) {
+
                 return str_replace('.', chr(0x00), $matches[0]);
             },
             $format
@@ -171,6 +188,7 @@ class Formatter
 
         // Let's begin inspecting the format and converting the value to a formatted string
         //  Check for date/time characters (not inside quotes)
+
         if (
             (preg_match('/(\[\$[A-Z]*-[0-9A-F]*\])*[hmsdy](?=(?:[^"]|"[^"]*")*$)/miu', $format)) &&
             (preg_match('/0(?![^\[]*\])/miu', $format) === 0)
@@ -178,17 +196,20 @@ class Formatter
             // datetime format
             $value = DateFormatter::format($value, $format);
         } else {
+
             if (substr($format, 0, 1) === '"' && substr($format, -1, 1) === '"' && substr_count($format, '"') === 2) {
                 $value = substr($format, 1, -1);
-            } elseif (preg_match('/[0#, ]%/', $format)) {
+            } else if (preg_match('/[0#, ]%/', $format)) {
                 // % number format - avoid weird '-0' problem
                 $value = PercentageFormatter::format(0 + (float) $value, $format);
             } else {
                 $value = NumberFormatter::format($value, $format);
             }
+
         }
 
         // Additional formatting provided by callback function
+
         if ($callBack !== null) {
             [$writerInstance, $function] = $callBack;
             $value = $writerInstance->$function($value, $colors);
@@ -198,4 +219,5 @@ class Formatter
 
         return $value;
     }
+
 }

@@ -9,8 +9,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Engineering\ComplexOperations;
 /**
  * @deprecated 1.18.0
  */
-class Engineering
-{
+class Engineering {
+
     /**
      * EULER.
      *
@@ -31,14 +31,14 @@ class Engineering
      *
      * @return mixed[] Indexed on "real", "imaginary" and "suffix"
      */
-    public static function parseComplex($complexNumber)
-    {
+    public static function parseComplex($complexNumber) {
+
         $complex = new Complex($complexNumber);
 
         return [
-            'real' => $complex->getReal(),
+            'real'      => $complex->getReal(),
             'imaginary' => $complex->getImaginary(),
-            'suffix' => $complex->getSuffix(),
+            'suffix'    => $complex->getSuffix(),
         ];
     }
 
@@ -64,8 +64,8 @@ class Engineering
      *
      * @return array|float|string Result, or a string containing an error
      */
-    public static function BESSELI($x, $ord)
-    {
+    public static function BESSELI($x, $ord) {
+
         return Engineering\BesselI::BESSELI($x, $ord);
     }
 
@@ -89,8 +89,8 @@ class Engineering
      *
      * @return array|float|string Result, or a string containing an error
      */
-    public static function BESSELJ($x, $ord)
-    {
+    public static function BESSELJ($x, $ord) {
+
         return Engineering\BesselJ::BESSELJ($x, $ord);
     }
 
@@ -115,8 +115,8 @@ class Engineering
      *
      * @return array|float|string Result, or a string containing an error
      */
-    public static function BESSELK($x, $ord)
-    {
+    public static function BESSELK($x, $ord) {
+
         return Engineering\BesselK::BESSELK($x, $ord);
     }
 
@@ -140,8 +140,8 @@ class Engineering
      *
      * @return array|float|string Result, or a string containing an error
      */
-    public static function BESSELY($x, $ord)
-    {
+    public static function BESSELY($x, $ord) {
+
         return Engineering\BesselY::BESSELY($x, $ord);
     }
 
@@ -166,8 +166,8 @@ class Engineering
      *
      * @return array|string
      */
-    public static function BINTODEC($x)
-    {
+    public static function BINTODEC($x) {
+
         return Engineering\ConvertBinary::toDecimal($x);
     }
 
@@ -198,8 +198,8 @@ class Engineering
      *
      * @return array|string
      */
-    public static function BINTOHEX($x, $places = null)
-    {
+    public static function BINTOHEX($x, $places = null) {
+
         return Engineering\ConvertBinary::toHex($x, $places);
     }
 
@@ -230,8 +230,8 @@ class Engineering
      *
      * @return array|string
      */
-    public static function BINTOOCT($x, $places = null)
-    {
+    public static function BINTOOCT($x, $places = null) {
+
         return Engineering\ConvertBinary::toOctal($x, $places);
     }
 
@@ -266,8 +266,8 @@ class Engineering
      *
      * @return array|string
      */
-    public static function DECTOBIN($x, $places = null)
-    {
+    public static function DECTOBIN($x, $places = null) {
+
         return Engineering\ConvertDecimal::toBinary($x, $places);
     }
 
@@ -302,8 +302,8 @@ class Engineering
      *
      * @return array|string
      */
-    public static function DECTOHEX($x, $places = null)
-    {
+    public static function DECTOHEX($x, $places = null) {
+
         return Engineering\ConvertDecimal::toHex($x, $places);
     }
 
@@ -338,8 +338,8 @@ class Engineering
      *
      * @return array|string
      */
-    public static function DECTOOCT($x, $places = null)
-    {
+    public static function DECTOOCT($x, $places = null) {
+
         return Engineering\ConvertDecimal::toOctal($x, $places);
     }
 
@@ -374,8 +374,8 @@ class Engineering
      *
      * @return array|string
      */
-    public static function HEXTOBIN($x, $places = null)
-    {
+    public static function HEXTOBIN($x, $places = null) {
+
         return Engineering\ConvertHex::toBinary($x, $places);
     }
 
@@ -401,8 +401,8 @@ class Engineering
      *
      * @return array|string
      */
-    public static function HEXTODEC($x)
-    {
+    public static function HEXTODEC($x) {
+
         return Engineering\ConvertHex::toDecimal($x);
     }
 
@@ -441,8 +441,8 @@ class Engineering
      *
      * @return array|string
      */
-    public static function HEXTOOCT($x, $places = null)
-    {
+    public static function HEXTOOCT($x, $places = null) {
+
         return Engineering\ConvertHex::toOctal($x, $places);
     }
 
@@ -483,8 +483,8 @@ class Engineering
      *
      * @return array|string
      */
-    public static function OCTTOBIN($x, $places = null)
-    {
+    public static function OCTTOBIN($x, $places = null) {
+
         return Engineering\ConvertOctal::toBinary($x, $places);
     }
 
@@ -510,8 +510,8 @@ class Engineering
      *
      * @return array|string
      */
-    public static function OCTTODEC($x)
-    {
+    public static function OCTTODEC($x) {
+
         return Engineering\ConvertOctal::toDecimal($x);
     }
 
@@ -547,8 +547,8 @@ class Engineering
      *
      * @return array|string
      */
-    public static function OCTTOHEX($x, $places = null)
-    {
+    public static function OCTTOHEX($x, $places = null) {
+
         return Engineering\ConvertOctal::toHex($x, $places);
     }
 
@@ -571,8 +571,8 @@ class Engineering
      *
      * @return array|string
      */
-    public static function COMPLEX($realNumber = 0.0, $imaginary = 0.0, $suffix = 'i')
-    {
+    public static function COMPLEX($realNumber = 0.0, $imaginary = 0.0, $suffix = 'i') {
+
         return Engineering\Complex::COMPLEX($realNumber, $imaginary, $suffix);
     }
 
@@ -593,8 +593,8 @@ class Engineering
      *
      * @return array|float|string
      */
-    public static function IMAGINARY($complexNumber)
-    {
+    public static function IMAGINARY($complexNumber) {
+
         return Engineering\Complex::IMAGINARY($complexNumber);
     }
 
@@ -614,8 +614,8 @@ class Engineering
      *
      * @return array|float|string
      */
-    public static function IMREAL($complexNumber)
-    {
+    public static function IMREAL($complexNumber) {
+
         return Engineering\Complex::IMREAL($complexNumber);
     }
 
@@ -635,8 +635,8 @@ class Engineering
      *
      * @return array|float|string
      */
-    public static function IMABS($complexNumber)
-    {
+    public static function IMABS($complexNumber) {
+
         return ComplexFunctions::IMABS($complexNumber);
     }
 
@@ -657,8 +657,8 @@ class Engineering
      *
      * @return array|float|string
      */
-    public static function IMARGUMENT($complexNumber)
-    {
+    public static function IMARGUMENT($complexNumber) {
+
         return ComplexFunctions::IMARGUMENT($complexNumber);
     }
 
@@ -678,8 +678,8 @@ class Engineering
      *
      * @return array|string
      */
-    public static function IMCONJUGATE($complexNumber)
-    {
+    public static function IMCONJUGATE($complexNumber) {
+
         return ComplexFunctions::IMCONJUGATE($complexNumber);
     }
 
@@ -699,8 +699,8 @@ class Engineering
      *
      * @return array|float|string
      */
-    public static function IMCOS($complexNumber)
-    {
+    public static function IMCOS($complexNumber) {
+
         return ComplexFunctions::IMCOS($complexNumber);
     }
 
@@ -720,8 +720,8 @@ class Engineering
      *
      * @return array|float|string
      */
-    public static function IMCOSH($complexNumber)
-    {
+    public static function IMCOSH($complexNumber) {
+
         return ComplexFunctions::IMCOSH($complexNumber);
     }
 
@@ -741,8 +741,8 @@ class Engineering
      *
      * @return array|float|string
      */
-    public static function IMCOT($complexNumber)
-    {
+    public static function IMCOT($complexNumber) {
+
         return ComplexFunctions::IMCOT($complexNumber);
     }
 
@@ -762,8 +762,8 @@ class Engineering
      *
      * @return array|float|string
      */
-    public static function IMCSC($complexNumber)
-    {
+    public static function IMCSC($complexNumber) {
+
         return ComplexFunctions::IMCSC($complexNumber);
     }
 
@@ -783,8 +783,8 @@ class Engineering
      *
      * @return array|float|string
      */
-    public static function IMCSCH($complexNumber)
-    {
+    public static function IMCSCH($complexNumber) {
+
         return ComplexFunctions::IMCSCH($complexNumber);
     }
 
@@ -804,8 +804,8 @@ class Engineering
      *
      * @return array|float|string
      */
-    public static function IMSIN($complexNumber)
-    {
+    public static function IMSIN($complexNumber) {
+
         return ComplexFunctions::IMSIN($complexNumber);
     }
 
@@ -825,8 +825,8 @@ class Engineering
      *
      * @return array|float|string
      */
-    public static function IMSINH($complexNumber)
-    {
+    public static function IMSINH($complexNumber) {
+
         return ComplexFunctions::IMSINH($complexNumber);
     }
 
@@ -846,8 +846,8 @@ class Engineering
      *
      * @return array|float|string
      */
-    public static function IMSEC($complexNumber)
-    {
+    public static function IMSEC($complexNumber) {
+
         return ComplexFunctions::IMSEC($complexNumber);
     }
 
@@ -867,8 +867,8 @@ class Engineering
      *
      * @return array|float|string
      */
-    public static function IMSECH($complexNumber)
-    {
+    public static function IMSECH($complexNumber) {
+
         return ComplexFunctions::IMSECH($complexNumber);
     }
 
@@ -888,8 +888,8 @@ class Engineering
      *
      * @return array|float|string
      */
-    public static function IMTAN($complexNumber)
-    {
+    public static function IMTAN($complexNumber) {
+
         return ComplexFunctions::IMTAN($complexNumber);
     }
 
@@ -909,8 +909,8 @@ class Engineering
      *
      * @return array|string
      */
-    public static function IMSQRT($complexNumber)
-    {
+    public static function IMSQRT($complexNumber) {
+
         return ComplexFunctions::IMSQRT($complexNumber);
     }
 
@@ -930,8 +930,8 @@ class Engineering
      *
      * @return array|string
      */
-    public static function IMLN($complexNumber)
-    {
+    public static function IMLN($complexNumber) {
+
         return ComplexFunctions::IMLN($complexNumber);
     }
 
@@ -951,8 +951,8 @@ class Engineering
      *
      * @return array|string
      */
-    public static function IMLOG10($complexNumber)
-    {
+    public static function IMLOG10($complexNumber) {
+
         return ComplexFunctions::IMLOG10($complexNumber);
     }
 
@@ -972,8 +972,8 @@ class Engineering
      *
      * @return array|string
      */
-    public static function IMLOG2($complexNumber)
-    {
+    public static function IMLOG2($complexNumber) {
+
         return ComplexFunctions::IMLOG2($complexNumber);
     }
 
@@ -993,8 +993,8 @@ class Engineering
      *
      * @return array|string
      */
-    public static function IMEXP($complexNumber)
-    {
+    public static function IMEXP($complexNumber) {
+
         return ComplexFunctions::IMEXP($complexNumber);
     }
 
@@ -1015,8 +1015,8 @@ class Engineering
      *
      * @return array|string
      */
-    public static function IMPOWER($complexNumber, $realNumber)
-    {
+    public static function IMPOWER($complexNumber, $realNumber) {
+
         return ComplexFunctions::IMPOWER($complexNumber, $realNumber);
     }
 
@@ -1037,8 +1037,8 @@ class Engineering
      *
      * @return array|string
      */
-    public static function IMDIV($complexDividend, $complexDivisor)
-    {
+    public static function IMDIV($complexDividend, $complexDivisor) {
+
         return ComplexOperations::IMDIV($complexDividend, $complexDivisor);
     }
 
@@ -1059,8 +1059,8 @@ class Engineering
      *
      * @return array|string
      */
-    public static function IMSUB($complexNumber1, $complexNumber2)
-    {
+    public static function IMSUB($complexNumber1, $complexNumber2) {
+
         return ComplexOperations::IMSUB($complexNumber1, $complexNumber2);
     }
 
@@ -1080,8 +1080,8 @@ class Engineering
      *
      * @return string
      */
-    public static function IMSUM(...$complexNumbers)
-    {
+    public static function IMSUM(...$complexNumbers) {
+
         return ComplexOperations::IMSUM(...$complexNumbers);
     }
 
@@ -1101,8 +1101,8 @@ class Engineering
      *
      * @return string
      */
-    public static function IMPRODUCT(...$complexNumbers)
-    {
+    public static function IMPRODUCT(...$complexNumbers) {
+
         return ComplexOperations::IMPRODUCT(...$complexNumbers);
     }
 
@@ -1126,8 +1126,8 @@ class Engineering
      *
      * @return array|int|string (string in the event of an error)
      */
-    public static function DELTA($a, $b = 0)
-    {
+    public static function DELTA($a, $b = 0) {
+
         return Engineering\Compare::DELTA($a, $b);
     }
 
@@ -1150,8 +1150,8 @@ class Engineering
      *
      * @return array|int|string (string in the event of an error)
      */
-    public static function GESTEP($number, $step = 0)
-    {
+    public static function GESTEP($number, $step = 0) {
+
         return Engineering\Compare::GESTEP($number, $step);
     }
 
@@ -1172,8 +1172,8 @@ class Engineering
      *
      * @return array|int|string
      */
-    public static function BITAND($number1, $number2)
-    {
+    public static function BITAND($number1, $number2) {
+
         return Engineering\BitWise::BITAND($number1, $number2);
     }
 
@@ -1194,8 +1194,8 @@ class Engineering
      *
      * @return array|int|string
      */
-    public static function BITOR($number1, $number2)
-    {
+    public static function BITOR($number1, $number2) {
+
         return Engineering\BitWise::BITOR($number1, $number2);
     }
 
@@ -1216,8 +1216,8 @@ class Engineering
      *
      * @return array|int|string
      */
-    public static function BITXOR($number1, $number2)
-    {
+    public static function BITXOR($number1, $number2) {
+
         return Engineering\BitWise::BITXOR($number1, $number2);
     }
 
@@ -1238,8 +1238,8 @@ class Engineering
      *
      * @return array|float|int|string
      */
-    public static function BITLSHIFT($number, $shiftAmount)
-    {
+    public static function BITLSHIFT($number, $shiftAmount) {
+
         return Engineering\BitWise::BITLSHIFT($number, $shiftAmount);
     }
 
@@ -1260,8 +1260,8 @@ class Engineering
      *
      * @return array|float|int|string
      */
-    public static function BITRSHIFT($number, $shiftAmount)
-    {
+    public static function BITRSHIFT($number, $shiftAmount) {
+
         return Engineering\BitWise::BITRSHIFT($number, $shiftAmount);
     }
 
@@ -1288,8 +1288,8 @@ class Engineering
      *
      * @return array|float|string
      */
-    public static function ERF($lower, $upper = null)
-    {
+    public static function ERF($lower, $upper = null) {
+
         return Engineering\Erf::ERF($lower, $upper);
     }
 
@@ -1309,8 +1309,8 @@ class Engineering
      *
      * @return array|float|string
      */
-    public static function ERFPRECISE($limit)
-    {
+    public static function ERFPRECISE($limit) {
+
         return Engineering\Erf::ERFPRECISE($limit);
     }
 
@@ -1335,8 +1335,8 @@ class Engineering
      *
      * @return array|float|string
      */
-    public static function ERFC($x)
-    {
+    public static function ERFC($x) {
+
         return Engineering\ErfC::ERFC($x);
     }
 
@@ -1350,8 +1350,8 @@ class Engineering
      *
      * @return array
      */
-    public static function getConversionGroups()
-    {
+    public static function getConversionGroups() {
+
         return Engineering\ConvertUOM::getConversionCategories();
     }
 
@@ -1367,8 +1367,8 @@ class Engineering
      *
      * @return array
      */
-    public static function getConversionGroupUnits($category = null)
-    {
+    public static function getConversionGroupUnits($category = null) {
+
         return Engineering\ConvertUOM::getConversionCategoryUnits($category);
     }
 
@@ -1383,8 +1383,8 @@ class Engineering
      *
      * @return array
      */
-    public static function getConversionGroupUnitDetails($category = null)
-    {
+    public static function getConversionGroupUnitDetails($category = null) {
+
         return Engineering\ConvertUOM::getConversionCategoryUnitDetails($category);
     }
 
@@ -1398,8 +1398,8 @@ class Engineering
      *
      * @return mixed[]
      */
-    public static function getConversionMultipliers()
-    {
+    public static function getConversionMultipliers() {
+
         return Engineering\ConvertUOM::getConversionMultipliers();
     }
 
@@ -1415,8 +1415,8 @@ class Engineering
      *
      * @return mixed[]
      */
-    public static function getBinaryConversionMultipliers()
-    {
+    public static function getBinaryConversionMultipliers() {
+
         return Engineering\ConvertUOM::getBinaryConversionMultipliers();
     }
 
@@ -1440,8 +1440,8 @@ class Engineering
      *
      * @return array|float|string
      */
-    public static function CONVERTUOM($value, $fromUOM, $toUOM)
-    {
+    public static function CONVERTUOM($value, $fromUOM, $toUOM) {
+
         return Engineering\ConvertUOM::CONVERT($value, $fromUOM, $toUOM);
     }
 }

@@ -2,8 +2,7 @@
 
 namespace phenyxDigitale\digitalSpreadSheet\RichText;
 
-interface ITextElement
-{
+interface ITextElement {
     /**
      * Get text.
      *

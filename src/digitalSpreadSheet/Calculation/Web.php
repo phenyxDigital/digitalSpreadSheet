@@ -7,8 +7,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Calculation;
  *
  * @codeCoverageIgnore
  */
-class Web
-{
+class Web {
+
     /**
      * WEBSERVICE.
      *
@@ -23,8 +23,8 @@ class Web
      *
      * @return string the output resulting from a call to the webservice
      */
-    public static function WEBSERVICE(string $url)
-    {
+    public static function WEBSERVICE(string $url) {
+
         return Web\Service::webService($url);
     }
 }

@@ -7,8 +7,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Functions;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class Operations
-{
+class Operations {
+
     use ArrayEnabled;
 
     /**
@@ -23,8 +23,8 @@ class Operations
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function mod($dividend, $divisor)
-    {
+    public static function mod($dividend, $divisor) {
+
         if (is_array($dividend) || is_array($divisor)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $dividend, $divisor);
         }
@@ -40,6 +40,7 @@ class Operations
         if (($dividend < 0.0) && ($divisor > 0.0)) {
             return $divisor - fmod(abs($dividend), $divisor);
         }
+
         if (($dividend > 0.0) && ($divisor < 0.0)) {
             return $divisor + fmod($dividend, abs($divisor));
         }
@@ -61,8 +62,8 @@ class Operations
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function power($x, $y)
-    {
+    public static function power($x, $y) {
+
         if (is_array($x) || is_array($y)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $x, $y);
         }
@@ -75,9 +76,11 @@ class Operations
         }
 
         // Validate parameters
+
         if (!$x && !$y) {
             return ExcelError::NAN();
         }
+
         if (!$x && $y < 0.0) {
             return ExcelError::DIV0();
         }
@@ -100,11 +103,12 @@ class Operations
      *
      * @return float|string
      */
-    public static function product(...$args)
-    {
+    public static function product(...$args) {
+
         $args = array_filter(
             Functions::flattenArray($args),
             function ($value) {
+
                 return $value !== null;
             }
         );
@@ -113,13 +117,16 @@ class Operations
         $returnValue = (count($args) === 0) ? 0.0 : 1.0;
 
         // Loop through arguments
+
         foreach ($args as $arg) {
             // Is it a numeric value?
+
             if (is_numeric($arg)) {
                 $returnValue *= $arg;
             } else {
                 return ExcelError::throwError($arg);
             }
+
         }
 
         return (float) $returnValue;
@@ -143,8 +150,8 @@ class Operations
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function quotient($numerator, $denominator)
-    {
+    public static function quotient($numerator, $denominator) {
+
         if (is_array($numerator) || is_array($denominator)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $numerator, $denominator);
         }
@@ -159,4 +166,5 @@ class Operations
 
         return (int) ($numerator / $denominator);
     }
+
 }

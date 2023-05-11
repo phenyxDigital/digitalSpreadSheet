@@ -7,8 +7,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Calculation;
  *
  * @codeCoverageIgnore
  */
-class Database
-{
+class Database {
+
     /**
      * DAVERAGE.
      *
@@ -38,8 +38,8 @@ class Database
      *
      * @return float|string
      */
-    public static function DAVERAGE($database, $field, $criteria)
-    {
+    public static function DAVERAGE($database, $field, $criteria) {
+
         return Database\DAverage::evaluate($database, $field, $criteria);
     }
 
@@ -76,8 +76,8 @@ class Database
      * @TODO    The field argument is optional. If field is omitted, DCOUNT counts all records in the
      *            database that match the criteria.
      */
-    public static function DCOUNT($database, $field, $criteria)
-    {
+    public static function DCOUNT($database, $field, $criteria) {
+
         return Database\DCount::evaluate($database, $field, $criteria);
     }
 
@@ -110,8 +110,8 @@ class Database
      *
      * @return int|string
      */
-    public static function DCOUNTA($database, $field, $criteria)
-    {
+    public static function DCOUNTA($database, $field, $criteria) {
+
         return Database\DCountA::evaluate($database, $field, $criteria);
     }
 
@@ -145,8 +145,8 @@ class Database
      *
      * @return mixed
      */
-    public static function DGET($database, $field, $criteria)
-    {
+    public static function DGET($database, $field, $criteria) {
+
         return Database\DGet::evaluate($database, $field, $criteria);
     }
 
@@ -180,8 +180,8 @@ class Database
      *
      * @return null|float|string
      */
-    public static function DMAX($database, $field, $criteria)
-    {
+    public static function DMAX($database, $field, $criteria) {
+
         return Database\DMax::evaluate($database, $field, $criteria);
     }
 
@@ -215,8 +215,8 @@ class Database
      *
      * @return null|float|string
      */
-    public static function DMIN($database, $field, $criteria)
-    {
+    public static function DMIN($database, $field, $criteria) {
+
         return Database\DMin::evaluate($database, $field, $criteria);
     }
 
@@ -249,8 +249,8 @@ class Database
      *
      * @return float|string
      */
-    public static function DPRODUCT($database, $field, $criteria)
-    {
+    public static function DPRODUCT($database, $field, $criteria) {
+
         return Database\DProduct::evaluate($database, $field, $criteria);
     }
 
@@ -284,8 +284,8 @@ class Database
      *
      * @return float|string
      */
-    public static function DSTDEV($database, $field, $criteria)
-    {
+    public static function DSTDEV($database, $field, $criteria) {
+
         return Database\DStDev::evaluate($database, $field, $criteria);
     }
 
@@ -319,8 +319,8 @@ class Database
      *
      * @return float|string
      */
-    public static function DSTDEVP($database, $field, $criteria)
-    {
+    public static function DSTDEVP($database, $field, $criteria) {
+
         return Database\DStDevP::evaluate($database, $field, $criteria);
     }
 
@@ -353,8 +353,8 @@ class Database
      *
      * @return null|float|string
      */
-    public static function DSUM($database, $field, $criteria)
-    {
+    public static function DSUM($database, $field, $criteria) {
+
         return Database\DSum::evaluate($database, $field, $criteria);
     }
 
@@ -388,8 +388,8 @@ class Database
      *
      * @return float|string (string if result is an error)
      */
-    public static function DVAR($database, $field, $criteria)
-    {
+    public static function DVAR($database, $field, $criteria) {
+
         return Database\DVar::evaluate($database, $field, $criteria);
     }
 
@@ -423,8 +423,8 @@ class Database
      *
      * @return float|string (string if result is an error)
      */
-    public static function DVARP($database, $field, $criteria)
-    {
+    public static function DVARP($database, $field, $criteria) {
+
         return Database\DVarP::evaluate($database, $field, $criteria);
     }
 }

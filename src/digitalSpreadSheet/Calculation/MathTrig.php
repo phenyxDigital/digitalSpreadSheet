@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Calculation;
 /**
  * @deprecated 1.18.0
  */
-class MathTrig
-{
+class MathTrig {
+
     /**
      * ARABIC.
      *
@@ -23,8 +23,8 @@ class MathTrig
      *
      * @return array|int|string the arabic numberal contrived from the roman numeral
      */
-    public static function ARABIC($roman)
-    {
+    public static function ARABIC($roman) {
+
         return MathTrig\Arabic::evaluate($roman);
     }
 
@@ -53,8 +53,8 @@ class MathTrig
      *
      * @return array|float|string the inverse tangent of the specified x- and y-coordinates, or a string containing an error
      */
-    public static function ATAN2($xCoordinate = null, $yCoordinate = null)
-    {
+    public static function ATAN2($xCoordinate = null, $yCoordinate = null) {
+
         return MathTrig\Trig\Tangent::atan2($xCoordinate, $yCoordinate);
     }
 
@@ -76,8 +76,8 @@ class MathTrig
      *
      * @return array|string the text representation with the given radix (base)
      */
-    public static function BASE($number, $radix, $minLength = null)
-    {
+    public static function BASE($number, $radix, $minLength = null) {
+
         return MathTrig\Base::evaluate($number, $radix, $minLength);
     }
 
@@ -101,8 +101,8 @@ class MathTrig
      *
      * @return array|float|string Rounded Number, or a string containing an error
      */
-    public static function CEILING($number, $significance = null)
-    {
+    public static function CEILING($number, $significance = null) {
+
         return MathTrig\Ceiling::ceiling($number, $significance);
     }
 
@@ -124,8 +124,8 @@ class MathTrig
      *
      * @return array|float|int|string Number of combinations, or a string containing an error
      */
-    public static function COMBIN($numObjs, $numInSet)
-    {
+    public static function COMBIN($numObjs, $numInSet) {
+
         return MathTrig\Combinations::withoutRepetition($numObjs, $numInSet);
     }
 
@@ -149,8 +149,8 @@ class MathTrig
      *
      * @return array|float|int|string Rounded Number, or a string containing an error
      */
-    public static function EVEN($number)
-    {
+    public static function EVEN($number) {
+
         return MathTrig\Round::even($number);
     }
 
@@ -161,8 +161,8 @@ class MathTrig
      *      Use the evaluate() method in the MathTrig\Helpers class instead
      * @see MathTrig\Helpers::getEven()
      */
-    public static function getEven(float $number): int
-    {
+    public static function getEven(float $number): int {
+
         return (int) MathTrig\Helpers::getEven($number);
     }
 
@@ -183,8 +183,8 @@ class MathTrig
      *
      * @return array|float|int|string Factorial, or a string containing an error
      */
-    public static function FACT($factVal)
-    {
+    public static function FACT($factVal) {
+
         return MathTrig\Factorial::fact($factVal);
     }
 
@@ -204,8 +204,8 @@ class MathTrig
      *
      * @return array|float|int|string Double Factorial, or a string containing an error
      */
-    public static function FACTDOUBLE($factVal)
-    {
+    public static function FACTDOUBLE($factVal) {
+
         return MathTrig\Factorial::factDouble($factVal);
     }
 
@@ -226,8 +226,8 @@ class MathTrig
      *
      * @return array|float|string Rounded Number, or a string containing an error
      */
-    public static function FLOOR($number, $significance = null)
-    {
+    public static function FLOOR($number, $significance = null) {
+
         return MathTrig\Floor::floor($number, $significance);
     }
 
@@ -249,8 +249,8 @@ class MathTrig
      *
      * @return array|float|string Rounded Number, or a string containing an error
      */
-    public static function FLOORMATH($number, $significance = null, $mode = 0)
-    {
+    public static function FLOORMATH($number, $significance = null, $mode = 0) {
+
         return MathTrig\Floor::math($number, $significance, $mode);
     }
 
@@ -271,8 +271,8 @@ class MathTrig
      *
      * @return array|float|string Rounded Number, or a string containing an error
      */
-    public static function FLOORPRECISE($number, $significance = 1)
-    {
+    public static function FLOORPRECISE($number, $significance = 1) {
+
         return MathTrig\Floor::precise($number, $significance);
     }
 
@@ -292,8 +292,8 @@ class MathTrig
      *
      * @return array|int|string Integer value, or a string containing an error
      */
-    public static function INT($number)
-    {
+    public static function INT($number) {
+
         return MathTrig\IntClass::evaluate($number);
     }
 
@@ -315,8 +315,8 @@ class MathTrig
      *
      * @return int|mixed|string Greatest Common Divisor, or a string containing an error
      */
-    public static function GCD(...$args)
-    {
+    public static function GCD(...$args) {
+
         return MathTrig\Gcd::evaluate(...$args);
     }
 
@@ -339,8 +339,8 @@ class MathTrig
      *
      * @return int|string Lowest Common Multiplier, or a string containing an error
      */
-    public static function LCM(...$args)
-    {
+    public static function LCM(...$args) {
+
         return MathTrig\Lcm::evaluate(...$args);
     }
 
@@ -361,8 +361,8 @@ class MathTrig
      *
      * @return array|float|string The result, or a string containing an error
      */
-    public static function logBase($number, $base = 10)
-    {
+    public static function logBase($number, $base = 10) {
+
         return MathTrig\Logarithms::withBase($number, $base);
     }
 
@@ -382,8 +382,8 @@ class MathTrig
      *
      * @return float|string The result, or a string containing an error
      */
-    public static function MDETERM($matrixValues)
-    {
+    public static function MDETERM($matrixValues) {
+
         return MathTrig\MatrixFunctions::determinant($matrixValues);
     }
 
@@ -403,8 +403,8 @@ class MathTrig
      *
      * @return array|string The result, or a string containing an error
      */
-    public static function MINVERSE($matrixValues)
-    {
+    public static function MINVERSE($matrixValues) {
+
         return MathTrig\MatrixFunctions::inverse($matrixValues);
     }
 
@@ -420,8 +420,8 @@ class MathTrig
      *
      * @return array|string The result, or a string containing an error
      */
-    public static function MMULT($matrixData1, $matrixData2)
-    {
+    public static function MMULT($matrixData1, $matrixData2) {
+
         return MathTrig\MatrixFunctions::multiply($matrixData1, $matrixData2);
     }
 
@@ -437,8 +437,8 @@ class MathTrig
      *
      * @return array|float|int|string Remainder, or a string containing an error
      */
-    public static function MOD($a = 1, $b = 1)
-    {
+    public static function MOD($a = 1, $b = 1) {
+
         return MathTrig\Operations::mod($a, $b);
     }
 
@@ -456,8 +456,8 @@ class MathTrig
      *
      * @return array|float|string Rounded Number, or a string containing an error
      */
-    public static function MROUND($number, $multiple)
-    {
+    public static function MROUND($number, $multiple) {
+
         return MathTrig\Round::multiple($number, $multiple);
     }
 
@@ -474,8 +474,8 @@ class MathTrig
      *
      * @return float|string The result, or a string containing an error
      */
-    public static function MULTINOMIAL(...$args)
-    {
+    public static function MULTINOMIAL(...$args) {
+
         return MathTrig\Factorial::multinomial(...$args);
     }
 
@@ -492,8 +492,8 @@ class MathTrig
      *
      * @return array|float|int|string Rounded Number, or a string containing an error
      */
-    public static function ODD($number)
-    {
+    public static function ODD($number) {
+
         return MathTrig\Round::odd($number);
     }
 
@@ -511,8 +511,8 @@ class MathTrig
      *
      * @return array|float|int|string The result, or a string containing an error
      */
-    public static function POWER($x = 0, $y = 2)
-    {
+    public static function POWER($x = 0, $y = 2) {
+
         return MathTrig\Operations::power($x, $y);
     }
 
@@ -532,8 +532,8 @@ class MathTrig
      *
      * @return float|string
      */
-    public static function PRODUCT(...$args)
-    {
+    public static function PRODUCT(...$args) {
+
         return MathTrig\Operations::product(...$args);
     }
 
@@ -555,8 +555,8 @@ class MathTrig
      *
      * @return array|int|string
      */
-    public static function QUOTIENT($numerator, $denominator)
-    {
+    public static function QUOTIENT($numerator, $denominator) {
+
         return MathTrig\Operations::quotient($numerator, $denominator);
     }
 
@@ -572,8 +572,8 @@ class MathTrig
      *
      * @return array|float|int|string Random number
      */
-    public static function RAND($min = 0, $max = 0)
-    {
+    public static function RAND($min = 0, $max = 0) {
+
         return MathTrig\Random::randBetween($min, $max);
     }
 
@@ -591,8 +591,8 @@ class MathTrig
      *
      * @return array|string Roman numeral, or a string containing an error
      */
-    public static function ROMAN($aValue, $style = 0)
-    {
+    public static function ROMAN($aValue, $style = 0) {
+
         return MathTrig\Roman::evaluate($aValue, $style);
     }
 
@@ -610,8 +610,8 @@ class MathTrig
      *
      * @return array|float|string Rounded Number, or a string containing an error
      */
-    public static function ROUNDUP($number, $digits)
-    {
+    public static function ROUNDUP($number, $digits) {
+
         return MathTrig\Round::up($number, $digits);
     }
 
@@ -629,8 +629,8 @@ class MathTrig
      *
      * @return array|float|string Rounded Number, or a string containing an error
      */
-    public static function ROUNDDOWN($number, $digits)
-    {
+    public static function ROUNDDOWN($number, $digits) {
+
         return MathTrig\Round::down($number, $digits);
     }
 
@@ -650,8 +650,8 @@ class MathTrig
      *
      * @return array|float|string The result, or a string containing an error
      */
-    public static function SERIESSUM($x, $n, $m, ...$args)
-    {
+    public static function SERIESSUM($x, $n, $m, ...$args) {
+
         return MathTrig\SeriesSum::evaluate($x, $n, $m, ...$args);
     }
 
@@ -669,8 +669,8 @@ class MathTrig
      *
      * @return array|int|string sign value, or a string containing an error
      */
-    public static function SIGN($number)
-    {
+    public static function SIGN($number) {
+
         return MathTrig\Sign::evaluate($number);
     }
 
@@ -681,8 +681,8 @@ class MathTrig
      *      Use the returnSign method in the MathTrig\Helpers class instead
      * @see MathTrig\Helpers::returnSign()
      */
-    public static function returnSign(float $number): int
-    {
+    public static function returnSign(float $number): int {
+
         return MathTrig\Helpers::returnSign($number);
     }
 
@@ -699,8 +699,8 @@ class MathTrig
      *
      * @return array|float|string Square Root of Number * Pi, or a string containing an error
      */
-    public static function SQRTPI($number)
-    {
+    public static function SQRTPI($number) {
+
         return MathTrig\Sqrt::pi($number);
     }
 
@@ -724,8 +724,8 @@ class MathTrig
      *
      * @return float|string
      */
-    public static function SUBTOTAL($functionType, ...$args)
-    {
+    public static function SUBTOTAL($functionType, ...$args) {
+
         return MathTrig\Subtotal::evaluate($functionType, ...$args);
     }
 
@@ -745,8 +745,8 @@ class MathTrig
      *
      * @return float|string
      */
-    public static function SUM(...$args)
-    {
+    public static function SUM(...$args) {
+
         return MathTrig\Sum::sumIgnoringStrings(...$args);
     }
 
@@ -768,8 +768,8 @@ class MathTrig
      *
      * @return null|float|string
      */
-    public static function SUMIF($range, $criteria, $sumRange = [])
-    {
+    public static function SUMIF($range, $criteria, $sumRange = []) {
+
         return Statistical\Conditional::SUMIF($range, $criteria, $sumRange);
     }
 
@@ -789,8 +789,8 @@ class MathTrig
      *
      * @return null|float|string
      */
-    public static function SUMIFS(...$args)
-    {
+    public static function SUMIFS(...$args) {
+
         return Statistical\Conditional::SUMIFS(...$args);
     }
 
@@ -808,8 +808,8 @@ class MathTrig
      *
      * @return float|string The result, or a string containing an error
      */
-    public static function SUMPRODUCT(...$args)
-    {
+    public static function SUMPRODUCT(...$args) {
+
         return MathTrig\Sum::product(...$args);
     }
 
@@ -829,8 +829,8 @@ class MathTrig
      *
      * @return float|string
      */
-    public static function SUMSQ(...$args)
-    {
+    public static function SUMSQ(...$args) {
+
         return MathTrig\SumSquares::sumSquare(...$args);
     }
 
@@ -846,8 +846,8 @@ class MathTrig
      *
      * @return float|string
      */
-    public static function SUMX2MY2($matrixData1, $matrixData2)
-    {
+    public static function SUMX2MY2($matrixData1, $matrixData2) {
+
         return MathTrig\SumSquares::sumXSquaredMinusYSquared($matrixData1, $matrixData2);
     }
 
@@ -863,8 +863,8 @@ class MathTrig
      *
      * @return float|string
      */
-    public static function SUMX2PY2($matrixData1, $matrixData2)
-    {
+    public static function SUMX2PY2($matrixData1, $matrixData2) {
+
         return MathTrig\SumSquares::sumXSquaredPlusYSquared($matrixData1, $matrixData2);
     }
 
@@ -880,8 +880,8 @@ class MathTrig
      *
      * @return float|string
      */
-    public static function SUMXMY2($matrixData1, $matrixData2)
-    {
+    public static function SUMXMY2($matrixData1, $matrixData2) {
+
         return MathTrig\SumSquares::sumXMinusYSquared($matrixData1, $matrixData2);
     }
 
@@ -899,8 +899,8 @@ class MathTrig
      *
      * @return array|float|string Truncated value, or a string containing an error
      */
-    public static function TRUNC($value = 0, $digits = 0)
-    {
+    public static function TRUNC($value = 0, $digits = 0) {
+
         return MathTrig\Trunc::evaluate($value, $digits);
     }
 
@@ -917,8 +917,8 @@ class MathTrig
      *
      * @return array|float|string The secant of the angle
      */
-    public static function SEC($angle)
-    {
+    public static function SEC($angle) {
+
         return MathTrig\Trig\Secant::sec($angle);
     }
 
@@ -935,8 +935,8 @@ class MathTrig
      *
      * @return array|float|string The hyperbolic secant of the angle
      */
-    public static function SECH($angle)
-    {
+    public static function SECH($angle) {
+
         return MathTrig\Trig\Secant::sech($angle);
     }
 
@@ -953,8 +953,8 @@ class MathTrig
      *
      * @return array|float|string The cosecant of the angle
      */
-    public static function CSC($angle)
-    {
+    public static function CSC($angle) {
+
         return MathTrig\Trig\Cosecant::csc($angle);
     }
 
@@ -971,8 +971,8 @@ class MathTrig
      *
      * @return array|float|string The hyperbolic cosecant of the angle
      */
-    public static function CSCH($angle)
-    {
+    public static function CSCH($angle) {
+
         return MathTrig\Trig\Cosecant::csch($angle);
     }
 
@@ -989,8 +989,8 @@ class MathTrig
      *
      * @return array|float|string The cotangent of the angle
      */
-    public static function COT($angle)
-    {
+    public static function COT($angle) {
+
         return MathTrig\Trig\Cotangent::cot($angle);
     }
 
@@ -1007,8 +1007,8 @@ class MathTrig
      *
      * @return array|float|string The hyperbolic cotangent of the angle
      */
-    public static function COTH($angle)
-    {
+    public static function COTH($angle) {
+
         return MathTrig\Trig\Cotangent::coth($angle);
     }
 
@@ -1025,8 +1025,8 @@ class MathTrig
      *
      * @return array|float|string The arccotangent of the number
      */
-    public static function ACOT($number)
-    {
+    public static function ACOT($number) {
+
         return MathTrig\Trig\Cotangent::acot($number);
     }
 
@@ -1041,8 +1041,8 @@ class MathTrig
      *
      * @return float|string
      */
-    public static function numberOrNan($result)
-    {
+    public static function numberOrNan($result) {
+
         return MathTrig\Helpers::numberOrNan($result);
     }
 
@@ -1059,8 +1059,8 @@ class MathTrig
      *
      * @return array|float|string The hyperbolic arccotangent of the number
      */
-    public static function ACOTH($number)
-    {
+    public static function ACOTH($number) {
+
         return MathTrig\Trig\Cotangent::acoth($number);
     }
 
@@ -1078,8 +1078,8 @@ class MathTrig
      *
      * @return array|float|string Rounded number
      */
-    public static function builtinROUND($number, $precision)
-    {
+    public static function builtinROUND($number, $precision) {
+
         return MathTrig\Round::round($number, $precision);
     }
 
@@ -1096,8 +1096,8 @@ class MathTrig
      *
      * @return array|float|int|string Rounded number
      */
-    public static function builtinABS($number)
-    {
+    public static function builtinABS($number) {
+
         return MathTrig\Absolute::evaluate($number);
     }
 
@@ -1114,8 +1114,8 @@ class MathTrig
      *
      * @return array|float|string Rounded number
      */
-    public static function builtinACOS($number)
-    {
+    public static function builtinACOS($number) {
+
         return MathTrig\Trig\Cosine::acos($number);
     }
 
@@ -1132,8 +1132,8 @@ class MathTrig
      *
      * @return array|float|string Rounded number
      */
-    public static function builtinACOSH($number)
-    {
+    public static function builtinACOSH($number) {
+
         return MathTrig\Trig\Cosine::acosh($number);
     }
 
@@ -1150,8 +1150,8 @@ class MathTrig
      *
      * @return array|float|string Rounded number
      */
-    public static function builtinASIN($number)
-    {
+    public static function builtinASIN($number) {
+
         return MathTrig\Trig\Sine::asin($number);
     }
 
@@ -1168,8 +1168,8 @@ class MathTrig
      *
      * @return array|float|string Rounded number
      */
-    public static function builtinASINH($number)
-    {
+    public static function builtinASINH($number) {
+
         return MathTrig\Trig\Sine::asinh($number);
     }
 
@@ -1186,8 +1186,8 @@ class MathTrig
      *
      * @return array|float|string Rounded number
      */
-    public static function builtinATAN($number)
-    {
+    public static function builtinATAN($number) {
+
         return MathTrig\Trig\Tangent::atan($number);
     }
 
@@ -1204,8 +1204,8 @@ class MathTrig
      *
      * @return array|float|string Rounded number
      */
-    public static function builtinATANH($number)
-    {
+    public static function builtinATANH($number) {
+
         return MathTrig\Trig\Tangent::atanh($number);
     }
 
@@ -1222,8 +1222,8 @@ class MathTrig
      *
      * @return array|float|string Rounded number
      */
-    public static function builtinCOS($number)
-    {
+    public static function builtinCOS($number) {
+
         return MathTrig\Trig\Cosine::cos($number);
     }
 
@@ -1240,8 +1240,8 @@ class MathTrig
      *
      * @return array|float|string Rounded number
      */
-    public static function builtinCOSH($number)
-    {
+    public static function builtinCOSH($number) {
+
         return MathTrig\Trig\Cosine::cosh($number);
     }
 
@@ -1258,8 +1258,8 @@ class MathTrig
      *
      * @return array|float|string Rounded number
      */
-    public static function builtinDEGREES($number)
-    {
+    public static function builtinDEGREES($number) {
+
         return MathTrig\Angle::toDegrees($number);
     }
 
@@ -1276,8 +1276,8 @@ class MathTrig
      *
      * @return array|float|string Rounded number
      */
-    public static function builtinEXP($number)
-    {
+    public static function builtinEXP($number) {
+
         return MathTrig\Exp::evaluate($number);
     }
 
@@ -1294,8 +1294,8 @@ class MathTrig
      *
      * @return array|float|string Rounded number
      */
-    public static function builtinLN($number)
-    {
+    public static function builtinLN($number) {
+
         return MathTrig\Logarithms::natural($number);
     }
 
@@ -1312,8 +1312,8 @@ class MathTrig
      *
      * @return array|float|string Rounded number
      */
-    public static function builtinLOG10($number)
-    {
+    public static function builtinLOG10($number) {
+
         return MathTrig\Logarithms::base10($number);
     }
 
@@ -1330,8 +1330,8 @@ class MathTrig
      *
      * @return array|float|string Rounded number
      */
-    public static function builtinRADIANS($number)
-    {
+    public static function builtinRADIANS($number) {
+
         return MathTrig\Angle::toRadians($number);
     }
 
@@ -1348,8 +1348,8 @@ class MathTrig
      *
      * @return array|float|string sine
      */
-    public static function builtinSIN($number)
-    {
+    public static function builtinSIN($number) {
+
         return MathTrig\Trig\Sine::sin($number);
     }
 
@@ -1366,8 +1366,8 @@ class MathTrig
      *
      * @return array|float|string Rounded number
      */
-    public static function builtinSINH($number)
-    {
+    public static function builtinSINH($number) {
+
         return MathTrig\Trig\Sine::sinh($number);
     }
 
@@ -1384,8 +1384,8 @@ class MathTrig
      *
      * @return array|float|string Rounded number
      */
-    public static function builtinSQRT($number)
-    {
+    public static function builtinSQRT($number) {
+
         return MathTrig\Sqrt::sqrt($number);
     }
 
@@ -1402,8 +1402,8 @@ class MathTrig
      *
      * @return array|float|string Rounded number
      */
-    public static function builtinTAN($number)
-    {
+    public static function builtinTAN($number) {
+
         return MathTrig\Trig\Tangent::tan($number);
     }
 
@@ -1420,8 +1420,8 @@ class MathTrig
      *
      * @return array|float|string Rounded number
      */
-    public static function builtinTANH($number)
-    {
+    public static function builtinTANH($number) {
+
         return MathTrig\Trig\Tangent::tanh($number);
     }
 
@@ -1434,13 +1434,16 @@ class MathTrig
      *
      * @param mixed $number
      */
-    public static function nullFalseTrueToNumber(&$number): void
-    {
+    public static function nullFalseTrueToNumber(&$number): void{
+
         $number = Functions::flattenSingleValue($number);
+
         if ($number === null) {
             $number = 0;
-        } elseif (is_bool($number)) {
+        } else if (is_bool($number)) {
             $number = (int) $number;
         }
+
     }
+
 }

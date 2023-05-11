@@ -7,8 +7,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Financial\Constants as FinancialConstants;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Functions;
 
-class Amortization
-{
+class Amortization {
+
     /**
      * AMORDEGRC.
      *
@@ -48,6 +48,7 @@ class Amortization
         $rate,
         $basis = FinancialConstants::BASIS_DAYS_PER_YEAR_NASD
     ) {
+
         $cost = Functions::flattenSingleValue($cost);
         $purchased = Functions::flattenSingleValue($purchased);
         $firstPeriod = Functions::flattenSingleValue($firstPeriod);
@@ -55,8 +56,8 @@ class Amortization
         $period = Functions::flattenSingleValue($period);
         $rate = Functions::flattenSingleValue($rate);
         $basis = ($basis === null)
-            ? FinancialConstants::BASIS_DAYS_PER_YEAR_NASD
-            : Functions::flattenSingleValue($basis);
+        ? FinancialConstants::BASIS_DAYS_PER_YEAR_NASD
+        : Functions::flattenSingleValue($basis);
 
         try {
             $cost = FinancialValidations::validateFloat($cost);
@@ -71,9 +72,11 @@ class Amortization
         }
 
         $yearFracx = DateTimeExcel\YearFrac::fraction($purchased, $firstPeriod, $basis);
+
         if (is_string($yearFracx)) {
             return $yearFracx;
         }
+
         /** @var float */
         $yearFrac = $yearFracx;
 
@@ -89,14 +92,17 @@ class Amortization
             $fRest -= $fNRate;
 
             if ($fRest < 0.0) {
+
                 switch ($period - $n) {
-                    case 0:
-                    case 1:
-                        return round($cost * 0.5, 0);
-                    default:
-                        return 0.0;
+                case 0:
+                case 1:
+                    return round($cost * 0.5, 0);
+                default:
+                    return 0.0;
                 }
+
             }
+
             $cost -= $fNRate;
         }
 
@@ -137,6 +143,7 @@ class Amortization
         $rate,
         $basis = FinancialConstants::BASIS_DAYS_PER_YEAR_NASD
     ) {
+
         $cost = Functions::flattenSingleValue($cost);
         $purchased = Functions::flattenSingleValue($purchased);
         $firstPeriod = Functions::flattenSingleValue($firstPeriod);
@@ -144,8 +151,8 @@ class Amortization
         $period = Functions::flattenSingleValue($period);
         $rate = Functions::flattenSingleValue($rate);
         $basis = ($basis === null)
-            ? FinancialConstants::BASIS_DAYS_PER_YEAR_NASD
-            : Functions::flattenSingleValue($basis);
+        ? FinancialConstants::BASIS_DAYS_PER_YEAR_NASD
+        : Functions::flattenSingleValue($basis);
 
         try {
             $cost = FinancialValidations::validateFloat($cost);
@@ -164,9 +171,11 @@ class Amortization
         //    Note, quirky variation for leap years on the YEARFRAC for this function
         $purchasedYear = DateTimeExcel\DateParts::year($purchased);
         $yearFracx = DateTimeExcel\YearFrac::fraction($purchased, $firstPeriod, $basis);
+
         if (is_string($yearFracx)) {
             return $yearFracx;
         }
+
         /** @var float */
         $yearFrac = $yearFracx;
 
@@ -183,17 +192,17 @@ class Amortization
 
         if ($period == 0) {
             return $f0Rate;
-        } elseif ($period <= $nNumOfFullPeriods) {
+        } else if ($period <= $nNumOfFullPeriods) {
             return $fOneRate;
-        } elseif ($period == ($nNumOfFullPeriods + 1)) {
+        } else if ($period == ($nNumOfFullPeriods + 1)) {
             return $fCostDelta - $fOneRate * $nNumOfFullPeriods - $f0Rate;
         }
 
         return 0.0;
     }
 
-    private static function getAmortizationCoefficient(float $rate): float
-    {
+    private static function getAmortizationCoefficient(float $rate): float{
+
         //    The depreciation coefficients are:
         //    Life of assets (1/rate)        Depreciation coefficient
         //    Less than 3 years            1
@@ -204,12 +213,13 @@ class Amortization
 
         if ($fUsePer < 3.0) {
             return 1.0;
-        } elseif ($fUsePer < 4.0) {
+        } else if ($fUsePer < 4.0) {
             return 1.5;
-        } elseif ($fUsePer <= 6.0) {
+        } else if ($fUsePer <= 6.0) {
             return 2.0;
         }
 
         return 2.5;
     }
+
 }

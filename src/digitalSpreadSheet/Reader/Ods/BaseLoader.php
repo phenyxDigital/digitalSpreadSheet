@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Reader\Ods;
 use DOMElement;
 use phenyxDigitale\digitalSpreadSheet\Spreadsheet;
 
-abstract class BaseLoader
-{
+abstract class BaseLoader {
+
     /**
      * @var Spreadsheet
      */
@@ -17,8 +17,8 @@ abstract class BaseLoader
      */
     protected $tableNs;
 
-    public function __construct(Spreadsheet $spreadsheet, string $tableNs)
-    {
+    public function __construct(Spreadsheet $spreadsheet, string $tableNs) {
+
         $this->spreadsheet = $spreadsheet;
         $this->tableNs = $tableNs;
     }

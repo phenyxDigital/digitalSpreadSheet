@@ -2,8 +2,8 @@
 
 namespace phenyxDigitale\digitalSpreadSheet\Reader\Xlsx;
 
-class Theme
-{
+class Theme {
+
     /**
      * Theme Name.
      *
@@ -32,8 +32,8 @@ class Theme
      * @param string $colourSchemeName
      * @param string[] $colourMap
      */
-    public function __construct($themeName, $colourSchemeName, $colourMap)
-    {
+    public function __construct($themeName, $colourSchemeName, $colourMap) {
+
         // Initialise values
         $this->themeName = $themeName;
         $this->colourSchemeName = $colourSchemeName;
@@ -47,8 +47,8 @@ class Theme
      *
      * @codeCoverageIgnore
      */
-    public function getThemeName()
-    {
+    public function getThemeName() {
+
         return $this->themeName;
     }
 
@@ -59,8 +59,8 @@ class Theme
      *
      * @codeCoverageIgnore
      */
-    public function getColourSchemeName()
-    {
+    public function getColourSchemeName() {
+
         return $this->colourSchemeName;
     }
 
@@ -71,8 +71,8 @@ class Theme
      *
      * @return null|string
      */
-    public function getColourByIndex($index)
-    {
+    public function getColourByIndex($index) {
+
         return $this->colourMap[$index] ?? null;
     }
 }

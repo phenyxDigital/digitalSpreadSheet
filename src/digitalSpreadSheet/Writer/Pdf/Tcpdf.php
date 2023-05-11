@@ -6,15 +6,15 @@ use phenyxDigitale\digitalSpreadSheet\Spreadsheet;
 use phenyxDigitale\digitalSpreadSheet\Worksheet\PageSetup;
 use phenyxDigitale\digitalSpreadSheet\Writer\Pdf;
 
-class Tcpdf extends Pdf
-{
+class Tcpdf extends Pdf {
+
     /**
      * Create a new PDF Writer instance.
      *
      * @param Spreadsheet $spreadsheet Spreadsheet object
      */
-    public function __construct(Spreadsheet $spreadsheet)
-    {
+    public function __construct(Spreadsheet $spreadsheet) {
+
         parent::__construct($spreadsheet);
         $this->setUseInlineCss(true);
     }
@@ -28,8 +28,8 @@ class Tcpdf extends Pdf
      *
      * @return \TCPDF implementation
      */
-    protected function createExternalWriterInstance($orientation, $unit, $paperSize)
-    {
+    protected function createExternalWriterInstance($orientation, $unit, $paperSize) {
+
         return new \TCPDF($orientation, $unit, $paperSize);
     }
 
@@ -38,8 +38,8 @@ class Tcpdf extends Pdf
      *
      * @param string $filename Name of the file to save as
      */
-    public function save($filename, int $flags = 0): void
-    {
+    public function save($filename, int $flags = 0): void{
+
         $fileHandle = parent::prepareForSave($filename);
 
         //  Default PDF paper size

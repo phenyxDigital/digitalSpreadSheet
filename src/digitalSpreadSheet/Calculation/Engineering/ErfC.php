@@ -6,8 +6,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\ArrayEnabled;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Functions;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class ErfC
-{
+class ErfC {
+
     use ArrayEnabled;
 
     /**
@@ -30,14 +30,14 @@ class ErfC
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function ERFC($value)
-    {
+    public static function ERFC($value) {
+
         if (is_array($value)) {
-            return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $value);
+            return evaluateSingleArgumentArray([self::class, __FUNCTION__], $value);
         }
 
         if (is_numeric($value)) {
-            return self::erfcValue($value);
+            return erfcValue($value);
         }
 
         return ExcelError::VALUE();
@@ -52,19 +52,23 @@ class ErfC
      *
      * @return float
      */
-    private static function erfcValue($value)
-    {
+    private static function erfcValue($value) {
+
         $value = (float) $value;
+
         if (abs($value) < 2.2) {
             return 1 - Erf::erfValue($value);
         }
+
         if ($value < 0) {
-            return 2 - self::erfcValue(-$value);
+            return 2 - erfcValue(-$value);
         }
+
         $a = $n = 1;
         $b = $c = $value;
         $d = ($value * $value) + 0.5;
         $q2 = $b / $d;
+
         do {
             $t = $a * $n + $b * $value;
             $a = $b;
@@ -77,6 +81,7 @@ class ErfC
             $q2 = $b / $d;
         } while ((abs($q1 - $q2) / $q2) > Functions::PRECISION);
 
-        return self::ONE_SQRT_PI * exp(-$value * $value) * $q2;
+        return ONE_SQRT_PI * exp(-$value * $value) * $q2;
     }
+
 }

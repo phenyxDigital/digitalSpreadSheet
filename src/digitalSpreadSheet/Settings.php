@@ -10,8 +10,8 @@ use Psr\Http\Message\RequestFactoryInterface;
 use Psr\SimpleCache\CacheInterface;
 use ReflectionClass;
 
-class Settings
-{
+class Settings {
+
     /**
      * Class name of the chart renderer used for rendering charts
      * eg: phenyxDigitale\digitalSpreadSheet\Chart\Renderer\JpGraph.
@@ -53,13 +53,13 @@ class Settings
      *
      * @return bool Success or failure
      */
-    public static function setLocale(string $locale)
-    {
+    public static function setLocale(string $locale) {
+
         return Calculation::getInstance()->setLocale($locale);
     }
 
-    public static function getLocale(): string
-    {
+    public static function getLocale(): string {
+
         return Calculation::getInstance()->getLocale();
     }
 
@@ -69,8 +69,8 @@ class Settings
      * @param string $rendererClassName Class name of the chart renderer
      *    eg: phenyxDigitale\digitalSpreadSheet\Chart\Renderer\JpGraph
      */
-    public static function setChartRenderer(string $rendererClassName): void
-    {
+    public static function setChartRenderer(string $rendererClassName): void {
+
         if (!is_a($rendererClassName, IRenderer::class, true)) {
             throw new Exception('Chart renderer must implement ' . IRenderer::class);
         }
@@ -84,13 +84,13 @@ class Settings
      * @return null|string Class name of the chart renderer
      *    eg: phenyxDigitale\digitalSpreadSheet\Chart\Renderer\JpGraph
      */
-    public static function getChartRenderer(): ?string
-    {
+    public static function getChartRenderer():  ? string {
+
         return self::$chartRenderer;
     }
 
-    public static function htmlEntityFlags(): int
-    {
+    public static function htmlEntityFlags() : int {
+
         return \ENT_COMPAT;
     }
 
@@ -99,11 +99,12 @@ class Settings
      *
      * @param ?int $options Default options for libxml loader
      */
-    public static function setLibXmlLoaderOptions($options): int
-    {
+    public static function setLibXmlLoaderOptions($options): int {
+
         if ($options === null) {
             $options = defined('LIBXML_DTDLOAD') ? (LIBXML_DTDLOAD | LIBXML_DTDATTR) : 0;
         }
+
         self::$libXmlLoaderOptions = $options;
 
         return $options;
@@ -115,8 +116,8 @@ class Settings
      *
      * @return int Default options for libxml loader
      */
-    public static function getLibXmlLoaderOptions(): int
-    {
+    public static function getLibXmlLoaderOptions(): int {
+
         if (self::$libXmlLoaderOptions === null) {
             return self::setLibXmlLoaderOptions(null);
         }
@@ -133,8 +134,8 @@ class Settings
      *
      * @codeCoverageIgnore
      */
-    public static function setLibXmlDisableEntityLoader(/** @scrutinizer ignore-unused */ $state): void
-    {
+    public static function setLibXmlDisableEntityLoader(/** @scrutinizer ignore-unused */$state): void {
+
         // noop
     }
 
@@ -147,24 +148,24 @@ class Settings
      *
      * @codeCoverageIgnore
      */
-    public static function getLibXmlDisableEntityLoader(): bool
-    {
+    public static function getLibXmlDisableEntityLoader(): bool {
+
         return true;
     }
 
     /**
      * Sets the implementation of cache that should be used for cell collection.
      */
-    public static function setCache(CacheInterface $cache): void
-    {
+    public static function setCache(CacheInterface $cache): void {
+
         self::$cache = $cache;
     }
 
     /**
      * Gets the implementation of cache that is being used for cell collection.
      */
-    public static function getCache(): CacheInterface
-    {
+    public static function getCache(): CacheInterface {
+
         if (!self::$cache) {
             self::$cache = self::useSimpleCacheVersion3() ? new Memory\SimpleCache3() : new Memory\SimpleCache1();
         }
@@ -172,18 +173,18 @@ class Settings
         return self::$cache;
     }
 
-    public static function useSimpleCacheVersion3(): bool
-    {
+    public static function useSimpleCacheVersion3(): bool {
+
         return
-            PHP_MAJOR_VERSION === 8 &&
-            (new ReflectionClass(CacheInterface::class))->getMethod('get')->getReturnType() !== null;
+        PHP_MAJOR_VERSION === 8 &&
+        (new ReflectionClass(CacheInterface::class))->getMethod('get')->getReturnType() !== null;
     }
 
     /**
      * Set the HTTP client implementation to be used for network request.
      */
-    public static function setHttpClient(ClientInterface $httpClient, RequestFactoryInterface $requestFactory): void
-    {
+    public static function setHttpClient(ClientInterface $httpClient, RequestFactoryInterface $requestFactory): void {
+
         self::$httpClient = $httpClient;
         self::$requestFactory = $requestFactory;
     }
@@ -191,8 +192,8 @@ class Settings
     /**
      * Unset the HTTP client configuration.
      */
-    public static function unsetHttpClient(): void
-    {
+    public static function unsetHttpClient(): void {
+
         self::$httpClient = null;
         self::$requestFactory = null;
     }
@@ -200,8 +201,8 @@ class Settings
     /**
      * Get the HTTP client implementation to be used for network request.
      */
-    public static function getHttpClient(): ClientInterface
-    {
+    public static function getHttpClient(): ClientInterface {
+
         if (!self::$httpClient || !self::$requestFactory) {
             throw new Exception('HTTP client must be configured via Settings::setHttpClient() to be able to use WEBSERVICE function.');
         }
@@ -212,12 +213,13 @@ class Settings
     /**
      * Get the HTTP request factory.
      */
-    public static function getRequestFactory(): RequestFactoryInterface
-    {
+    public static function getRequestFactory(): RequestFactoryInterface {
+
         if (!self::$httpClient || !self::$requestFactory) {
             throw new Exception('HTTP client must be configured via Settings::setHttpClient() to be able to use WEBSERVICE function.');
         }
 
         return self::$requestFactory;
     }
+
 }

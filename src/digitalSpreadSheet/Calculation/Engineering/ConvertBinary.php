@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Calculation\Engineering;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class ConvertBinary extends ConvertBase
-{
+class ConvertBinary extends ConvertBase {
+
     /**
      * toDecimal.
      *
@@ -27,15 +27,15 @@ class ConvertBinary extends ConvertBase
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function toDecimal($value)
-    {
+    public static function toDecimal($value) {
+
         if (is_array($value)) {
-            return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $value);
+            return evaluateSingleArgumentArray([self::class, __FUNCTION__], $value);
         }
 
         try {
-            $value = self::validateValue($value);
-            $value = self::validateBinary($value);
+            $value = validateValue($value);
+            $value = validateBinary($value);
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -56,7 +56,7 @@ class ConvertBinary extends ConvertBase
      * Return a binary value as hex.
      *
      * Excel Function:
-     *        BIN2HEX(x[,places])
+     *        BIN2HEX(x[self::class,places])
      *
      * @param array|string $value The binary number (as a string) that you want to convert. The number
      *                                cannot contain more than 10 characters (10 bits). The most significant
@@ -77,16 +77,16 @@ class ConvertBinary extends ConvertBase
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function toHex($value, $places = null)
-    {
+    public static function toHex($value, $places = null) {
+
         if (is_array($value) || is_array($places)) {
-            return self::evaluateArrayArguments([self::class, __FUNCTION__], $value, $places);
+            return evaluateArrayArguments([self::class, __FUNCTION__], $value, $places);
         }
 
         try {
-            $value = self::validateValue($value);
-            $value = self::validateBinary($value);
-            $places = self::validatePlaces($places);
+            $value = validateValue($value);
+            $value = validateBinary($value);
+            $places = validatePlaces($places);
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -98,9 +98,10 @@ class ConvertBinary extends ConvertBase
 
             return $xarr[$high2] . strtoupper(substr('0' . dechex((int) bindec($low8)), -2));
         }
+
         $hexVal = (string) strtoupper(dechex((int) bindec($value)));
 
-        return self::nbrConversionFormat($hexVal, $places);
+        return nbrConversionFormat($hexVal, $places);
     }
 
     /**
@@ -109,7 +110,7 @@ class ConvertBinary extends ConvertBase
      * Return a binary value as octal.
      *
      * Excel Function:
-     *        BIN2OCT(x[,places])
+     *        BIN2OCT(x[self::class,places])
      *
      * @param array|string $value The binary number (as a string) that you want to convert. The number
      *                                cannot contain more than 10 characters (10 bits). The most significant
@@ -130,34 +131,37 @@ class ConvertBinary extends ConvertBase
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function toOctal($value, $places = null)
-    {
+    public static function toOctal($value, $places = null) {
+
         if (is_array($value) || is_array($places)) {
-            return self::evaluateArrayArguments([self::class, __FUNCTION__], $value, $places);
+            return evaluateArrayArguments([self::class, __FUNCTION__], $value, $places);
         }
 
         try {
-            $value = self::validateValue($value);
-            $value = self::validateBinary($value);
-            $places = self::validatePlaces($places);
+            $value = validateValue($value);
+            $value = validateBinary($value);
+            $places = validatePlaces($places);
         } catch (Exception $e) {
             return $e->getMessage();
         }
 
-        if (strlen($value) == 10 && substr($value, 0, 1) === '1') { //    Two's Complement
+        if (strlen($value) == 10 && substr($value, 0, 1) === '1') {
+            //    Two's Complement
             return str_repeat('7', 6) . strtoupper(decoct((int) bindec("11$value")));
         }
+
         $octVal = (string) decoct((int) bindec($value));
 
-        return self::nbrConversionFormat($octVal, $places);
+        return nbrConversionFormat($octVal, $places);
     }
 
-    protected static function validateBinary(string $value): string
-    {
+    protected static function validateBinary(string $value): string {
+
         if ((strlen($value) > preg_match_all('/[01]/', $value)) || (strlen($value) > 10)) {
             throw new Exception(ExcelError::NAN());
         }
 
         return $value;
     }
+
 }

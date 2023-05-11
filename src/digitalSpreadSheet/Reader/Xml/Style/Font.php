@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Reader\Xml\Style;
 use phenyxDigitale\digitalSpreadSheet\Style\Font as FontUnderline;
 use SimpleXMLElement;
 
-class Font extends StyleBase
-{
+class Font extends StyleBase {
+
     protected const UNDERLINE_STYLES = [
         FontUnderline::UNDERLINE_NONE,
         FontUnderline::UNDERLINE_DOUBLE,
@@ -17,6 +17,7 @@ class Font extends StyleBase
 
     protected function parseUnderline(array $style, string $styleAttributeValue): array
     {
+
         if (self::identifyFixedStyleValue(self::UNDERLINE_STYLES, $styleAttributeValue)) {
             $style['font']['underline'] = $styleAttributeValue;
         }
@@ -26,9 +27,11 @@ class Font extends StyleBase
 
     protected function parseVerticalAlign(array $style, string $styleAttributeValue): array
     {
+
         if ($styleAttributeValue == 'Superscript') {
             $style['font']['superscript'] = true;
         }
+
         if ($styleAttributeValue == 'Subscript') {
             $style['font']['subscript'] = true;
         }
@@ -38,42 +41,46 @@ class Font extends StyleBase
 
     public function parseStyle(SimpleXMLElement $styleAttributes): array
     {
+
         $style = [];
 
         foreach ($styleAttributes as $styleAttributeKey => $styleAttributeValue) {
             $styleAttributeValue = (string) $styleAttributeValue;
+
             switch ($styleAttributeKey) {
-                case 'FontName':
-                    $style['font']['name'] = $styleAttributeValue;
+            case 'FontName':
+                $style['font']['name'] = $styleAttributeValue;
 
-                    break;
-                case 'Size':
-                    $style['font']['size'] = $styleAttributeValue;
+                break;
+            case 'Size':
+                $style['font']['size'] = $styleAttributeValue;
 
-                    break;
-                case 'Color':
-                    $style['font']['color']['rgb'] = substr($styleAttributeValue, 1);
+                break;
+            case 'Color':
+                $style['font']['color']['rgb'] = substr($styleAttributeValue, 1);
 
-                    break;
-                case 'Bold':
-                    $style['font']['bold'] = true;
+                break;
+            case 'Bold':
+                $style['font']['bold'] = true;
 
-                    break;
-                case 'Italic':
-                    $style['font']['italic'] = true;
+                break;
+            case 'Italic':
+                $style['font']['italic'] = true;
 
-                    break;
-                case 'Underline':
-                    $style = $this->parseUnderline($style, $styleAttributeValue);
+                break;
+            case 'Underline':
+                $style = $this->parseUnderline($style, $styleAttributeValue);
 
-                    break;
-                case 'VerticalAlign':
-                    $style = $this->parseVerticalAlign($style, $styleAttributeValue);
+                break;
+            case 'VerticalAlign':
+                $style = $this->parseVerticalAlign($style, $styleAttributeValue);
 
-                    break;
+                break;
             }
+
         }
 
         return $style;
     }
+
 }

@@ -2,8 +2,8 @@
 
 namespace phenyxDigitale\digitalSpreadSheet\Worksheet;
 
-class Row
-{
+class Row {
+
     /**
      * \phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet.
      *
@@ -23,8 +23,8 @@ class Row
      *
      * @param int $rowIndex
      */
-    public function __construct(Worksheet $worksheet, $rowIndex = 1)
-    {
+    public function __construct(Worksheet $worksheet, $rowIndex = 1) {
+
         // Set parent and row index
         $this->worksheet = $worksheet;
         $this->rowIndex = $rowIndex;
@@ -33,16 +33,16 @@ class Row
     /**
      * Destructor.
      */
-    public function __destruct()
-    {
+    public function __destruct() {
+
         $this->worksheet = null; // @phpstan-ignore-line
     }
 
     /**
      * Get row index.
      */
-    public function getRowIndex(): int
-    {
+    public function getRowIndex(): int {
+
         return $this->rowIndex;
     }
 
@@ -52,8 +52,8 @@ class Row
      * @param string $startColumn The column address at which to start iterating
      * @param string $endColumn Optionally, the column address at which to stop iterating
      */
-    public function getCellIterator($startColumn = 'A', $endColumn = null): RowCellIterator
-    {
+    public function getCellIterator($startColumn = 'A', $endColumn = null): RowCellIterator {
+
         return new RowCellIterator($this->worksheet, $this->rowIndex, $startColumn, $endColumn);
     }
 
@@ -63,8 +63,8 @@ class Row
      * @param string $startColumn The column address at which to start iterating
      * @param string $endColumn Optionally, the column address at which to stop iterating
      */
-    public function getColumnIterator($startColumn = 'A', $endColumn = null): RowCellIterator
-    {
+    public function getColumnIterator($startColumn = 'A', $endColumn = null): RowCellIterator {
+
         return $this->getCellIterator($startColumn, $endColumn);
     }
 
@@ -87,19 +87,22 @@ class Row
      * @param string $startColumn The column address at which to start checking if cells are empty
      * @param string $endColumn Optionally, the column address at which to stop checking if cells are empty
      */
-    public function isEmpty(int $definitionOfEmptyFlags = 0, $startColumn = 'A', $endColumn = null): bool
-    {
+    public function isEmpty(int $definitionOfEmptyFlags = 0, $startColumn = 'A', $endColumn = null): bool{
+
         $nullValueCellIsEmpty = (bool) ($definitionOfEmptyFlags & CellIterator::TREAT_NULL_VALUE_AS_EMPTY_CELL);
         $emptyStringCellIsEmpty = (bool) ($definitionOfEmptyFlags & CellIterator::TREAT_EMPTY_STRING_AS_EMPTY_CELL);
 
         $cellIterator = $this->getCellIterator($startColumn, $endColumn);
         $cellIterator->setIterateOnlyExistingCells(true);
+
         foreach ($cellIterator as $cell) {
             /** @scrutinizer ignore-call */
             $value = $cell->getValue();
+
             if ($value === null && $nullValueCellIsEmpty === true) {
                 continue;
             }
+
             if ($value === '' && $emptyStringCellIsEmpty === true) {
                 continue;
             }
@@ -113,8 +116,9 @@ class Row
     /**
      * Returns bound worksheet.
      */
-    public function getWorksheet(): Worksheet
-    {
+    public function getWorksheet(): Worksheet {
+
         return $this->worksheet;
     }
+
 }

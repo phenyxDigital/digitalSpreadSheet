@@ -8,17 +8,18 @@ use phenyxDigitale\digitalSpreadSheet\Shared\Date;
 use phenyxDigitale\digitalSpreadSheet\Shared\XMLWriter;
 use phenyxDigitale\digitalSpreadSheet\Spreadsheet;
 
-class DocProps extends WriterPart
-{
+class DocProps extends WriterPart {
+
     /**
      * Write docProps/app.xml to XML format.
      *
      * @return string XML Output
      */
-    public function writeDocPropsApp(Spreadsheet $spreadsheet)
-    {
+    public function writeDocPropsApp(Spreadsheet $spreadsheet) {
+
         // Create XML writer
         $objWriter = null;
+
         if ($this->getParentWriter()->getUseDiskCaching()) {
             $objWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
@@ -73,6 +74,7 @@ class DocProps extends WriterPart
         $objWriter->writeAttribute('baseType', 'lpstr');
 
         $sheetCount = $spreadsheet->getSheetCount();
+
         for ($i = 0; $i < $sheetCount; ++$i) {
             $objWriter->writeElement('vt:lpstr', $spreadsheet->getSheet($i)->getTitle());
         }
@@ -110,10 +112,11 @@ class DocProps extends WriterPart
      *
      * @return string XML Output
      */
-    public function writeDocPropsCore(Spreadsheet $spreadsheet)
-    {
+    public function writeDocPropsCore(Spreadsheet $spreadsheet) {
+
         // Create XML writer
         $objWriter = null;
+
         if ($this->getParentWriter()->getUseDiskCaching()) {
             $objWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
@@ -179,15 +182,17 @@ class DocProps extends WriterPart
      *
      * @return null|string XML Output
      */
-    public function writeDocPropsCustom(Spreadsheet $spreadsheet)
-    {
+    public function writeDocPropsCustom(Spreadsheet $spreadsheet) {
+
         $customPropertyList = $spreadsheet->getProperties()->getCustomProperties();
+
         if (empty($customPropertyList)) {
             return null;
         }
 
         // Create XML writer
         $objWriter = null;
+
         if ($this->getParentWriter()->getUseDiskCaching()) {
             $objWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
@@ -212,29 +217,29 @@ class DocProps extends WriterPart
             $objWriter->writeAttribute('name', $customProperty);
 
             switch ($propertyType) {
-                case Properties::PROPERTY_TYPE_INTEGER:
-                    $objWriter->writeElement('vt:i4', $propertyValue);
+            case Properties::PROPERTY_TYPE_INTEGER:
+                $objWriter->writeElement('vt:i4', $propertyValue);
 
-                    break;
-                case Properties::PROPERTY_TYPE_FLOAT:
-                    $objWriter->writeElement('vt:r8', sprintf('%F', $propertyValue));
+                break;
+            case Properties::PROPERTY_TYPE_FLOAT:
+                $objWriter->writeElement('vt:r8', sprintf('%F', $propertyValue));
 
-                    break;
-                case Properties::PROPERTY_TYPE_BOOLEAN:
-                    $objWriter->writeElement('vt:bool', ($propertyValue) ? 'true' : 'false');
+                break;
+            case Properties::PROPERTY_TYPE_BOOLEAN:
+                $objWriter->writeElement('vt:bool', ($propertyValue) ? 'true' : 'false');
 
-                    break;
-                case Properties::PROPERTY_TYPE_DATE:
-                    $objWriter->startElement('vt:filetime');
-                    $date = Date::dateTimeFromTimestamp("$propertyValue");
-                    $objWriter->writeRawData($date->format(DATE_W3C));
-                    $objWriter->endElement();
+                break;
+            case Properties::PROPERTY_TYPE_DATE:
+                $objWriter->startElement('vt:filetime');
+                $date = Date::dateTimeFromTimestamp("$propertyValue");
+                $objWriter->writeRawData($date->format(DATE_W3C));
+                $objWriter->endElement();
 
-                    break;
-                default:
-                    $objWriter->writeElement('vt:lpwstr', $propertyValue);
+                break;
+            default:
+                $objWriter->writeElement('vt:lpwstr', $propertyValue);
 
-                    break;
+                break;
             }
 
             $objWriter->endElement();
@@ -244,4 +249,5 @@ class DocProps extends WriterPart
 
         return $objWriter->getData();
     }
+
 }

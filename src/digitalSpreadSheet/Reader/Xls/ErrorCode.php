@@ -2,8 +2,8 @@
 
 namespace phenyxDigitale\digitalSpreadSheet\Reader\Xls;
 
-class ErrorCode
-{
+class ErrorCode {
+
     private const ERROR_CODE_MAP = [
         0x00 => '#NULL!',
         0x07 => '#DIV/0!',
@@ -21,8 +21,8 @@ class ErrorCode
      *
      * @return bool|string
      */
-    public static function lookup($code)
-    {
+    public static function lookup($code) {
+
         return self::ERROR_CODE_MAP[$code] ?? false;
     }
 }

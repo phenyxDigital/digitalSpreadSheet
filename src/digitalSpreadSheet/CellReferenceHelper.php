@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet;
 use phenyxDigitale\digitalSpreadSheet\Cell\AddressRange;
 use phenyxDigitale\digitalSpreadSheet\Cell\Coordinate;
 
-class CellReferenceHelper
-{
+class CellReferenceHelper {
+
     /**
      * @var string
      */
@@ -32,8 +32,8 @@ class CellReferenceHelper
      */
     protected $numberOfRows;
 
-    public function __construct(string $beforeCellAddress = 'A1', int $numberOfColumns = 0, int $numberOfRows = 0)
-    {
+    public function __construct(string $beforeCellAddress = 'A1', int $numberOfColumns = 0, int $numberOfRows = 0) {
+        
         $this->beforeCellAddress = str_replace('$', '', $beforeCellAddress);
         $this->numberOfColumns = $numberOfColumns;
         $this->numberOfRows = $numberOfRows;
@@ -44,20 +44,20 @@ class CellReferenceHelper
         $this->beforeRow = (int) $beforeRow;
     }
 
-    public function beforeCellAddress(): string
-    {
+    public function beforeCellAddress(): string {
+
         return $this->beforeCellAddress;
     }
 
-    public function refreshRequired(string $beforeCellAddress, int $numberOfColumns, int $numberOfRows): bool
-    {
+    public function refreshRequired(string $beforeCellAddress, int $numberOfColumns, int $numberOfRows): bool {
+
         return $this->beforeCellAddress !== $beforeCellAddress ||
-            $this->numberOfColumns !== $numberOfColumns ||
-            $this->numberOfRows !== $numberOfRows;
+        $this->numberOfColumns !== $numberOfColumns ||
+        $this->numberOfRows !== $numberOfRows;
     }
 
-    public function updateCellReference(string $cellReference = 'A1', bool $includeAbsoluteReferences = false): string
-    {
+    public function updateCellReference(string $cellReference = 'A1', bool $includeAbsoluteReferences = false): string {
+
         if (Coordinate::coordinateIsRange($cellReference)) {
             throw new Exception('Only single cell references may be passed to this method.');
         }
@@ -70,6 +70,7 @@ class CellReferenceHelper
         $absoluteColumn = $newColumn[0] === '$' ? '$' : '';
         $absoluteRow = $newRow[0] === '$' ? '$' : '';
         // Verify which parts should be updated
+
         if ($includeAbsoluteReferences === false) {
             $updateColumn = (($absoluteColumn !== '$') && $newColumnIndex >= $this->beforeColumn);
             $updateRow = (($absoluteRow !== '$') && $newRowIndex >= $this->beforeRow);
@@ -79,11 +80,13 @@ class CellReferenceHelper
         }
 
         // Create new column reference
+
         if ($updateColumn) {
             $newColumn = $this->updateColumnReference($newColumnIndex, $absoluteColumn);
         }
 
         // Create new row reference
+
         if ($updateRow) {
             $newRow = $this->updateRowReference($newRowIndex, $absoluteRow);
         }
@@ -92,18 +95,19 @@ class CellReferenceHelper
         return "{$newColumn}{$newRow}";
     }
 
-    public function cellAddressInDeleteRange(string $cellAddress): bool
-    {
+    public function cellAddressInDeleteRange(string $cellAddress): bool {
+
         [$cellColumn, $cellRow] = Coordinate::coordinateFromString($cellAddress);
         $cellColumnIndex = Coordinate::columnIndexFromString($cellColumn);
         //    Is cell within the range of rows/columns if we're deleting
+
         if (
             $this->numberOfRows < 0 &&
             ($cellRow >= ($this->beforeRow + $this->numberOfRows)) &&
             ($cellRow < $this->beforeRow)
         ) {
             return true;
-        } elseif (
+        } else if (
             $this->numberOfColumns < 0 &&
             ($cellColumnIndex >= ($this->beforeColumn + $this->numberOfColumns)) &&
             ($cellColumnIndex < $this->beforeColumn)
@@ -114,18 +118,19 @@ class CellReferenceHelper
         return false;
     }
 
-    protected function updateColumnReference(int $newColumnIndex, string $absoluteColumn): string
-    {
+    protected function updateColumnReference(int $newColumnIndex, string $absoluteColumn): string{
+
         $newColumn = Coordinate::stringFromColumnIndex(min($newColumnIndex + $this->numberOfColumns, AddressRange::MAX_COLUMN_INT));
 
         return $absoluteColumn . $newColumn;
     }
 
-    protected function updateRowReference(int $newRowIndex, string $absoluteRow): string
-    {
+    protected function updateRowReference(int $newRowIndex, string $absoluteRow): string{
+
         $newRow = $newRowIndex + $this->numberOfRows;
         $newRow = ($newRow > AddressRange::MAX_ROW) ? AddressRange::MAX_ROW : $newRow;
 
         return $absoluteRow . (string) $newRow;
     }
+
 }

@@ -11,8 +11,8 @@ use phenyxDigitale\digitalSpreadSheet\Collection\Cells;
  *
  * @implements NativeIterator<TKey, Cell>
  */
-abstract class CellIterator implements NativeIterator
-{
+abstract class CellIterator implements NativeIterator {
+
     public const TREAT_NULL_VALUE_AS_EMPTY_CELL = 1;
 
     public const TREAT_EMPTY_STRING_AS_EMPTY_CELL = 2;
@@ -53,27 +53,27 @@ abstract class CellIterator implements NativeIterator
     /**
      * Destructor.
      */
-    public function __destruct()
-    {
+    public function __destruct() {
+
         // @phpstan-ignore-next-line
         $this->worksheet = $this->cellCollection = null;
     }
 
-    public function getIfNotExists(): bool
-    {
+    public function getIfNotExists(): bool {
+
         return $this->ifNotExists;
     }
 
-    public function setIfNotExists(bool $ifNotExists = self::IF_NOT_EXISTS_CREATE_NEW): void
-    {
+    public function setIfNotExists(bool $ifNotExists = self::IF_NOT_EXISTS_CREATE_NEW): void{
+
         $this->ifNotExists = $ifNotExists;
     }
 
     /**
      * Get loop only existing cells.
      */
-    public function getIterateOnlyExistingCells(): bool
-    {
+    public function getIterateOnlyExistingCells(): bool {
+
         return $this->onlyExistingCells;
     }
 
@@ -85,8 +85,8 @@ abstract class CellIterator implements NativeIterator
     /**
      * Set the iterator to loop only existing cells.
      */
-    public function setIterateOnlyExistingCells(bool $value): void
-    {
+    public function setIterateOnlyExistingCells(bool $value): void{
+
         $this->onlyExistingCells = (bool) $value;
 
         $this->adjustForExistingOnlyRange();

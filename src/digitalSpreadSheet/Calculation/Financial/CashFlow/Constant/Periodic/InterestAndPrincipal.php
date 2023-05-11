@@ -4,8 +4,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Calculation\Financial\CashFlow\Const
 
 use phenyxDigitale\digitalSpreadSheet\Calculation\Financial\Constants as FinancialConstants;
 
-class InterestAndPrincipal
-{
+class InterestAndPrincipal {
+
     /** @var float */
     protected $interest;
 
@@ -20,10 +20,12 @@ class InterestAndPrincipal
         float $futureValue = 0,
         int $type = FinancialConstants::PAYMENT_END_OF_PERIOD
     ) {
+
         $payment = Payments::annuity($rate, $numberOfPeriods, $presentValue, $futureValue, $type);
         $capital = $presentValue;
         $interest = 0.0;
         $principal = 0.0;
+
         for ($i = 1; $i <= $period; ++$i) {
             $interest = ($type === FinancialConstants::PAYMENT_BEGINNING_OF_PERIOD && $i == 1) ? 0 : -$capital * $rate;
             $principal = (float) $payment - $interest;
@@ -34,13 +36,14 @@ class InterestAndPrincipal
         $this->principal = $principal;
     }
 
-    public function interest(): float
-    {
+    public function interest(): float {
+
         return $this->interest;
     }
 
-    public function principal(): float
-    {
+    public function principal(): float {
+
         return $this->principal;
     }
+
 }

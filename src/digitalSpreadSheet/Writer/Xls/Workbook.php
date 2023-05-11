@@ -45,8 +45,8 @@ use phenyxDigitale\digitalSpreadSheet\Style\Style;
 // *    License along with this library; if not, write to the Free Software
 // *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 // */
-class Workbook extends BIFFwriter
-{
+class Workbook extends BIFFwriter {
+
     /**
      * Formula parser.
      *
@@ -188,8 +188,8 @@ class Workbook extends BIFFwriter
      * @param array $colors Colour Table
      * @param Parser $parser The formula parser created for the Workbook
      */
-    public function __construct(Spreadsheet $spreadsheet, &$str_total, &$str_unique, &$str_table, &$colors, Parser $parser)
-    {
+    public function __construct(Spreadsheet $spreadsheet, &$str_total, &$str_unique, &$str_table, &$colors, Parser $parser) {
+
         // It needs to call its parent's constructor explicitly
         parent::__construct();
 
@@ -210,6 +210,7 @@ class Workbook extends BIFFwriter
 
         // Add empty sheets and Build color cache
         $countSheets = $spreadsheet->getSheetCount();
+
         for ($i = 0; $i < $countSheets; ++$i) {
             $phpSheet = $spreadsheet->getSheet($i);
 
@@ -220,10 +221,13 @@ class Workbook extends BIFFwriter
             $this->parser->references[] = $ref; // Register reference with parser
 
             // Sheet tab colors?
+
             if ($phpSheet->isTabColorSet()) {
                 $this->addColor($phpSheet->getTabColor()->getRGB());
             }
+
         }
+
     }
 
     /**
@@ -233,8 +237,8 @@ class Workbook extends BIFFwriter
      *
      * @return int Index to XF record
      */
-    public function addXfWriter(Style $style, $isStyleXf = false)
-    {
+    public function addXfWriter(Style $style, $isStyleXf = false) {
+
         $xfWriter = new Xf($style);
         $xfWriter->setIsStyleXf($isStyleXf);
 
@@ -254,6 +258,7 @@ class Workbook extends BIFFwriter
         $xfWriter->setDiagColor($this->addColor($style->getBorders()->getDiagonal()->getColor()->getRGB()));
 
         // Add the number format if it is not a built-in one and not already added
+
         if ($style->getNumberFormat()->getBuiltInFormatCode() === self::$scrutinizerFalse) {
             $numberFormatHashCode = $style->getNumberFormat()->getHashCode();
 
@@ -264,6 +269,7 @@ class Workbook extends BIFFwriter
                 $this->numberFormats[$numberFormatIndex] = $style->getNumberFormat();
                 $this->addedNumberFormats[$numberFormatHashCode] = $numberFormatIndex;
             }
+
         } else {
             $numberFormatIndex = (int) $style->getNumberFormat()->getBuiltInFormatCode();
         }
@@ -281,9 +287,10 @@ class Workbook extends BIFFwriter
      *
      * @return int Index to FONT record
      */
-    public function addFont(\phenyxDigitale\digitalSpreadSheet\Style\Font $font)
-    {
+    public function addFont(\phenyxDigitale\digitalSpreadSheet\Style\Font $font) {
+
         $fontHashCode = $font->getHashCode();
+
         if (isset($this->addedFonts[$fontHashCode])) {
             $fontIndex = $this->addedFonts[$fontHashCode];
         } else {
@@ -307,25 +314,28 @@ class Workbook extends BIFFwriter
      *
      * @return int Color index
      */
-    private function addColor($rgb)
-    {
+    private function addColor($rgb) {
+
         if (!isset($this->colors[$rgb])) {
             $color =
                 [
-                    hexdec(substr($rgb, 0, 2)),
-                    hexdec(substr($rgb, 2, 2)),
-                    hexdec(substr($rgb, 4)),
-                    0,
-                ];
+                hexdec(substr($rgb, 0, 2)),
+                hexdec(substr($rgb, 2, 2)),
+                hexdec(substr($rgb, 4)),
+                0,
+            ];
             $colorIndex = array_search($color, $this->palette);
+
             if ($colorIndex) {
                 $this->colors[$rgb] = $colorIndex;
             } else {
+
                 if (count($this->colors) === 0) {
                     $lastColor = 7;
                 } else {
                     $lastColor = end($this->colors);
                 }
+
                 if ($lastColor < 57) {
                     // then we add a custom color altering the palette
                     $colorIndex = $lastColor + 1;
@@ -335,7 +345,9 @@ class Workbook extends BIFFwriter
                     // no room for more custom colors, just map to black
                     $colorIndex = 0;
                 }
+
             }
+
         } else {
             // fetch already added custom color
             $colorIndex = $this->colors[$rgb];
@@ -347,8 +359,8 @@ class Workbook extends BIFFwriter
     /**
      * Sets the colour palette to the Excel 97+ default.
      */
-    private function setPaletteXl97(): void
-    {
+    private function setPaletteXl97(): void{
+
         $this->palette = [
             0x08 => [0x00, 0x00, 0x00, 0x00],
             0x09 => [0xff, 0xff, 0xff, 0x00],
@@ -417,8 +429,8 @@ class Workbook extends BIFFwriter
      *
      * @return string Binary data for workbook stream
      */
-    public function writeWorkbook(array $worksheetSizes)
-    {
+    public function writeWorkbook(array $worksheetSizes) {
+
         $this->worksheetSizes = $worksheetSizes;
 
         // Calculate the number of selected worksheet tabs and call the finalization
@@ -439,9 +451,11 @@ class Workbook extends BIFFwriter
 
         // Prepare part 3 of the workbook global stream, what goes after the SHEET records
         $part3 = '';
+
         if ($this->countryCode !== -1) {
             $part3 .= $this->writeCountry();
         }
+
         $part3 .= $this->writeRecalcId();
 
         $part3 .= $this->writeSupbookInternal();
@@ -456,6 +470,7 @@ class Workbook extends BIFFwriter
 
         // Add part 2 of the Workbook globals, the SHEET records
         $this->calcSheetOffsets();
+
         for ($i = 0; $i < $total_worksheets; ++$i) {
             $this->writeBoundSheet($this->spreadsheet->getSheet($i), $this->worksheetOffsets[$i]);
         }
@@ -469,8 +484,8 @@ class Workbook extends BIFFwriter
     /**
      * Calculate offsets for Worksheet BOF records.
      */
-    private function calcSheetOffsets(): void
-    {
+    private function calcSheetOffsets(): void{
+
         $boundsheet_length = 10; // fixed length for a BOUNDSHEET record
 
         // size of Workbook globals part 1 + 3
@@ -478,58 +493,64 @@ class Workbook extends BIFFwriter
 
         // add size of Workbook globals part 2, the length of the SHEET records
         $total_worksheets = count($this->spreadsheet->getAllSheets());
+
         foreach ($this->spreadsheet->getWorksheetIterator() as $sheet) {
             $offset += $boundsheet_length + strlen(StringHelper::UTF8toBIFF8UnicodeShort($sheet->getTitle()));
         }
 
         // add the sizes of each of the Sheet substreams, respectively
+
         for ($i = 0; $i < $total_worksheets; ++$i) {
             $this->worksheetOffsets[$i] = $offset;
             $offset += $this->worksheetSizes[$i];
         }
+
         $this->biffSize = $offset;
     }
 
     /**
      * Store the Excel FONT records.
      */
-    private function writeAllFonts(): void
-    {
+    private function writeAllFonts(): void {
+
         foreach ($this->fontWriters as $fontWriter) {
             $this->append($fontWriter->writeFont());
         }
+
     }
 
     /**
      * Store user defined numerical formats i.e. FORMAT records.
      */
-    private function writeAllNumberFormats(): void
-    {
+    private function writeAllNumberFormats(): void {
+
         foreach ($this->numberFormats as $numberFormatIndex => $numberFormat) {
             $this->writeNumberFormat($numberFormat->getFormatCode(), $numberFormatIndex);
         }
+
     }
 
     /**
      * Write all XF records.
      */
-    private function writeAllXfs(): void
-    {
+    private function writeAllXfs(): void {
+
         foreach ($this->xfWriters as $xfWriter) {
             $this->append($xfWriter->writeXf());
         }
+
     }
 
     /**
      * Write all STYLE records.
      */
-    private function writeAllStyles(): void
-    {
+    private function writeAllStyles(): void{
+
         $this->writeStyle();
     }
 
-    private function parseDefinedNameValue(DefinedName $definedName): string
-    {
+    private function parseDefinedNameValue(DefinedName $definedName): string{
+
         $definedRange = $definedName->getValue();
         $splitCount = preg_match_all(
             '/' . Calculation::CALCULATION_REGEXP_CELLREF . '/mui',
@@ -554,14 +575,18 @@ class Workbook extends BIFFwriter
             $row = $rows[$splitCount][0];
 
             $newRange = '';
+
             if (empty($worksheet)) {
+
                 if (($offset === 0) || ($definedRange[$offset - 1] !== ':')) {
                     // We should have a worksheet
                     $worksheet = $definedName->getWorksheet() ? $definedName->getWorksheet()->getTitle() : null;
                 }
+
             } else {
                 $worksheet = str_replace("''", "'", trim($worksheet, "'"));
             }
+
             if (!empty($worksheet)) {
                 $newRange = "'" . str_replace("'", "''", $worksheet) . "'!";
             }
@@ -569,6 +594,7 @@ class Workbook extends BIFFwriter
             if (!empty($column)) {
                 $newRange .= "\${$column}";
             }
+
             if (!empty($row)) {
                 $newRange .= "\${$row}";
             }
@@ -583,14 +609,16 @@ class Workbook extends BIFFwriter
      * Writes all the DEFINEDNAME records (BIFF8).
      * So far this is only used for repeating rows/columns (print titles) and print areas.
      */
-    private function writeAllDefinedNamesBiff8(): string
-    {
+    private function writeAllDefinedNamesBiff8(): string{
+
         $chunk = '';
 
         // Named ranges
         $definedNames = $this->spreadsheet->getDefinedNames();
+
         if (count($definedNames) > 0) {
             // Loop named ranges
+
             foreach ($definedNames as $definedName) {
                 $range = $this->parseDefinedNameValue($definedName);
 
@@ -600,6 +628,7 @@ class Workbook extends BIFFwriter
                     $formulaData = $this->parser->toReversePolish();
 
                     // make sure tRef3d is of type tRef3dR (0x3A)
+
                     if (isset($formulaData[0]) && ($formulaData[0] == "\x7A" || $formulaData[0] == "\x5A")) {
                         $formulaData = "\x3A" . substr($formulaData, 1);
                     }
@@ -612,20 +641,25 @@ class Workbook extends BIFFwriter
                         // global scope
                         $scope = 0;
                     }
+
                     $chunk .= $this->writeData($this->writeDefinedNameBiff8($definedName->getName(), $formulaData, $scope, false));
                 } catch (PhenyxXlsException $e) {
                     // do nothing
                 }
+
             }
+
         }
 
         // total number of sheets
         $total_worksheets = $this->spreadsheet->getSheetCount();
 
         // write the print titles (repeating rows, columns), if any
+
         for ($i = 0; $i < $total_worksheets; ++$i) {
             $sheetSetup = $this->spreadsheet->getSheet($i)->getPageSetup();
             // simultaneous repeatColumns repeatRows
+
             if ($sheetSetup->isColumnsToRepeatAtLeftSet() && $sheetSetup->isRowsToRepeatAtTopSet()) {
                 $repeat = $sheetSetup->getColumnsToRepeatAtLeft();
                 $colmin = Coordinate::columnIndexFromString($repeat[0]) - 1;
@@ -644,9 +678,10 @@ class Workbook extends BIFFwriter
                 // store the DEFINEDNAME record
                 $chunk .= $this->writeData($this->writeDefinedNameBiff8(pack('C', 0x07), $formulaData, $i + 1, true));
 
-            // (exclusive) either repeatColumns or repeatRows
-            } elseif ($sheetSetup->isColumnsToRepeatAtLeftSet() || $sheetSetup->isRowsToRepeatAtTopSet()) {
+                // (exclusive) either repeatColumns or repeatRows
+            } else if ($sheetSetup->isColumnsToRepeatAtLeftSet() || $sheetSetup->isRowsToRepeatAtTopSet()) {
                 // Columns to repeat
+
                 if ($sheetSetup->isColumnsToRepeatAtLeftSet()) {
                     $repeat = $sheetSetup->getColumnsToRepeatAtLeft();
                     $colmin = Coordinate::columnIndexFromString($repeat[0]) - 1;
@@ -655,7 +690,9 @@ class Workbook extends BIFFwriter
                     $colmin = 0;
                     $colmax = 255;
                 }
+
                 // Rows to repeat
+
                 if ($sheetSetup->isRowsToRepeatAtTopSet()) {
                     $repeat = $sheetSetup->getRowsToRepeatAtTop();
                     $rowmin = $repeat[0] - 1;
@@ -671,17 +708,21 @@ class Workbook extends BIFFwriter
                 // store the DEFINEDNAME record
                 $chunk .= $this->writeData($this->writeDefinedNameBiff8(pack('C', 0x07), $formulaData, $i + 1, true));
             }
+
         }
 
         // write the print areas, if any
+
         for ($i = 0; $i < $total_worksheets; ++$i) {
             $sheetSetup = $this->spreadsheet->getSheet($i)->getPageSetup();
+
             if ($sheetSetup->isPrintAreaSet()) {
                 // Print area, e.g. A3:J6,H1:X20
                 $printArea = Coordinate::splitRange($sheetSetup->getPrintArea());
                 $countPrintArea = count($printArea);
 
                 $formulaData = '';
+
                 for ($j = 0; $j < $countPrintArea; ++$j) {
                     $printAreaRect = $printArea[$j]; // e.g. A3:J6
                     $printAreaRect[0] = Coordinate::indexesFromString($printAreaRect[0]);
@@ -698,17 +739,21 @@ class Workbook extends BIFFwriter
                     if ($j > 0) {
                         $formulaData .= pack('C', 0x10); // list operator token ','
                     }
+
                 }
 
                 // store the DEFINEDNAME record
                 $chunk .= $this->writeData($this->writeDefinedNameBiff8(pack('C', 0x06), $formulaData, $i + 1, true));
             }
+
         }
 
         // write autofilters, if any
+
         for ($i = 0; $i < $total_worksheets; ++$i) {
             $sheetAutoFilter = $this->spreadsheet->getSheet($i)->getAutoFilter();
             $autoFilterRange = $sheetAutoFilter->getRange();
+
             if (!empty($autoFilterRange)) {
                 $rangeBounds = Coordinate::rangeBoundaries($autoFilterRange);
 
@@ -717,6 +762,7 @@ class Workbook extends BIFFwriter
 
                 $chunk .= $this->writeData($this->writeShortNameBiff8($name, $i + 1, $rangeBounds, true));
             }
+
         }
 
         return $chunk;
@@ -732,8 +778,8 @@ class Workbook extends BIFFwriter
      *
      * @return string Complete binary record data
      */
-    private function writeDefinedNameBiff8($name, $formulaData, $sheetIndex = 0, $isBuiltIn = false)
-    {
+    private function writeDefinedNameBiff8($name, $formulaData, $sheetIndex = 0, $isBuiltIn = false) {
+
         $record = 0x0018;
 
         // option flags
@@ -768,8 +814,8 @@ class Workbook extends BIFFwriter
      *
      * @return string Complete binary record data
      * */
-    private function writeShortNameBiff8($name, $sheetIndex, $rangeBounds, $isHidden = false)
-    {
+    private function writeShortNameBiff8($name, $sheetIndex, $rangeBounds, $isHidden = false) {
+
         $record = 0x0018;
 
         // option flags
@@ -801,8 +847,8 @@ class Workbook extends BIFFwriter
     /**
      * Stores the CODEPAGE biff record.
      */
-    private function writeCodepage(): void
-    {
+    private function writeCodepage(): void{
+
         $record = 0x0042; // Record identifier
         $length = 0x0002; // Number of bytes to follow
         $cv = $this->codepage; // The code page
@@ -816,8 +862,8 @@ class Workbook extends BIFFwriter
     /**
      * Write Excel BIFF WINDOW1 record.
      */
-    private function writeWindow1(): void
-    {
+    private function writeWindow1(): void{
+
         $record = 0x003D; // Record identifier
         $length = 0x0012; // Number of bytes to follow
 
@@ -847,29 +893,30 @@ class Workbook extends BIFFwriter
      *
      * @param int $offset Location of worksheet BOF
      */
-    private function writeBoundSheet(\phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet $sheet, $offset): void
-    {
+    private function writeBoundSheet(\phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet $sheet, $offset): void{
+
         $sheetname = $sheet->getTitle();
         $record = 0x0085; // Record identifier
 
         // sheet state
+
         switch ($sheet->getSheetState()) {
-            case \phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet::SHEETSTATE_VISIBLE:
-                $ss = 0x00;
+        case \phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet::SHEETSTATE_VISIBLE:
+            $ss = 0x00;
 
-                break;
-            case \phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet::SHEETSTATE_HIDDEN:
-                $ss = 0x01;
+            break;
+        case \phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet::SHEETSTATE_HIDDEN:
+            $ss = 0x01;
 
-                break;
-            case \phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet::SHEETSTATE_VERYHIDDEN:
-                $ss = 0x02;
+            break;
+        case \phenyxDigitale\digitalSpreadSheet\Worksheet\Worksheet::SHEETSTATE_VERYHIDDEN:
+            $ss = 0x02;
 
-                break;
-            default:
-                $ss = 0x00;
+            break;
+        default:
+            $ss = 0x00;
 
-                break;
+            break;
         }
 
         // sheet type
@@ -888,8 +935,8 @@ class Workbook extends BIFFwriter
     /**
      * Write Internal SUPBOOK record.
      */
-    private function writeSupbookInternal(): string
-    {
+    private function writeSupbookInternal(): string{
+
         $record = 0x01AE; // Record identifier
         $length = 0x0004; // Bytes to follow
 
@@ -903,8 +950,8 @@ class Workbook extends BIFFwriter
      * Writes the Excel BIFF EXTERNSHEET record. These references are used by
      * formulas.
      */
-    private function writeExternalsheetBiff8(): string
-    {
+    private function writeExternalsheetBiff8(): string{
+
         $totalReferences = count($this->parser->references);
         $record = 0x0017; // Record identifier
         $length = 2 + 6 * $totalReferences; // Number of bytes to follow
@@ -912,6 +959,7 @@ class Workbook extends BIFFwriter
         //$supbook_index = 0; // FIXME: only using internal SUPBOOK record
         $header = pack('vv', $record, $length);
         $data = pack('v', $totalReferences);
+
         for ($i = 0; $i < $totalReferences; ++$i) {
             $data .= $this->parser->references[$i];
         }
@@ -922,8 +970,8 @@ class Workbook extends BIFFwriter
     /**
      * Write Excel BIFF STYLE records.
      */
-    private function writeStyle(): void
-    {
+    private function writeStyle(): void{
+
         $record = 0x0293; // Record identifier
         $length = 0x0004; // Bytes to follow
 
@@ -942,8 +990,8 @@ class Workbook extends BIFFwriter
      * @param string $format Custom format string
      * @param int $ifmt Format index code
      */
-    private function writeNumberFormat($format, $ifmt): void
-    {
+    private function writeNumberFormat($format, $ifmt): void{
+
         $record = 0x041E; // Record identifier
 
         $numberFormatString = StringHelper::UTF8toBIFF8UnicodeLong($format);
@@ -957,14 +1005,14 @@ class Workbook extends BIFFwriter
     /**
      * Write DATEMODE record to indicate the date system in use (1904 or 1900).
      */
-    private function writeDateMode(): void
-    {
+    private function writeDateMode(): void{
+
         $record = 0x0022; // Record identifier
         $length = 0x0002; // Bytes to follow
 
         $f1904 = (Date::getExcelCalendar() === Date::CALENDAR_MAC_1904)
-            ? 1
-            : 0; // Flag for 1904 date system
+        ? 1
+        : 0; // Flag for 1904 date system
 
         $header = pack('vv', $record, $length);
         $data = pack('v', $f1904);
@@ -976,8 +1024,8 @@ class Workbook extends BIFFwriter
      *
      * @return string
      */
-    private function writeCountry()
-    {
+    private function writeCountry() {
+
         $record = 0x008C; // Record identifier
         $length = 4; // Number of bytes to follow
 
@@ -993,8 +1041,8 @@ class Workbook extends BIFFwriter
      *
      * @return string
      */
-    private function writeRecalcId()
-    {
+    private function writeRecalcId() {
+
         $record = 0x01C1; // Record identifier
         $length = 8; // Number of bytes to follow
 
@@ -1009,8 +1057,8 @@ class Workbook extends BIFFwriter
     /**
      * Stores the PALETTE biff record.
      */
-    private function writePalette(): void
-    {
+    private function writePalette(): void{
+
         $aref = $this->palette;
 
         $record = 0x0092; // Record identifier
@@ -1019,10 +1067,13 @@ class Workbook extends BIFFwriter
         $data = ''; // The RGB data
 
         // Pack the RGB data
+
         foreach ($aref as $color) {
+
             foreach ($color as $byte) {
                 $data .= pack('C', $byte);
             }
+
         }
 
         $header = pack('vvv', $record, $length, $ccv);
@@ -1043,8 +1094,8 @@ class Workbook extends BIFFwriter
      *
      * @return string Binary data
      */
-    private function writeSharedStringsTable()
-    {
+    private function writeSharedStringsTable() {
+
         // maximum size of record data (excluding record header)
         $continue_limit = 8224;
 
@@ -1055,6 +1106,7 @@ class Workbook extends BIFFwriter
         $recordData = pack('VV', $this->stringTotal, $this->stringUnique);
 
         // loop through all (unique) strings in shared strings table
+
         foreach (array_keys($this->stringTable) as $string) {
             // here $string is a BIFF8 encoded string
 
@@ -1103,6 +1155,7 @@ class Workbook extends BIFFwriter
                     //        here we write as much as we can in the current block, then move to next record data block
 
                     // 1. space remaining is less than minimum space needed
+
                     if ($space_remaining < $min_space_needed) {
                         // we close the block, store the block data
                         $recordDatas[] = $recordData;
@@ -1110,12 +1163,13 @@ class Workbook extends BIFFwriter
                         // and start new record data block where we start writing the string
                         $recordData = '';
 
-                    // 2. space remaining is greater than or equal to minimum space needed
+                        // 2. space remaining is greater than or equal to minimum space needed
                     } else {
                         // initialize effective remaining space, for Unicode strings this may need to be reduced by 1, see below
                         $effective_space_remaining = $space_remaining;
 
                         // for uncompressed strings, sometimes effective space remaining is reduced by 1
+
                         if ($encoding == 1 && (strlen($string) - $space_remaining) % 2 == 1) {
                             --$effective_space_remaining;
                         }
@@ -1129,18 +1183,23 @@ class Workbook extends BIFFwriter
                         // start new record data block with the repeated option flags
                         $recordData = pack('C', $encoding);
                     }
+
                 }
+
             }
+
         }
 
         // Store the last record data block unless it is empty
         // if there was no need for any continue records, this will be the for SST record data block itself
+
         if (strlen($recordData) > 0) {
             $recordDatas[] = $recordData;
         }
 
         // combine into one chunk with all the blocks SST, CONTINUE,...
         $chunk = '';
+
         foreach ($recordDatas as $i => $recordData) {
             // first block should have the SST record header, remaing should have CONTINUE header
             $record = ($i == 0) ? 0x00FC : 0x003C;
@@ -1157,9 +1216,10 @@ class Workbook extends BIFFwriter
     /**
      * Writes the MSODRAWINGGROUP record if needed. Possibly split using CONTINUE records.
      */
-    private function writeMsoDrawingGroup(): string
-    {
+    private function writeMsoDrawingGroup() : string {
+
         // write the Escher stream if necessary
+
         if (isset($this->escher)) {
             $writer = new Escher($this->escher);
             $data = $writer->close();
@@ -1177,16 +1237,17 @@ class Workbook extends BIFFwriter
     /**
      * Get Escher object.
      */
-    public function getEscher(): ?\phenyxDigitale\digitalSpreadSheet\Shared\Escher
-    {
+    public function getEscher() :  ? \phenyxDigitale\digitalSpreadSheet\Shared\Escher {
+
         return $this->escher;
     }
 
     /**
      * Set Escher object.
      */
-    public function setEscher(?\phenyxDigitale\digitalSpreadSheet\Shared\Escher $escher): void
-    {
+    public function setEscher( ? \phenyxDigitale\digitalSpreadSheet\Shared\Escher $escher) : void{
+
         $this->escher = $escher;
     }
+
 }

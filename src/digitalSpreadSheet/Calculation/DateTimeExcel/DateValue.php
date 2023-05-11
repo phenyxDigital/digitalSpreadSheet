@@ -7,8 +7,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\ArrayEnabled;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 use phenyxDigitale\digitalSpreadSheet\Shared\Date as SharedDateHelper;
 
-class DateValue
-{
+class DateValue {
+
     use ArrayEnabled;
 
     /**
@@ -39,8 +39,8 @@ class DateValue
      *         If an array of numbers is passed as the argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function fromString($dateValue)
-    {
+    public static function fromString($dateValue) {
+
         if (is_array($dateValue)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $dateValue);
         }
@@ -56,21 +56,29 @@ class DateValue
         $yearFound = false;
         $t1 = explode(' ', $dateValue);
         $t = '';
+
         foreach ($t1 as &$t) {
+
             if ((is_numeric($t)) && ($t > 31)) {
+
                 if ($yearFound) {
                     return ExcelError::VALUE();
                 }
+
                 if ($t < 100) {
                     $t += 1900;
                 }
+
                 $yearFound = true;
             }
+
         }
+
         if (count($t1) === 1) {
             //    We've been fed a time value without any date
             return ((strpos((string) $t, ':') === false)) ? ExcelError::Value() : 0.0;
         }
+
         unset($t);
 
         $dateValue = self::t1ToString($t1, $dti, $yearFound);
@@ -80,21 +88,26 @@ class DateValue
         return self::finalResults($PHPDateArray, $dti, $baseYear);
     }
 
-    private static function t1ToString(array $t1, DateTimeImmutable $dti, bool $yearFound): string
-    {
+    private static function t1ToString(array $t1, DateTimeImmutable $dti, bool $yearFound) : string {
+
         if (count($t1) == 2) {
             //    We only have two parts of the date: either day/month or month/year
+
             if ($yearFound) {
                 array_unshift($t1, 1);
             } else {
+
                 if (is_numeric($t1[1]) && $t1[1] > 29) {
                     $t1[1] += 1900;
                     array_unshift($t1, 1);
                 } else {
                     $t1[] = $dti->format('Y');
                 }
+
             }
+
         }
+
         $dateValue = implode(' ', $t1);
 
         return $dateValue;
@@ -103,9 +116,11 @@ class DateValue
     /**
      * Parse date.
      */
-    private static function setUpArray(string $dateValue, DateTimeImmutable $dti): array
+    private static function setUpArray(string $dateValue, DateTimeImmutable $dti) : array
     {
+
         $PHPDateArray = Helpers::dateParse($dateValue);
+
         if (!Helpers::dateParseSucceeded($PHPDateArray)) {
             // If original count was 1, we've already returned.
             // If it was 2, we added another.
@@ -115,9 +130,11 @@ class DateValue
             $testVal3 = strtok('- ') ?: $dti->format('Y');
             Helpers::adjustYear((string) $testVal1, (string) $testVal2, $testVal3);
             $PHPDateArray = Helpers::dateParse($testVal1 . '-' . $testVal2 . '-' . $testVal3);
+
             if (!Helpers::dateParseSucceeded($PHPDateArray)) {
                 $PHPDateArray = Helpers::dateParse($testVal2 . '-' . $testVal1 . '-' . $testVal3);
             }
+
         }
 
         return $PHPDateArray;
@@ -129,15 +146,18 @@ class DateValue
      * @return mixed Excel date/time serial value, PHP date/time serial value or PHP date/time object,
      *                        depending on the value of the ReturnDateType flag
      */
-    private static function finalResults(array $PHPDateArray, DateTimeImmutable $dti, int $baseYear)
-    {
+    private static function finalResults(array $PHPDateArray, DateTimeImmutable $dti, int $baseYear) {
+
         $retValue = ExcelError::Value();
+
         if (Helpers::dateParseSucceeded($PHPDateArray)) {
             // Execute function
             Helpers::replaceIfEmpty($PHPDateArray['year'], $dti->format('Y'));
+
             if ($PHPDateArray['year'] < $baseYear) {
                 return ExcelError::VALUE();
             }
+
             Helpers::replaceIfEmpty($PHPDateArray['month'], $dti->format('m'));
             Helpers::replaceIfEmpty($PHPDateArray['day'], $dti->format('d'));
             $PHPDateArray['hour'] = 0;
@@ -146,12 +166,15 @@ class DateValue
             $month = (int) $PHPDateArray['month'];
             $day = (int) $PHPDateArray['day'];
             $year = (int) $PHPDateArray['year'];
+
             if (!checkdate($month, $day, $year)) {
                 return ($year === 1900 && $month === 2 && $day === 29) ? Helpers::returnIn3FormatsFloat(60.0) : ExcelError::VALUE();
             }
+
             $retValue = Helpers::returnIn3FormatsArray($PHPDateArray, true);
         }
 
         return $retValue;
     }
+
 }

@@ -6,8 +6,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\ArrayEnabled;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Functions;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class Erf
-{
+class Erf {
+
     use ArrayEnabled;
 
     private const TWO_SQRT_PI = 1.128379167095512574;
@@ -23,7 +23,7 @@ class Erf
      *            PhenyxXls follows Excel 2010 behaviour, and accepts negative arguments.
      *
      *    Excel Function:
-     *        ERF(lower[,upper])
+     *        ERF(lower[self::class,upper])
      *
      * @param mixed $lower Lower bound float for integrating ERF
      *                      Or can be an array of values
@@ -35,19 +35,22 @@ class Erf
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function ERF($lower, $upper = null)
-    {
+    public static function ERF($lower, $upper = null) {
+
         if (is_array($lower) || is_array($upper)) {
-            return self::evaluateArrayArguments([self::class, __FUNCTION__], $lower, $upper);
+            return evaluateArrayArguments([self::class, __FUNCTION__], $lower, $upper);
         }
 
         if (is_numeric($lower)) {
+
             if ($upper === null) {
-                return self::erfValue($lower);
+                return erfValue($lower);
             }
+
             if (is_numeric($upper)) {
-                return self::erfValue($upper) - self::erfValue($lower);
+                return erfValue($upper) - erfValue($lower);
             }
+
         }
 
         return ExcelError::VALUE();
@@ -68,13 +71,13 @@ class Erf
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function ERFPRECISE($limit)
-    {
+    public static function ERFPRECISE($limit) {
+
         if (is_array($limit)) {
-            return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $limit);
+            return evaluateSingleArgumentArray([self::class, __FUNCTION__], $limit);
         }
 
-        return self::ERF($limit);
+        return ERF($limit);
     }
 
     /**
@@ -84,15 +87,18 @@ class Erf
      *
      * @return float
      */
-    public static function erfValue($value)
-    {
+    public static function erfValue($value) {
+
         $value = (float) $value;
+
         if (abs($value) > 2.2) {
             return 1 - ErfC::ERFC($value);
         }
+
         $sum = $term = $value;
         $xsqr = ($value * $value);
         $j = 1;
+
         do {
             $term *= $xsqr / $j;
             $sum -= $term / (2 * $j + 1);
@@ -100,11 +106,14 @@ class Erf
             $term *= $xsqr / $j;
             $sum += $term / (2 * $j + 1);
             ++$j;
+
             if ($sum == 0.0) {
                 break;
             }
+
         } while (abs($term / $sum) > Functions::PRECISION);
 
-        return self::TWO_SQRT_PI * $sum;
+        return TWO_SQRT_PI * $sum;
     }
+
 }

@@ -7,8 +7,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Calculation;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Functions;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ErrorValue;
 
-class Text
-{
+class Text {
+
     use ArrayEnabled;
 
     /**
@@ -21,8 +21,8 @@ class Text
      *         If an array of values is passed for the argument, then the returned result
      *            will also be an array with matching dimensions
      */
-    public static function length($value = '')
-    {
+    public static function length($value = '') {
+
         if (is_array($value)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $value);
         }
@@ -46,8 +46,8 @@ class Text
      *         If an array of values is passed for either of the arguments, then the returned result
      *            will also be an array with matching dimensions
      */
-    public static function exact($value1, $value2)
-    {
+    public static function exact($value1, $value2) {
+
         if (is_array($value1) || is_array($value2)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $value1, $value2);
         }
@@ -68,8 +68,8 @@ class Text
      *         If an array of values is passed for the argument, then the returned result
      *            will also be an array with matching dimensions
      */
-    public static function test($testValue = '')
-    {
+    public static function test($testValue = '') {
+
         if (is_array($testValue)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $testValue);
         }
@@ -102,8 +102,8 @@ class Text
      *
      * @return array the array built from the text, split by the row and column delimiters
      */
-    public static function split($text, $columnDelimiter = null, $rowDelimiter = null, bool $ignoreEmpty = false, bool $matchMode = true, $padding = '#N/A')
-    {
+    public static function split($text, $columnDelimiter = null, $rowDelimiter = null, bool $ignoreEmpty = false, bool $matchMode = true, $padding = '#N/A') {
+
         $text = Functions::flattenSingleValue($text);
 
         $flags = self::matchFlags($matchMode);
@@ -111,17 +111,19 @@ class Text
         if ($rowDelimiter !== null) {
             $delimiter = self::buildDelimiter($rowDelimiter);
             $rows = ($delimiter === '()')
-                ? [$text]
-                : preg_split("/{$delimiter}/{$flags}", $text);
+            ? [$text]
+            : preg_split("/{$delimiter}/{$flags}", $text);
         } else {
             $rows = [$text];
         }
 
         /** @var array $rows */
+
         if ($ignoreEmpty === true) {
             $rows = array_values(array_filter(
                 $rows,
                 function ($row) {
+
                     return $row !== '';
                 }
             ));
@@ -132,28 +134,35 @@ class Text
             array_walk(
                 $rows,
                 function (&$row) use ($delimiter, $flags, $ignoreEmpty): void {
+
                     $row = ($delimiter === '()')
-                        ? [$row]
-                        : preg_split("/{$delimiter}/{$flags}", $row);
+                    ? [$row]
+                    : preg_split("/{$delimiter}/{$flags}", $row);
                     /** @var array $row */
+
                     if ($ignoreEmpty === true) {
                         $row = array_values(array_filter(
                             $row,
                             function ($value) {
+
                                 return $value !== '';
                             }
                         ));
                     }
+
                 }
             );
+
             if ($ignoreEmpty === true) {
                 $rows = array_values(array_filter(
                     $rows,
                     function ($row) {
+
                         return $row !== [] && $row !== [''];
                     }
                 ));
             }
+
         }
 
         return self::applyPadding($rows, $padding);
@@ -164,19 +173,22 @@ class Text
      */
     private static function applyPadding(array $rows, $padding): array
     {
+
         $columnCount = array_reduce(
             $rows,
             function (int $counter, array $row): int {
+
                 return max($counter, count($row));
             },
             0
         );
 
         return array_map(
-            function (array $row) use ($columnCount, $padding): array {
+            function (array $row) use ($columnCount, $padding): array{
+
                 return (count($row) < $columnCount)
-                    ? array_merge($row, array_fill(0, $columnCount - count($row), $padding))
-                    : $row;
+                ? array_merge($row, array_fill(0, $columnCount - count($row), $padding))
+                : $row;
             },
             $rows
         );
@@ -186,13 +198,14 @@ class Text
      * @param null|array|string $delimiter the text that marks the point before which you want to split
      *                                 Multiple delimiters can be passed as an array of string values
      */
-    private static function buildDelimiter($delimiter): string
-    {
+    private static function buildDelimiter($delimiter): string{
+
         $valueSet = Functions::flattenArray($delimiter);
 
         if (is_array($delimiter) && count($valueSet) > 1) {
             $quotedDelimiters = array_map(
                 function ($delimiter) {
+
                     return preg_quote($delimiter ?? '');
                 },
                 $valueSet
@@ -202,23 +215,26 @@ class Text
             return '(' . $delimiters . ')';
         }
 
-        return '(' . preg_quote(/** @scrutinizer ignore-type */ Functions::flattenSingleValue($delimiter)) . ')';
+        return '(' . preg_quote(/** @scrutinizer ignore-type */Functions::flattenSingleValue($delimiter)) . ')';
     }
 
-    private static function matchFlags(bool $matchMode): string
-    {
+    private static function matchFlags(bool $matchMode) : string {
+
         return ($matchMode === true) ? 'miu' : 'mu';
     }
 
-    public static function fromArray(array $array, int $format = 0): string
-    {
+    public static function fromArray(array $array, int $format = 0) : string{
+
         $result = [];
+
         foreach ($array as $row) {
             $cells = [];
+
             foreach ($row as $cellValue) {
                 $value = ($format === 1) ? self::formatValueMode1($cellValue) : self::formatValueMode0($cellValue);
                 $cells[] = $value;
             }
+
             $result[] = implode(($format === 1) ? ',' : ', ', $cells);
         }
 
@@ -230,8 +246,8 @@ class Text
     /**
      * @param mixed $cellValue
      */
-    private static function formatValueMode0($cellValue): string
-    {
+    private static function formatValueMode0($cellValue): string {
+
         if (is_bool($cellValue)) {
             return Calculation::getLocaleBoolean($cellValue ? 'TRUE' : 'FALSE');
         }
@@ -242,14 +258,15 @@ class Text
     /**
      * @param mixed $cellValue
      */
-    private static function formatValueMode1($cellValue): string
-    {
+    private static function formatValueMode1($cellValue): string {
+
         if (is_string($cellValue) && ErrorValue::isError($cellValue) === false) {
             return Calculation::FORMULA_STRING_QUOTE . $cellValue . Calculation::FORMULA_STRING_QUOTE;
-        } elseif (is_bool($cellValue)) {
+        } else if (is_bool($cellValue)) {
             return Calculation::getLocaleBoolean($cellValue ? 'TRUE' : 'FALSE');
         }
 
         return (string) $cellValue;
     }
+
 }

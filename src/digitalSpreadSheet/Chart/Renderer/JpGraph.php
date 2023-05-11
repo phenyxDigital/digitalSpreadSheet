@@ -13,11 +13,12 @@ namespace phenyxDigitale\digitalSpreadSheet\Chart\Renderer;
  *
  * @codeCoverageIgnore
  */
-class JpGraph extends JpGraphRendererBase
-{
-    protected static function init(): void
-    {
+class JpGraph extends JpGraphRendererBase {
+
+    protected static function init(): void {
+
         static $loaded = false;
+
         if ($loaded) {
             return;
         }
@@ -37,4 +38,5 @@ class JpGraph extends JpGraphRendererBase
 
         $loaded = true;
     }
+
 }

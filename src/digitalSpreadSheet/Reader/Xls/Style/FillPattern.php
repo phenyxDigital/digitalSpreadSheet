@@ -4,8 +4,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Reader\Xls\Style;
 
 use phenyxDigitale\digitalSpreadSheet\Style\Fill;
 
-class FillPattern
-{
+class FillPattern {
+
     /**
      * @var array<int, string>
      */
@@ -39,12 +39,13 @@ class FillPattern
      *
      * @return string
      */
-    public static function lookup($index)
-    {
+    public static function lookup($index) {
+
         if (isset(self::$fillPatternMap[$index])) {
             return self::$fillPatternMap[$index];
         }
 
         return Fill::FILL_NONE;
     }
+
 }

@@ -8,8 +8,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Functions;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 use phenyxDigitale\digitalSpreadSheet\Calculation\TextData\Format;
 
-class Dollar
-{
+class Dollar {
+
     use ArrayEnabled;
 
     /**
@@ -29,8 +29,8 @@ class Dollar
      *         If an array of values is passed for either of the arguments, then the returned result
      *            will also be an array with matching dimensions
      */
-    public static function format($number, $precision = 2)
-    {
+    public static function format($number, $precision = 2) {
+
         return Format::DOLLAR($number, $precision);
     }
 
@@ -51,8 +51,8 @@ class Dollar
      *
      * @return array|float|string
      */
-    public static function decimal($fractionalDollar = null, $fraction = 0)
-    {
+    public static function decimal($fractionalDollar = null, $fraction = 0) {
+
         if (is_array($fractionalDollar) || is_array($fraction)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $fractionalDollar, $fraction);
         }
@@ -67,9 +67,11 @@ class Dollar
         }
 
         // Additional parameter validations
+
         if ($fraction < 0) {
             return ExcelError::NAN();
         }
+
         if ($fraction == 0) {
             return ExcelError::DIV0();
         }
@@ -99,8 +101,8 @@ class Dollar
      *
      * @return array|float|string
      */
-    public static function fractional($decimalDollar = null, $fraction = 0)
-    {
+    public static function fractional($decimalDollar = null, $fraction = 0) {
+
         if (is_array($decimalDollar) || is_array($fraction)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $decimalDollar, $fraction);
         }
@@ -115,9 +117,11 @@ class Dollar
         }
 
         // Additional parameter validations
+
         if ($fraction < 0) {
             return ExcelError::NAN();
         }
+
         if ($fraction == 0) {
             return ExcelError::DIV0();
         }
@@ -129,4 +133,5 @@ class Dollar
 
         return $dollars + $cents;
     }
+
 }

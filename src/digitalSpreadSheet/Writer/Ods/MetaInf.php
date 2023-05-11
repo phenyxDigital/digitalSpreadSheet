@@ -4,16 +4,17 @@ namespace phenyxDigitale\digitalSpreadSheet\Writer\Ods;
 
 use phenyxDigitale\digitalSpreadSheet\Shared\XMLWriter;
 
-class MetaInf extends WriterPart
-{
+class MetaInf extends WriterPart {
+
     /**
      * Write META-INF/manifest.xml to XML format.
      *
      * @return string XML Output
      */
-    public function write(): string
-    {
+    public function write(): string{
+
         $objWriter = null;
+
         if ($this->getParentWriter()->getUseDiskCaching()) {
             $objWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
@@ -57,4 +58,5 @@ class MetaInf extends WriterPart
 
         return $objWriter->getData();
     }
+
 }

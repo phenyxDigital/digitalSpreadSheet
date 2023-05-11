@@ -2,8 +2,7 @@
 
 namespace phenyxDigitale\digitalSpreadSheet\Cell;
 
-interface AddressRange
-{
+interface AddressRange {
     public const MAX_ROW = 1048576;
 
     public const MAX_COLUMN = 'XFD';

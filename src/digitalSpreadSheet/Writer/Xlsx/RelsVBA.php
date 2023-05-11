@@ -5,17 +5,18 @@ namespace phenyxDigitale\digitalSpreadSheet\Writer\Xlsx;
 use phenyxDigitale\digitalSpreadSheet\Reader\Xlsx\Namespaces;
 use phenyxDigitale\digitalSpreadSheet\Shared\XMLWriter;
 
-class RelsVBA extends WriterPart
-{
+class RelsVBA extends WriterPart {
+
     /**
      * Write relationships for a signed VBA Project.
      *
      * @return string XML Output
      */
-    public function writeVBARelationships()
-    {
+    public function writeVBARelationships() {
+
         // Create XML writer
         $objWriter = null;
+
         if ($this->getParentWriter()->getUseDiskCaching()) {
             $objWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
@@ -37,4 +38,5 @@ class RelsVBA extends WriterPart
 
         return $objWriter->getData();
     }
+
 }

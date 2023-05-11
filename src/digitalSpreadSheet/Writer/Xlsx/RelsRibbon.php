@@ -6,17 +6,18 @@ use phenyxDigitale\digitalSpreadSheet\Reader\Xlsx\Namespaces;
 use phenyxDigitale\digitalSpreadSheet\Shared\XMLWriter;
 use phenyxDigitale\digitalSpreadSheet\Spreadsheet;
 
-class RelsRibbon extends WriterPart
-{
+class RelsRibbon extends WriterPart {
+
     /**
      * Write relationships for additional objects of custom UI (ribbon).
      *
      * @return string XML Output
      */
-    public function writeRibbonRelationships(Spreadsheet $spreadsheet)
-    {
+    public function writeRibbonRelationships(Spreadsheet $spreadsheet) {
+
         // Create XML writer
         $objWriter = null;
+
         if ($this->getParentWriter()->getUseDiskCaching()) {
             $objWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
@@ -30,7 +31,9 @@ class RelsRibbon extends WriterPart
         $objWriter->startElement('Relationships');
         $objWriter->writeAttribute('xmlns', Namespaces::RELATIONSHIPS);
         $localRels = $spreadsheet->getRibbonBinObjects('names');
+
         if (is_array($localRels)) {
+
             foreach ($localRels as $aId => $aTarget) {
                 $objWriter->startElement('Relationship');
                 $objWriter->writeAttribute('Id', $aId);
@@ -38,9 +41,12 @@ class RelsRibbon extends WriterPart
                 $objWriter->writeAttribute('Target', $aTarget);
                 $objWriter->endElement();
             }
+
         }
+
         $objWriter->endElement();
 
         return $objWriter->getData();
     }
+
 }

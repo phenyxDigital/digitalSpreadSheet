@@ -6,8 +6,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\ArrayEnabled;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class Arabic
-{
+class Arabic {
+
     use ArrayEnabled;
 
     private const ROMAN_LOOKUP = [
@@ -28,14 +28,16 @@ class Arabic
      *
      * @return int
      */
-    private static function calculateArabic(array $roman, &$sum = 0, $subtract = 0)
-    {
+    private static function calculateArabic(array $roman, &$sum = 0, $subtract = 0) {
+
         $numeral = array_shift($roman);
+
         if (!isset(self::ROMAN_LOOKUP[$numeral])) {
             throw new Exception('Invalid character detected');
         }
 
         $arabic = self::ROMAN_LOOKUP[$numeral];
+
         if (count($roman) > 0 && isset(self::ROMAN_LOOKUP[$roman[0]]) && $arabic < self::ROMAN_LOOKUP[$roman[0]]) {
             $subtract += $arabic;
         } else {
@@ -55,11 +57,13 @@ class Arabic
      */
     private static function mollifyScrutinizer($value): array
     {
+
         return is_array($value) ? $value : [];
     }
 
     private static function strSplit(string $roman): array
     {
+
         $rslt = str_split($roman);
 
         return self::mollifyScrutinizer($rslt);
@@ -79,20 +83,22 @@ class Arabic
      *         If an array of numbers is passed as the argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function evaluate($roman)
-    {
+    public static function evaluate($roman) {
+
         if (is_array($roman)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $roman);
         }
 
         // An empty string should return 0
         $roman = substr(trim(strtoupper((string) $roman)), 0, 255);
+
         if ($roman === '') {
             return 0;
         }
 
         // Convert the roman numeral to an arabic number
         $negativeNumber = $roman[0] === '-';
+
         if ($negativeNumber) {
             $roman = substr($roman, 1);
         }
@@ -109,4 +115,5 @@ class Arabic
 
         return $arabic;
     }
+
 }

@@ -8,8 +8,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\ArrayEnabled;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class Complex
-{
+class Complex {
+
     use ArrayEnabled;
 
     /**
@@ -32,10 +32,10 @@ class Complex
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function COMPLEX($realNumber = 0.0, $imaginary = 0.0, $suffix = 'i')
-    {
+    public static function COMPLEX($realNumber = 0.0, $imaginary = 0.0, $suffix = 'i') {
+
         if (is_array($realNumber) || is_array($imaginary) || is_array($suffix)) {
-            return self::evaluateArrayArguments([self::class, __FUNCTION__], $realNumber, $imaginary, $suffix);
+            return evaluateArrayArguments([self::class, __FUNCTION__], $realNumber, $imaginary, $suffix);
         }
 
         $realNumber = $realNumber ?? 0.0;
@@ -74,10 +74,10 @@ class Complex
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function IMAGINARY($complexNumber)
-    {
+    public static function IMAGINARY($complexNumber) {
+
         if (is_array($complexNumber)) {
-            return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
+            return evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
         }
 
         try {
@@ -104,10 +104,10 @@ class Complex
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function IMREAL($complexNumber)
-    {
+    public static function IMREAL($complexNumber) {
+
         if (is_array($complexNumber)) {
-            return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
+            return evaluateSingleArgumentArray([self::class, __FUNCTION__], $complexNumber);
         }
 
         try {
@@ -118,4 +118,5 @@ class Complex
 
         return $complex->getReal();
     }
+
 }

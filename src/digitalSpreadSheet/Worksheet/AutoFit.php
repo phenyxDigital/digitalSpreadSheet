@@ -6,35 +6,40 @@ use phenyxDigitale\digitalSpreadSheet\Cell\CellAddress;
 use phenyxDigitale\digitalSpreadSheet\Cell\CellRange;
 use phenyxDigitale\digitalSpreadSheet\Cell\Coordinate;
 
-class AutoFit
-{
+class AutoFit {
+
     protected Worksheet $worksheet;
 
-    public function __construct(Worksheet $worksheet)
-    {
+    public function __construct(Worksheet $worksheet) {
+
         $this->worksheet = $worksheet;
     }
 
     public function getAutoFilterIndentRanges(): array
     {
+
         $autoFilterIndentRanges = [];
         $autoFilterIndentRanges[] = $this->getAutoFilterIndentRange($this->worksheet->getAutoFilter());
 
         foreach ($this->worksheet->getTableCollection() as $table) {
             /** @var Table $table */
+
             if ($table->getShowHeaderRow() === true && $table->getAllowFilter() === true) {
                 $autoFilter = $table->getAutoFilter();
+
                 if ($autoFilter !== null) {
                     $autoFilterIndentRanges[] = $this->getAutoFilterIndentRange($autoFilter);
                 }
+
             }
+
         }
 
         return array_filter($autoFilterIndentRanges);
     }
 
-    private function getAutoFilterIndentRange(AutoFilter $autoFilter): ?string
-    {
+    private function getAutoFilterIndentRange(AutoFilter $autoFilter):  ? string{
+
         $autoFilterRange = $autoFilter->getRange();
         $autoFilterIndentRange = null;
 
@@ -48,4 +53,5 @@ class AutoFit
 
         return $autoFilterIndentRange;
     }
+
 }

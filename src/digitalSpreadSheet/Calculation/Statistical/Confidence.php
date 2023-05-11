@@ -7,8 +7,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Functions;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class Confidence
-{
+class Confidence {
+
     use ArrayEnabled;
 
     /**
@@ -27,8 +27,8 @@ class Confidence
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function CONFIDENCE($alpha, $stdDev, $size)
-    {
+    public static function CONFIDENCE($alpha, $stdDev, $size) {
+
         if (is_array($alpha) || is_array($stdDev) || is_array($size)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $alpha, $stdDev, $size);
         }
@@ -44,9 +44,11 @@ class Confidence
         if (($alpha <= 0) || ($alpha >= 1) || ($stdDev <= 0) || ($size < 1)) {
             return ExcelError::NAN();
         }
+
         /** @var float */
         $temp = Distributions\StandardNormal::inverse(1 - $alpha / 2);
 
         return Functions::scalar($temp * $stdDev / sqrt($size));
     }
+
 }

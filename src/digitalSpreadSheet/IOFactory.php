@@ -12,8 +12,8 @@ use phenyxDigitale\digitalSpreadSheet\Writer\IWriter;
  * It is not required to use this class, but it should make it easier to read and write files.
  * Especially for reading files with an unknown format.
  */
-abstract class IOFactory
-{
+abstract class IOFactory {
+    
     public const READER_XLSX = 'Xlsx';
     public const READER_XLS = 'Xls';
     public const READER_XML = 'Xml';
@@ -32,33 +32,33 @@ abstract class IOFactory
 
     /** @var string[] */
     private static $readers = [
-        self::READER_XLSX => Reader\Xlsx::class,
-        self::READER_XLS => Reader\Xls::class,
-        self::READER_XML => Reader\Xml::class,
-        self::READER_ODS => Reader\Ods::class,
-        self::READER_SLK => Reader\Slk::class,
+        self::READER_XLSX     => Reader\Xlsx::class,
+        self::READER_XLS      => Reader\Xls::class,
+        self::READER_XML      => Reader\Xml::class,
+        self::READER_ODS      => Reader\Ods::class,
+        self::READER_SLK      => Reader\Slk::class,
         self::READER_GNUMERIC => Reader\Gnumeric::class,
-        self::READER_HTML => Reader\Html::class,
-        self::READER_CSV => Reader\Csv::class,
+        self::READER_HTML     => Reader\Html::class,
+        self::READER_CSV      => Reader\Csv::class,
     ];
 
     /** @var string[] */
     private static $writers = [
-        self::WRITER_XLS => Writer\Xls::class,
+        self::WRITER_XLS  => Writer\Xls::class,
         self::WRITER_XLSX => Writer\Xlsx::class,
-        self::WRITER_ODS => Writer\Ods::class,
-        self::WRITER_CSV => Writer\Csv::class,
+        self::WRITER_ODS  => Writer\Ods::class,
+        self::WRITER_CSV  => Writer\Csv::class,
         self::WRITER_HTML => Writer\Html::class,
-        'Tcpdf' => Writer\Pdf\Tcpdf::class,
-        'Dompdf' => Writer\Pdf\Dompdf::class,
-        'Mpdf' => Writer\Pdf\Mpdf::class,
+        'Tcpdf'           => Writer\Pdf\Tcpdf::class,
+        'Dompdf'          => Writer\Pdf\Dompdf::class,
+        'Mpdf'            => Writer\Pdf\Mpdf::class,
     ];
 
     /**
      * Create Writer\IWriter.
      */
-    public static function createWriter(Spreadsheet $spreadsheet, string $writerType): IWriter
-    {
+    public static function createWriter(Spreadsheet $spreadsheet, string $writerType): IWriter {
+
         if (!isset(self::$writers[$writerType])) {
             throw new Writer\Exception("No writer found for type $writerType");
         }
@@ -73,8 +73,8 @@ abstract class IOFactory
     /**
      * Create IReader.
      */
-    public static function createReader(string $readerType): IReader
-    {
+    public static function createReader(string $readerType): IReader {
+
         if (!isset(self::$readers[$readerType])) {
             throw new Reader\Exception("No reader found for type $readerType");
         }
@@ -101,8 +101,8 @@ abstract class IOFactory
      *                          Values in this list can be any of the constant values defined in the set
      *                                 IOFactory::READER_*.
      */
-    public static function load(string $filename, int $flags = 0, ?array $readers = null): Spreadsheet
-    {
+    public static function load(string $filename, int $flags = 0,  ? array $readers = null) : Spreadsheet{
+
         $reader = self::createReaderForFile($filename, $readers);
 
         return $reader->load($filename, $flags);
@@ -111,8 +111,8 @@ abstract class IOFactory
     /**
      * Identify file type using automatic IReader resolution.
      */
-    public static function identify(string $filename, ?array $readers = null): string
-    {
+    public static function identify(string $filename,  ? array $readers = null) : string{
+
         $reader = self::createReaderForFile($filename, $readers);
         $className = get_class($reader);
         $classType = explode('\\', $className);
@@ -130,16 +130,18 @@ abstract class IOFactory
      *                          Values in this list can be any of the constant values defined in the set
      *                                 IOFactory::READER_*.
      */
-    public static function createReaderForFile(string $filename, ?array $readers = null): IReader
-    {
+    public static function createReaderForFile(string $filename,  ? array $readers = null) : IReader{
+
         File::assertFile($filename);
 
         $testReaders = self::$readers;
+
         if ($readers !== null) {
             $readers = array_map('strtoupper', $readers);
             $testReaders = array_filter(
                 self::$readers,
                 function (string $readerType) use ($readers) {
+
                     return in_array(strtoupper($readerType), $readers, true);
                 },
                 ARRAY_FILTER_USE_KEY
@@ -148,25 +150,33 @@ abstract class IOFactory
 
         // First, lucky guess by inspecting file extension
         $guessedReader = self::getReaderTypeFromExtension($filename);
+
         if (($guessedReader !== null) && array_key_exists($guessedReader, $testReaders)) {
             $reader = self::createReader($guessedReader);
 
             // Let's see if we are lucky
+
             if ($reader->canRead($filename)) {
                 return $reader;
             }
+
         }
 
         // If we reach here then "lucky guess" didn't give any result
         // Try walking through all the options in self::$readers (or the selected subset)
+
         foreach ($testReaders as $readerType => $class) {
             //    Ignore our original guess, we know that won't work
+
             if ($readerType !== $guessedReader) {
                 $reader = self::createReader($readerType);
+
                 if ($reader->canRead($filename)) {
                     return $reader;
                 }
+
             }
+
         }
 
         throw new Reader\Exception('Unable to identify a reader for this file');
@@ -175,51 +185,53 @@ abstract class IOFactory
     /**
      * Guess a reader type from the file extension, if any.
      */
-    private static function getReaderTypeFromExtension(string $filename): ?string
-    {
+    private static function getReaderTypeFromExtension(string $filename):  ? string{
+
         $pathinfo = pathinfo($filename);
+
         if (!isset($pathinfo['extension'])) {
             return null;
         }
 
         switch (strtolower($pathinfo['extension'])) {
-            case 'xlsx': // Excel (OfficeOpenXML) Spreadsheet
-            case 'xlsm': // Excel (OfficeOpenXML) Macro Spreadsheet (macros will be discarded)
-            case 'xltx': // Excel (OfficeOpenXML) Template
-            case 'xltm': // Excel (OfficeOpenXML) Macro Template (macros will be discarded)
-                return 'Xlsx';
-            case 'xls': // Excel (BIFF) Spreadsheet
-            case 'xlt': // Excel (BIFF) Template
-                return 'Xls';
-            case 'ods': // Open/Libre Offic Calc
-            case 'ots': // Open/Libre Offic Calc Template
-                return 'Ods';
-            case 'slk':
-                return 'Slk';
-            case 'xml': // Excel 2003 SpreadSheetML
-                return 'Xml';
-            case 'gnumeric':
-                return 'Gnumeric';
-            case 'htm':
-            case 'html':
-                return 'Html';
-            case 'csv':
-                // Do nothing
-                // We must not try to use CSV reader since it loads
-                // all files including Excel files etc.
-                return null;
-            default:
-                return null;
+        case 'xlsx' : // Excel (OfficeOpenXML) Spreadsheet
+        case 'xlsm': // Excel (OfficeOpenXML) Macro Spreadsheet (macros will be discarded)
+        case 'xltx': // Excel (OfficeOpenXML) Template
+        case 'xltm': // Excel (OfficeOpenXML) Macro Template (macros will be discarded)
+            return 'Xlsx';
+        case 'xls': // Excel (BIFF) Spreadsheet
+        case 'xlt': // Excel (BIFF) Template
+            return 'Xls';
+        case 'ods': // Open/Libre Offic Calc
+        case 'ots': // Open/Libre Offic Calc Template
+            return 'Ods';
+        case 'slk':
+            return 'Slk';
+        case 'xml': // Excel 2003 SpreadSheetML
+            return 'Xml';
+        case 'gnumeric':
+            return 'Gnumeric';
+        case 'htm':
+        case 'html':
+            return 'Html';
+        case 'csv':
+            // Do nothing
+            // We must not try to use CSV reader since it loads
+            // all files including Excel files etc.
+            return null;
+        default:
+            return null;
         }
+
     }
 
     /**
      * Register a writer with its type and class name.
      */
-    public static function registerWriter(string $writerType, string $writerClass): void
-    {
+    public static function registerWriter(string $writerType, string $writerClass): void {
+
         if (!is_a($writerClass, IWriter::class, true)) {
-            throw new Writer\Exception('Registered writers must implement ' . IWriter::class);
+            throw new Writer\Exception('Registered writers must implement ' . IWriter::);
         }
 
         self::$writers[$writerType] = $writerClass;
@@ -228,12 +240,13 @@ abstract class IOFactory
     /**
      * Register a reader with its type and class name.
      */
-    public static function registerReader(string $readerType, string $readerClass): void
-    {
+    public static function registerReader(string $readerType, string $readerClass): void {
+
         if (!is_a($readerClass, IReader::class, true)) {
-            throw new Reader\Exception('Registered readers must implement ' . IReader::class);
+            throw new Reader\Exception('Registered readers must implement ' . IReader::);
         }
 
         self::$readers[$readerType] = $readerClass;
     }
+
 }

@@ -2,8 +2,8 @@
 
 namespace phenyxDigitale\digitalSpreadSheet\Calculation\Engineering;
 
-class Constants
-{
+class Constants {
+
     /**
      * EULER.
      */

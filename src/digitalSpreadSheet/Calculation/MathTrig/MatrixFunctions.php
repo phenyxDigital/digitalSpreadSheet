@@ -9,33 +9,41 @@ use Matrix\Matrix;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 
-class MatrixFunctions
-{
+class MatrixFunctions {
+
     /**
      * Convert parameter to Matrix.
      *
      * @param mixed $matrixValues A matrix of values
      */
-    private static function getMatrix($matrixValues): Matrix
-    {
+    private static function getMatrix($matrixValues): Matrix{
+
         $matrixData = [];
+
         if (!is_array($matrixValues)) {
             $matrixValues = [[$matrixValues]];
         }
 
         $row = 0;
+
         foreach ($matrixValues as $matrixRow) {
+
             if (!is_array($matrixRow)) {
                 $matrixRow = [$matrixRow];
             }
+
             $column = 0;
+
             foreach ($matrixRow as $matrixCell) {
+
                 if ((is_string($matrixCell)) || ($matrixCell === null)) {
                     throw new Exception(ExcelError::VALUE());
                 }
+
                 $matrixData[$row][$column] = $matrixCell;
                 ++$column;
             }
+
             ++$row;
         }
 
@@ -57,8 +65,8 @@ class MatrixFunctions
      *
      * @return array|string The resulting array, or a string containing an error
      */
-    public static function sequence($rows = 1, $columns = 1, $start = 1, $step = 1)
-    {
+    public static function sequence($rows = 1, $columns = 1, $start = 1, $step = 1) {
+
         try {
             $rows = (int) Helpers::validateNumericNullSubstitution($rows, 1);
             Helpers::validatePositive($rows);
@@ -95,8 +103,8 @@ class MatrixFunctions
      *
      * @return float|string The result, or a string containing an error
      */
-    public static function determinant($matrixValues)
-    {
+    public static function determinant($matrixValues) {
+
         try {
             $matrix = self::getMatrix($matrixValues);
 
@@ -106,6 +114,7 @@ class MatrixFunctions
         } catch (Exception $e) {
             return $e->getMessage();
         }
+
     }
 
     /**
@@ -120,8 +129,8 @@ class MatrixFunctions
      *
      * @return array|string The result, or a string containing an error
      */
-    public static function inverse($matrixValues)
-    {
+    public static function inverse($matrixValues) {
+
         try {
             $matrix = self::getMatrix($matrixValues);
 
@@ -133,6 +142,7 @@ class MatrixFunctions
         } catch (Exception $e) {
             return $e->getMessage();
         }
+
     }
 
     /**
@@ -143,8 +153,8 @@ class MatrixFunctions
      *
      * @return array|string The result, or a string containing an error
      */
-    public static function multiply($matrixData1, $matrixData2)
-    {
+    public static function multiply($matrixData1, $matrixData2) {
+
         try {
             $matrixA = self::getMatrix($matrixData1);
             $matrixB = self::getMatrix($matrixData2);
@@ -155,6 +165,7 @@ class MatrixFunctions
         } catch (Exception $e) {
             return $e->getMessage();
         }
+
     }
 
     /**
@@ -164,8 +175,8 @@ class MatrixFunctions
      *
      * @return array|string The result, or a string containing an error
      */
-    public static function identity($dimension)
-    {
+    public static function identity($dimension) {
+
         try {
             $dimension = (int) Helpers::validateNumericNullBool($dimension);
             Helpers::validatePositive($dimension, ExcelError::VALUE());
@@ -175,5 +186,7 @@ class MatrixFunctions
         } catch (Exception $e) {
             return $e->getMessage();
         }
+
     }
+
 }

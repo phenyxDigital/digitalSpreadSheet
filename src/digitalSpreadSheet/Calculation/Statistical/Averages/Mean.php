@@ -9,8 +9,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Statistical\Averages;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Statistical\Counts;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Statistical\Minimum;
 
-class Mean
-{
+class Mean {
+
     /**
      * GEOMEAN.
      *
@@ -25,16 +25,19 @@ class Mean
      *
      * @return float|string
      */
-    public static function geometric(...$args)
-    {
+    public static function geometric(...$args) {
+
         $aArgs = Functions::flattenArray($args);
 
         $aMean = MathTrig\Operations::product($aArgs);
+
         if (is_numeric($aMean) && ($aMean > 0)) {
             $aCount = Counts::COUNT($aArgs);
+
             if (Minimum::min($aArgs) > 0) {
                 return $aMean ** (1 / $aCount);
             }
+
         }
 
         return ExcelError::NAN();
@@ -53,28 +56,35 @@ class Mean
      *
      * @return float|string
      */
-    public static function harmonic(...$args)
-    {
+    public static function harmonic(...$args) {
+
         // Loop through arguments
         $aArgs = Functions::flattenArray($args);
+
         if (Minimum::min($aArgs) < 0) {
             return ExcelError::NAN();
         }
 
         $returnValue = 0;
         $aCount = 0;
+
         foreach ($aArgs as $arg) {
             // Is it a numeric value?
+
             if ((is_numeric($arg)) && (!is_string($arg))) {
+
                 if ($arg <= 0) {
                     return ExcelError::NAN();
                 }
+
                 $returnValue += (1 / $arg);
                 ++$aCount;
             }
+
         }
 
         // Return
+
         if ($aCount > 0) {
             return 1 / ($returnValue / $aCount);
         }
@@ -96,24 +106,28 @@ class Mean
      *
      * @return float|string
      */
-    public static function trim(...$args)
-    {
+    public static function trim(...$args) {
+
         $aArgs = Functions::flattenArray($args);
 
         // Calculate
         $percent = array_pop($aArgs);
 
         if ((is_numeric($percent)) && (!is_string($percent))) {
+
             if (($percent < 0) || ($percent > 1)) {
                 return ExcelError::NAN();
             }
 
             $mArgs = [];
+
             foreach ($aArgs as $arg) {
                 // Is it a numeric value?
+
                 if ((is_numeric($arg)) && (!is_string($arg))) {
                     $mArgs[] = $arg;
                 }
+
             }
 
             $discard = floor(Counts::COUNT($mArgs) * $percent / 2);
@@ -129,4 +143,5 @@ class Mean
 
         return ExcelError::VALUE();
     }
+
 }

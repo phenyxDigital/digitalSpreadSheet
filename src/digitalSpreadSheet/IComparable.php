@@ -2,8 +2,7 @@
 
 namespace phenyxDigitale\digitalSpreadSheet;
 
-interface IComparable
-{
+interface IComparable {
     /**
      * Get hash code.
      *

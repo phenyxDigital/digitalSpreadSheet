@@ -4,8 +4,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Writer\Xls;
 
 use phenyxDigitale\digitalSpreadSheet\Shared\StringHelper;
 
-class Font
-{
+class Font {
+
     /**
      * Color index.
      *
@@ -23,8 +23,8 @@ class Font
     /**
      * Constructor.
      */
-    public function __construct(\phenyxDigitale\digitalSpreadSheet\Style\Font $font)
-    {
+    public function __construct(\phenyxDigitale\digitalSpreadSheet\Style\Font $font) {
+
         $this->colorIndex = 0x7FFF;
         $this->font = $font;
     }
@@ -34,8 +34,8 @@ class Font
      *
      * @param int $colorIndex
      */
-    public function setColorIndex($colorIndex): void
-    {
+    public function setColorIndex($colorIndex): void{
+
         $this->colorIndex = $colorIndex;
     }
 
@@ -47,34 +47,40 @@ class Font
      *
      * @return string
      */
-    public function writeFont()
-    {
+    public function writeFont() {
+
         $font_outline = self::$notImplemented;
         $font_shadow = self::$notImplemented;
 
         $icv = $this->colorIndex; // Index to color palette
+
         if ($this->font->getSuperscript()) {
             $sss = 1;
-        } elseif ($this->font->getSubscript()) {
+        } else if ($this->font->getSubscript()) {
             $sss = 2;
         } else {
             $sss = 0;
         }
+
         $bFamily = 0; // Font family
         $bCharSet = \phenyxDigitale\digitalSpreadSheet\Shared\Font::getCharsetFromFontName((string) $this->font->getName()); // Character set
 
         $record = 0x31; // Record identifier
         $reserved = 0x00; // Reserved
         $grbit = 0x00; // Font attributes
+
         if ($this->font->getItalic()) {
             $grbit |= 0x02;
         }
+
         if ($this->font->getStrikethrough()) {
             $grbit |= 0x08;
         }
+
         if ($font_outline) {
             $grbit |= 0x10;
         }
+
         if ($font_shadow) {
             $grbit |= 0x20;
         }
@@ -106,8 +112,8 @@ class Font
     /**
      * Map to BIFF5-BIFF8 codes for bold.
      */
-    private static function mapBold(?bool $bold): int
-    {
+    private static function mapBold( ? bool $bold) : int {
+
         if ($bold === true) {
             return 0x2BC; //  700 = Bold font weight
         }
@@ -121,9 +127,9 @@ class Font
      * @var int[]
      */
     private static $mapUnderline = [
-        \phenyxDigitale\digitalSpreadSheet\Style\Font::UNDERLINE_NONE => 0x00,
-        \phenyxDigitale\digitalSpreadSheet\Style\Font::UNDERLINE_SINGLE => 0x01,
-        \phenyxDigitale\digitalSpreadSheet\Style\Font::UNDERLINE_DOUBLE => 0x02,
+        \phenyxDigitale\digitalSpreadSheet\Style\Font::UNDERLINE_NONE             => 0x00,
+        \phenyxDigitale\digitalSpreadSheet\Style\Font::UNDERLINE_SINGLE           => 0x01,
+        \phenyxDigitale\digitalSpreadSheet\Style\Font::UNDERLINE_DOUBLE           => 0x02,
         \phenyxDigitale\digitalSpreadSheet\Style\Font::UNDERLINE_SINGLEACCOUNTING => 0x21,
         \phenyxDigitale\digitalSpreadSheet\Style\Font::UNDERLINE_DOUBLEACCOUNTING => 0x22,
     ];
@@ -135,12 +141,13 @@ class Font
      *
      * @return int
      */
-    private static function mapUnderline($underline)
-    {
+    private static function mapUnderline($underline) {
+
         if (isset(self::$mapUnderline[$underline])) {
             return self::$mapUnderline[$underline];
         }
 
         return 0x00;
     }
+
 }

@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Calculation\MathTrig;
 use phenyxDigitale\digitalSpreadSheet\Calculation\ArrayEnabled;
 use phenyxDigitale\digitalSpreadSheet\Calculation\Exception;
 
-class IntClass
-{
+class IntClass {
+
     use ArrayEnabled;
 
     /**
@@ -23,8 +23,8 @@ class IntClass
      *         If an array of numbers is passed as the argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function evaluate($number)
-    {
+    public static function evaluate($number) {
+
         if (is_array($number)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $number);
         }
@@ -37,4 +37,5 @@ class IntClass
 
         return (int) floor($number);
     }
+
 }

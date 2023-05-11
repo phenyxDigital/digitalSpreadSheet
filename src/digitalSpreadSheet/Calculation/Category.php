@@ -2,8 +2,8 @@
 
 namespace phenyxDigitale\digitalSpreadSheet\Calculation;
 
-abstract class Category
-{
+abstract class Category {
+
     // Function categories
     const CATEGORY_CUBE = 'Cube';
     const CATEGORY_DATABASE = 'Database';

@@ -9,8 +9,8 @@ use phenyxDigitale\digitalSpreadSheet\Calculation\Information\ExcelError;
 use phenyxDigitale\digitalSpreadSheet\Cell\DataType;
 use phenyxDigitale\digitalSpreadSheet\Shared\StringHelper;
 
-class Replace
-{
+class Replace {
+
     use ArrayEnabled;
 
     /**
@@ -29,8 +29,8 @@ class Replace
      *         If an array of values is passed for either of the arguments, then the returned result
      *            will also be an array with matching dimensions
      */
-    public static function replace($oldText, $start, $chars, $newText)
-    {
+    public static function replace($oldText, $start, $chars, $newText) {
+
         if (is_array($oldText) || is_array($start) || is_array($chars) || is_array($newText)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $oldText, $start, $chars, $newText);
         }
@@ -46,7 +46,9 @@ class Replace
         } catch (CalcExp $e) {
             return $e->getMessage();
         }
+
         $returnValue = $left . $newText . $right;
+
         if (StringHelper::countCharacters($returnValue) > DataType::MAX_STRING_LENGTH) {
             $returnValue = ExcelError::VALUE();
         }
@@ -70,8 +72,8 @@ class Replace
      *         If an array of values is passed for either of the arguments, then the returned result
      *            will also be an array with matching dimensions
      */
-    public static function substitute($text = '', $fromText = '', $toText = '', $instance = null)
-    {
+    public static function substitute($text = '', $fromText = '', $toText = '', $instance = null) {
+
         if (is_array($text) || is_array($fromText) || is_array($toText) || is_array($instance)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $text, $fromText, $toText, $instance);
         }
@@ -80,21 +82,28 @@ class Replace
             $text = Helpers::extractString($text, true);
             $fromText = Helpers::extractString($fromText, true);
             $toText = Helpers::extractString($toText, true);
+
             if ($instance === null) {
                 $returnValue = str_replace($fromText, $toText, $text);
             } else {
+
                 if (is_bool($instance)) {
+
                     if ($instance === false || Functions::getCompatibilityMode() !== Functions::COMPATIBILITY_OPENOFFICE) {
                         return ExcelError::Value();
                     }
+
                     $instance = 1;
                 }
+
                 $instance = Helpers::extractInt($instance, 1, 0, true);
                 $returnValue = self::executeSubstitution($text, $fromText, $toText, $instance);
             }
+
         } catch (CalcExp $e) {
             return $e->getMessage();
         }
+
         if (StringHelper::countCharacters($returnValue) > DataType::MAX_STRING_LENGTH) {
             $returnValue = ExcelError::VALUE();
         }
@@ -102,17 +111,21 @@ class Replace
         return $returnValue;
     }
 
-    private static function executeSubstitution(string $text, string $fromText, string $toText, int $instance): string
-    {
+    private static function executeSubstitution(string $text, string $fromText, string $toText, int $instance): string{
+
         $pos = -1;
+
         while ($instance > 0) {
             $pos = mb_strpos($text, $fromText, $pos + 1, 'UTF-8');
+
             if ($pos === false) {
                 return $text;
             }
+
             --$instance;
         }
 
         return Functions::scalar(self::REPLACE($text, ++$pos, StringHelper::countCharacters($fromText), $toText));
     }
+
 }

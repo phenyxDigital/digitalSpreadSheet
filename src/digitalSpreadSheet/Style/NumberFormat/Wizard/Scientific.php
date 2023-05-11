@@ -4,8 +4,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Style\NumberFormat\Wizard;
 
 use phenyxDigitale\digitalSpreadSheet\Exception;
 
-class Scientific extends NumberBase implements Wizard
-{
+class Scientific extends NumberBase implements Wizard {
+
     /**
      * @param int $decimals number of decimal places to display, in the range 0-30
      * @param ?string $locale Set the locale for the scientific format; or leave as the default null.
@@ -15,19 +15,19 @@ class Scientific extends NumberBase implements Wizard
      *
      * @throws Exception If a provided locale code is not a valid format
      */
-    public function __construct(int $decimals = 2, ?string $locale = null)
-    {
+    public function __construct(int $decimals = 2,  ? string $locale = null) {
+
         $this->setDecimals($decimals);
         $this->setLocale($locale);
     }
 
-    protected function getLocaleFormat(): string
-    {
+    protected function getLocaleFormat() : string {
+
         return $this->format();
     }
 
-    public function format(): string
-    {
+    public function format(): string {
+
         return sprintf('0%sE+00', $this->decimals > 0 ? '.' . str_repeat('0', $this->decimals) : null);
     }
 }

@@ -5,8 +5,8 @@ namespace phenyxDigitale\digitalSpreadSheet\Style\NumberFormat\Wizard;
 use NumberFormatter;
 use phenyxDigitale\digitalSpreadSheet\Exception;
 
-class Accounting extends Currency
-{
+class Accounting extends Currency {
+
     /**
      * @param string $currencyCode the currency symbol or code to display for this mask
      * @param int $decimals number of decimal places to display, in the range 0-30
@@ -28,8 +28,9 @@ class Accounting extends Currency
         bool $thousandsSeparator = true,
         bool $currencySymbolPosition = self::LEADING_SYMBOL,
         bool $currencySymbolSpacing = self::SYMBOL_WITHOUT_SPACING,
-        ?string $locale = null
+        ? string $locale = null
     ) {
+
         $this->setCurrencyCode($currencyCode);
         $this->setThousandsSeparator($thousandsSeparator);
         $this->setDecimals($decimals);
@@ -41,8 +42,8 @@ class Accounting extends Currency
     /**
      * @throws Exception if the Intl extension and ICU version don't support Accounting formats
      */
-    protected function getLocaleFormat(): string
-    {
+    protected function getLocaleFormat() : string {
+
         if (version_compare(PHP_VERSION, '7.4.1', '<')) {
             throw new Exception('The Intl extension does not support Accounting Formats below PHP 7.4.1');
         }
@@ -57,15 +58,15 @@ class Accounting extends Currency
         return str_replace('¤', $this->formatCurrencyCode(), $formatter->format());
     }
 
-    private function icuVersion(): float
-    {
+    private function icuVersion(): float {
+
         [$major, $minor] = explode('.', INTL_ICU_VERSION);
 
         return (float) "{$major}.{$minor}";
     }
 
-    private function formatCurrencyCode(): string
-    {
+    private function formatCurrencyCode(): string {
+
         if ($this->locale === null) {
             return $this->currencyCode . '*';
         }
@@ -73,8 +74,8 @@ class Accounting extends Currency
         return "[\${$this->currencyCode}-{$this->locale}]";
     }
 
-    public function format(): string
-    {
+    public function format(): string {
+
         if ($this->localeFormat !== null) {
             return $this->localeFormat;
         }
@@ -95,4 +96,5 @@ class Accounting extends Currency
             $this->currencySymbolPosition === self::TRAILING_SYMBOL ? $this->formatCurrencyCode() : null
         );
     }
+
 }

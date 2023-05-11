@@ -2,11 +2,12 @@
 
 namespace phenyxDigitale\digitalSpreadSheet\Calculation\Internal;
 
-class MakeMatrix
-{
+class MakeMatrix {
+
     /** @param array $args */
     public static function make(...$args): array
     {
+
         return $args;
     }
 }

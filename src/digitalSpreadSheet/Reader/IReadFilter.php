@@ -2,8 +2,7 @@
 
 namespace phenyxDigitale\digitalSpreadSheet\Reader;
 
-interface IReadFilter
-{
+interface IReadFilter {
     /**
      * Should this cell be read?
      *
