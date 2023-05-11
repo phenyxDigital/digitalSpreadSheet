@@ -38,7 +38,7 @@ abstract class NumberBase {
 
         $this->locale = $this->validateLocale($locale);
 
-        if (class_exists(NumberFormatter::)) {
+        if (class_exists(NumberFormatter::class)) {
             $this->localeFormat = $this->getLocaleFormat();
         }
 

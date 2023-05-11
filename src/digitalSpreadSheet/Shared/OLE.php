@@ -236,7 +236,7 @@ class OLE {
         static $isRegistered = false;
 
         if (!$isRegistered) {
-            stream_wrapper_register('ole-chainedblockstream', ChainedBlockStream::);
+            stream_wrapper_register('ole-chainedblockstream', ChainedBlockStream::class);
             $isRegistered = true;
         }
 

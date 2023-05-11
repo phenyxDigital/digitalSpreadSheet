@@ -19,7 +19,7 @@ final class Locale {
 
     public function __construct( ? string $locale, int $style) {
 
-        if (class_exists(NumberFormatter::) === false) {
+        if (class_exists(NumberFormatter::class) === false) {
             throw new Exception();
         }
 
