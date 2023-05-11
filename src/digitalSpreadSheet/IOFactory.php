@@ -231,7 +231,7 @@ abstract class IOFactory {
     public static function registerWriter(string $writerType, string $writerClass): void {
 
         if (!is_a($writerClass, IWriter::class, true)) {
-            throw new Writer\Exception('Registered writers must implement ' . IWriter::);
+            throw new Writer\Exception('Registered writers must implement ' . IWriter::class);
         }
 
         self::$writers[$writerType] = $writerClass;
@@ -243,7 +243,7 @@ abstract class IOFactory {
     public static function registerReader(string $readerType, string $readerClass): void {
 
         if (!is_a($readerClass, IReader::class, true)) {
-            throw new Reader\Exception('Registered readers must implement ' . IReader::);
+            throw new Reader\Exception('Registered readers must implement ' . IReader::class);
         }
 
         self::$readers[$readerType] = $readerClass;
